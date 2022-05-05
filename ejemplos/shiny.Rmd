@@ -1,0 +1,61 @@
+---
+title: "ejemplo_shiny"
+author: "Alex Bajaña"
+date: "5/5/2022"
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(DT)
+
+
+# Input:
+
+iris %>% 
+  ggplot() +
+  geom_histogram(aes(x = Sepal.Width))
+
+```
+# UI:
+
+```{r}
+
+selectInput("variable", label = "Elige tu variable",
+              choices = c("Sepal.Length",
+                          "Sepal.Width",
+                          "Petal.Length" ,
+                          "Petal.Width" ),
+            selected = "Sepal.Length")
+```
+
+# Server:
+
+```{r}
+
+renderPlot({
+  
+  ggplot() +
+    geom_histogram(aes(x = iris[[input$variable]]))
+  
+})
+
+```
+
+```{r}
+
+renderDT({
+  
+  iris
+  
+})
+
+```
+
+
+
