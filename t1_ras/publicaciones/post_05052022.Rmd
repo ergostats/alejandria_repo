@@ -1,0 +1,64 @@
+---
+title: "Untitled"
+author: "Alex Bajaña"
+date: "5/5/2022"
+output: html_document
+---
+
+
+# Cargamos librerias:
+
+```{r}
+
+library(tidyverse)
+library(scales)
+library(ggforce)
+library(flextable)
+library(readxl)
+library(readODS)
+```
+
+# Con que versión de R trabajamos
+
+```{r}
+R.version
+```
+
+
+# Directorio (bases crudas)
+
+```{r}
+
+read.ods("C:/Users/Alex/OneDrive/Documentos/RAR/t1_ras/Diccionario_RAS_2019.ods")
+
+```
+
+```{r}
+
+base_datos <- read_csv2("C:/Users/Alex/OneDrive/Documentos/RAR/t1_ras/RAS_2019.csv")
+
+
+base_trabajo <- base_datos %>% 
+  select(region,k2,k3,k4) 
+
+
+base_trabajo %>% 
+  filter(if_any(2:4,~.x < 1 &  .x > 0))
+
+
+resumen <- base_trabajo %>% 
+  mutate(across(.cols = 2:4,~round(.x,0))) %>% 
+  pivot_longer(cols = 2:4,names_to = "jornadas",values_to = "doctores") %>% 
+  mutate(jornadas = case_when(
+    jornadas == "k2" ~ "8 horas",
+    jornadas == "k3" ~ "6 horas",
+    jornadas == "k4" ~ "4 horas"
+  )) %>% 
+  group_by(region,jornadas) %>% 
+  summarise(promedio_doctores = mean(doctores))
+
+
+
+
+```
+
