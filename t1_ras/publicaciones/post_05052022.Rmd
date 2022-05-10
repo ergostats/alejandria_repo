@@ -1,14 +1,14 @@
 ---
-title: "Cobertura del personal de salud por región, 2019"
+  title: "Cobertura del personal de salud por región, 2019"
 author: "Alex Bajaña"
 date: "5/5/2022"
 output: html_document
 ---
-
-
-# Cargamos librerias:
-
-```{r, message=FALSE,warning=FALSE}
+  
+  
+  # Cargamos librerias:
+  
+  ```{r, message=FALSE,warning=FALSE}
 
 library(tidyverse)
 library(scales)
@@ -69,6 +69,15 @@ proyecciones <-
 
 # Moficamos las bases de datos:
 
+Considerando las siguientes variables del RAS:
+  
+  * region: Región natural
+* k2: Numero de doctores con jornada de 4 horas.,
+* k3: Numero de doctores con jornada de 6 horas.,
+* k4: Numero de doctores con jornada de 8 horas.,
+* k5: Numero de doctores eventuales.
+
+
 ```{r}
 base_trabajo <- base_datos %>% 
   select(region,k2,k3,k4,k5) 
@@ -80,31 +89,39 @@ base_trabajo <- base_datos %>%
 
 
 resumen <- base_trabajo %>% 
-# Cambiando la forma de la tabla:
+  # Cambiando la forma de la tabla:
   pivot_longer(cols = 2:5,names_to = "jornadas",values_to = "doctores") %>% 
-# Limpiando las variables categóricas:
+  # Limpiando las variables categóricas:
   mutate(jornadas = case_when(
     jornadas == "k2" ~ "8 horas",
     jornadas == "k3" ~ "6 horas",
     jornadas == "k4" ~ "4 horas",
     jornadas == "k5" ~ "eventuales"
   )) %>% 
-# Agrego por las categorías de interes:
+  # Agrego por las categorías de interes:
   group_by(region,jornadas) %>% 
   summarise(total_doctores = sum(doctores,na.rm = T))
 
+
+```
+
 # Filtro las proyecciones poblacionales para el 2019:
 
+```{r}
 proyeccion_2019 <- proyecciones[[2]] %>% 
   filter(year == "2019")
+```
 
+Uniendo las dos tablas y creando el indicador: **Número de doctores por cada 10.000 habitantes**
+  
+  ```{r}
 resumen <- resumen %>% 
-# Unión de las proyecciones poblacionales:
+  # Unión de las proyecciones poblacionales:
   mutate(dominio = str_to_upper(region)) %>% 
   right_join(proyeccion_2019) %>% 
   select(region,jornadas,total_doctores,poblacion) %>% 
   filter(if_all(.cols = 1:2,.fns = ~!is.na(.))) %>% 
-# Ordenando los factores:
+  # Ordenando los factores:
   mutate(indicador = (total_doctores/poblacion)*10000, # OMS
          jornadas = factor(jornadas,levels = c("8 horas",
                                                "6 horas",
@@ -117,6 +134,8 @@ resumen <- resumen %>%
 ```
 
 # Gráfico:
+
+### El gráfico del tema:
 
 ```{r}
 plot_resultado <- resumen %>% 
@@ -133,26 +152,42 @@ plot_resultado <- resumen %>%
                                 "OMS" = "#99C9F7")) +
   scale_y_continuous(breaks = c(0,5,10,15,20,23,25,30),minor_breaks = NULL) +
   facet_wrap(~region,ncol = 1) +
-  coord_flip() +
+  coord_flip()
+```
+
+### Añadimos el tema para que cuadre con la publicación 
+
+```{r}
+plot_resultado <- plot_resultado +
   theme_minimal(base_size = 16) +
   # Terminando el art attack:
   theme(
     legend.position = "none",
-    # title = element_text(size = 20),
     panel.border = element_blank(),
     panel.grid.major.y = element_blank(),
     strip.text.x = element_text(hjust = 0,size = 12),
     axis.title = element_blank(),
-    plot.margin = margin(t = 0.25,r = 7.25,b = 0.25,l = 7.25, "cm")) +
+    plot.margin = margin(t = 0.25,r = 7.25,b = 0.25,l = 7.25, "cm"))
+```
+
+### Añadimos los titulos
+
+```{r}
+plot_resultado <- plot_resultado +
   labs(title = "Número de doctores por cada 10.000 habitantes",
        subtitle = "Se presenta el número de doctores de acuerdo a la duracíon o tipo de jornada en una unidad\n de salud en las diferentes regiones del Ecuador durante el año 2019.",
        caption = "Fuente: RAS y proyecciones poblacionales INEC | Elaboración: Alex Bajaña",
-       )
+  )
+```
 
-# Guardando la imagen:
+### Guardando la imagen:
+
+Las dimensiones son para nuestra publicación, cambiar si es necesario.
+
+```{r}
 
 ggsave(plot = plot_resultado,filename = "post_ras_1.png",
-       width = 	8*4496/2400,height = 4*4496/2400)
+       width = 	8*4496/2400,height = 4*4496/2400) # Dimensiones fijas
 ```
 
 
