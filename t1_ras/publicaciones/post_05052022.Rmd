@@ -1,14 +1,14 @@
 ---
-  title: "Cobertura del personal de salud por región, 2019"
+title: "Cobertura del personal de salud por región, 2019"
 author: "Alex Bajaña"
 date: "5/5/2022"
 output: html_document
 ---
   
   
-  # Cargamos librerias:
+# Cargamos librerias:
   
-  ```{r, message=FALSE,warning=FALSE}
+```{r, message=FALSE,warning=FALSE}
 
 library(tidyverse)
 library(scales)
@@ -71,7 +71,7 @@ proyecciones <-
 
 Considerando las siguientes variables del RAS:
   
-  * region: Región natural
+* region: Región natural
 * k2: Numero de doctores con jornada de 4 horas.,
 * k3: Numero de doctores con jornada de 6 horas.,
 * k4: Numero de doctores con jornada de 8 horas.,
@@ -114,7 +114,7 @@ proyeccion_2019 <- proyecciones[[2]] %>%
 
 Uniendo las dos tablas y creando el indicador: **Número de doctores por cada 10.000 habitantes**
   
-  ```{r}
+```{r}
 resumen <- resumen %>% 
   # Unión de las proyecciones poblacionales:
   mutate(dominio = str_to_upper(region)) %>% 
@@ -132,7 +132,6 @@ resumen <- resumen %>%
                                            "Región Amazónica",
                                            "Región Insular")))
 ```
-
 # Gráfico:
 
 ### El gráfico del tema:
