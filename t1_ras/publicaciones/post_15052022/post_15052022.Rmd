@@ -1,0 +1,75 @@
+---
+title: "Cantidad de especialidades de acuerdo a la Región"
+author: "Aracely Heredia"
+date: "12/5/2022"
+output: html_document
+---
+  
+  
+# Cargamos librerias:
+  
+```{r, message=FALSE,warning=FALSE}
+library(tidyverse)
+library(scales)
+library(ggforce)
+library(flextable)
+library(readxl)
+library(readODS)
+library(janitor)
+library(hexbin)
+library(hrbrthemes)
+library(kableExtra)
+library(patchwork)
+library(png) 
+```
+
+# Con que versión de R trabajamos
+
+```{r}
+R.version
+```
+
+
+### Cargamos la base de datos
+```{r message=FALSE, warning=FALSE}
+base_datos <- read_csv2("Datos_Abierto_RAS_2019_1/RAS_2019.csv")
+```
+
+### Seleccionamos las variables y las renombramos
+
+```{r}
+base_trabajo <- base_datos %>% select(region, clase) %>% rename(`Región`=region)
+```
+
+### Convertimos a factor
+```{r}
+base_trabajo$clase <-factor(base_trabajo$clase)
+```
+
+### Reordenamos las posiciones de la variable "clase"
+```{r}
+base_trabajo$clase <- factor(base_trabajo$clase, levels = levels(base_trabajo$clase)[c(10,13,19,12,27,23,24,21,8,14,20,26,16,6,5,1,17,18,7,2,9,4,22,15, 25,11,3)])
+levels(base_trabajo$clase)
+```
+
+### Realizamos el gráfico
+```{r}
+grafico <- base_trabajo %>% ggplot(mapping = aes(y=clase, color=`Región`, fill=`Región`)) + 
+  geom_bar()+ 
+  labs(title = "Cantidad de especialidades de acuerdo a la Región",
+       subtitle = "Se muestra la cantidad de establecimientos que hay de acuerdo a cada especialidad médica según la región del Ecuador durante el año 2019.",
+       caption = "Fuente:  Registro Estadístico de Recursos y Actividades de Salud | Elaboración: Aracely Heredia",
+       y = "Tipo de Especialidad",x="")+
+  theme_bw()
+```
+
+### Guardamos el gráfico
+
+```{r}
+ggsave(plot = grafico,filename = "post_ras_2.png",
+       width = 	8*4496/2400,height = 4*4496/2400) # Dimensiones fijas
+```
+
+### Recursos
+https://www.salud.gob.ec/gobierno-entrega-4-centros-de-salud-en-4-provincias/
+
