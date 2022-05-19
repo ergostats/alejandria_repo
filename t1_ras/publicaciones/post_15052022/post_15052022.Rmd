@@ -38,37 +38,74 @@ base_datos <- read_csv2("Datos_Abierto_RAS_2019_1/RAS_2019.csv")
 ### Seleccionamos las variables y las renombramos
 
 ```{r}
-base_trabajo <- base_datos %>% select(region, clase) %>% rename(`Región`=region)
+base_trabajo <- base_datos %>% 
+  select(region, clase) 
 ```
 
-### Convertimos a factor
+Convertimos a factor y reordenamos las posiciones de la variable "clase"
 ```{r}
-base_trabajo$clase <-factor(base_trabajo$clase)
+base_trabajo <- base_trabajo %>% 
+  add_count(clase,name = "total_clase") %>% 
+  mutate(
+    region = factor(region,levels = c("Región Costa",
+                                           "Región Sierra",
+                                           "Región Amazónica",
+                                           "Región Insular")),
+    clase = factor(clase),
+    clase = fct_reorder(.f = clase,
+                        .x = total_clase))
+        
+
 ```
 
-### Reordenamos las posiciones de la variable "clase"
-```{r}
-base_trabajo$clase <- factor(base_trabajo$clase, levels = levels(base_trabajo$clase)[c(10,13,19,12,27,23,24,21,8,14,20,26,16,6,5,1,17,18,7,2,9,4,22,15, 25,11,3)])
-levels(base_trabajo$clase)
-```
 
 ### Realizamos el gráfico
 ```{r}
-grafico <- base_trabajo %>% ggplot(mapping = aes(y=clase, color=`Región`, fill=`Región`)) + 
-  geom_bar()+ 
-  labs(title = "Cantidad de especialidades de acuerdo a la Región",
-       subtitle = "Se muestra la cantidad de establecimientos que hay de acuerdo a cada especialidad médica según la región del Ecuador durante el año 2019.",
-       caption = "Fuente:  Registro Estadístico de Recursos y Actividades de Salud | Elaboración: Aracely Heredia",
-       y = "Tipo de Especialidad",x="")+
-  theme_bw()
+plot_resultado <- base_trabajo %>% 
+  ggplot(mapping = aes(y=clase,
+                       fill=region)) + 
+  geom_bar() 
+```
+
+### Añadimos los titulos
+
+
+```{r}
+plot_resultado <- plot_resultado + 
+  labs(title = "Establecimeintos de salud por clase de acuerdo a la región durante el año 2019",
+       subtitle = "Número de establecimientos por clase/especialidad en las distintas regiones del Ecuador",
+       caption = "Fuente:  Registro Estadístico de Recursos y Actividades de Salud | Elaboración: Aracely Heredia",
+       y = "Tipo de Especialidad",
+       x="",
+       fill = "Región")
+```
+
+
+### Añadimos el tema para que cuadre con la publicación 
+
+```{r}
+plot_resultado <- plot_resultado +
+  theme_minimal(base_size = 16) +
+  # Terminando el art attack:
+  theme(
+    legend.position = c(0.87, 0.25),
+    panel.border = element_blank(),
+    panel.grid.major.y = element_blank(),
+    strip.text.x = element_text(hjust = 0,size = 12),
+    axis.title = element_blank(),
+    plot.margin = margin(t = 0.25,r = 2.25,b = 0.25,l = 2.25, "cm"))
+
+
 ```
 
 ### Guardamos el gráfico
 
 ```{r}
-ggsave(plot = grafico,filename = "post_ras_2.png",
+ggsave(plot = plot_resultado,filename = "post_ras_2.png",
        width = 	8*4496/2400,height = 4*4496/2400) # Dimensiones fijas
 ```
+
+
 
 ### Recursos
 https://www.salud.gob.ec/gobierno-entrega-4-centros-de-salud-en-4-provincias/
