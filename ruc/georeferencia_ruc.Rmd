@@ -1,0 +1,82 @@
+---
+title: "Georeferencia del RUC"
+subtitle: "Desarrollo ERGOSTATS"
+author: "Alex Bajaña"
+date: "13/5/2022"
+output: html_document
+---
+
+# Environment:
+
+Para este documento trabajamos con la versión de R:
+
+```{r}
+
+R.version
+
+```
+
+
+Primero vamos a cargar algunas librerias:
+
+```{r}
+
+# install.packages("ggmap")
+# install.packages("tidyverse")
+
+library(tidyverse)
+library(ggmap)
+library(janitor)
+library(leaflet)
+
+```
+
+
+# Lectura de la datos:
+
+```{r}
+
+# Directorio local de drive:
+
+# ruc_pichincha <- read_tsv("C:/Users/Alex/OneDrive/Documentos/RAR/RUC/")
+
+# Limpio los nombres:
+
+# ruc_pichincha <- clean_names(ruc_pichincha)
+
+# names(ruc_pichincha)
+
+
+```
+```{r}
+
+register_google(key = "AIzaSyC2cHMss2yQRCPP4mSvC6yG7YUaqzN4fJ0", write = TRUE)
+
+mi_casa <- geocode("Quito, Ecuador, Bapus Bar ,Lizardo García y Reina Victoria", output = "latlona", source = "google")
+
+mi_casa <- mi_casa %>% rename(lng = lon)
+
+```
+
+
+Creamos un icono para mostrar nuestras direcciones:
+
+```{r}
+marker_icon <- makeIcon(
+  iconUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.8.0-beta.0/images/marker-icon.png",
+  shadowUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.8.0-beta.0/images/marker-shadow.png",
+)
+```
+
+Mapa con la librería `leaflet`:
+
+```{r}
+leaflet(mi_casa) %>% 
+  leaflet::addTiles() %>% 
+  addMarkers(lng = ~lng,
+             lat = ~lat,
+             popup = ~htmltools::htmlEscape(address),
+             label = ~address,
+             icon = marker_icon)
+```
+
