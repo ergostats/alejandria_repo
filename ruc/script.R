@@ -1,9 +1,11 @@
 library(tidyverse)
+library(furrr)
 library(ggmap)
 library(janitor)
 library(leaflet)
 library(glue)
-librar
+library(textclean)
+
 ruc_completo <- read_rds("C:/Users/Alex/OneDrive/Documentos/RAR/RUC/ruc_completo_establecimientos.rds")
 
 marker_icon <- makeIcon(
@@ -101,6 +103,7 @@ ubicacion <- ubicacion %>%
     across(.cols = c( "descripcion_provincia",
                       "descripcion_canton",
                       "descripcion_parroquia",
+                      "numero",
                       "calle",
                       "interseccion",
                       "nombre_final"),
@@ -108,8 +111,7 @@ ubicacion <- ubicacion %>%
     direccion = str_c(calle,
                       interseccion,
                       numero,
-                      descripcion_parroquia, 
-                      "Ecuador",
+                      descripcion_parroquia,
                       sep = ", ")
   )
 
@@ -121,6 +123,10 @@ ubicacion <- ubicacion %>%
   
 write_rds(ubicacion,"C:/Users/Alex/OneDrive/Documentos/RAR/RUC/ubicacion_corregida.rds")
 
+ubicacion <- read_rds("C:/Users/Alex/OneDrive/Documentos/RAR/RUC/ubicacion_corregida.rds")
+
+register_google(key = "AIzaSyC2cHMss2yQRCPP4mSvC6yG7YUaqzN4fJ0", write = TRUE)
+
 ubi_quito <- ubicacion %>% 
   filter(str_detect(descripcion_canton,
                     pattern = "QUITO"))
@@ -131,9 +137,74 @@ ubi_quito <- ubi_quito %>%
 georeference_df <- ubi_quito %>% 
   select(id_dir,direccion) 
 
-georeference_df_reduced <- georeference_df %>% 
-  slice(1:100)  
+
+argumentos <- list(
+  archivo =  rep(str_c("parte_", 1:8),4)[1:30],
+  begin = seq(from = 1,to = nrow(georeference_df),by = 50000),
+  end = c(seq(from = 50000,to = nrow(georeference_df),by = 50000),nrow(georeference_df))
   
+)
+
+no_cores <- availableCores() - 2
+
+oplan <- plan(multisession, workers = no_cores)
+
+geo_df <- function(x){
+  g <- safely(.f = ggmap::geocode)
+  
+  library(tidyverse)
+  library(ggmap)
+  library(janitor)
+  
+  g(
+    location = x,
+    output = "latlona",
+    source = "google", 
+    inject = c("components"="country:EC"))
+}
+
+externa <- function(archivo,begin,end,base){
+  
+  
+  
+  test <- base %>% 
+    filter(id_dir %in% begin:end) %>% 
+    mutate(
+      georefence = map(direccion,function(zzz) geo_df(zzz)))
+  
+  
+  test <- test %>% 
+    mutate(
+      reduced = map(georefence,function(yyy)yyy[["result"]]),
+      reduced = map(reduced,function(xxx)if(is.null(xxx)){tibble()}else{xxx})) %>% 
+    # reduced = map(reduced,select,lon,lat)) %>% 
+    select(-georefence) %>%
+    unnest(reduced)
+  
+  # time <- rnorm(n = 1,mean = 7.5,sd = 10)
+  
+  msm <- str_c("Listo tramo desde ",begin," hatsta ",end)
+  
+  # Sys.sleep(time)
+  
+  print(msm)
+  
+  return(test)
+  
+  write_tsv(x = test,file = str_c("ruc/ruc_scrapped/",archivo,".txt"),append = T)
+  
+}
+
+geolocalization_uio <- future_pmap(
+  .l = argumentos,
+  .f = externa,
+  base = georeference_df)
+
+
+on.exit(plan(oplan),add = T)
+
+georeference_df %>% 
+
 test <- ubi_quito %>%
   slice(1:100) %>% 
   mutate(
