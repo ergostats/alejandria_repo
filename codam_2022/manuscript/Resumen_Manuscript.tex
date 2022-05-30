@@ -1,0 +1,124 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Evaluación de Impacto de nuevos centros de salud sobre la tasa de movilidad para mujeres en edad reproductiva.},
+  pdfauthor={Bajaña Alex; Chanatasig Evelyn; Heredia Aracely; Lombeida Esteban},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Evaluación de Impacto de nuevos centros de salud sobre la tasa de
+movilidad para mujeres en edad reproductiva.}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Tópico: Datos y enfoque en investigaciones inclusivas}
+\author{Bajaña Alex \and Chanatasig Evelyn \and Heredia
+Aracely \and Lombeida Esteban}
+\date{2022-05-29}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\hypertarget{resumen}{%
+\section{Resumen}\label{resumen}}
+
+La provisión autónoma de servicios de salud se entiende como la
+capacidad de prevenir, atender y curar las afecciones de la población de
+una parroquia con los medios disponibles en la misma. De modo que las
+parroquias que cuentan con suficientes recursos para ofrecer servicios
+de salud a su población son consideradas autónomas. Las parroquias que
+reciben más pacientes que sus residentes habituales son importadoras
+netas, y aquellas que no pueden solventar las necesidades de servicios
+de salud de su población son exportadoras netas.
+
+La disposición geográfica de hospitales o centros de salud, de acuerdo a
+la planificación gubernamental, en caso de ser bien ejecutada,
+implicaría que los servicios de salud sean provistos de manera local,
+considerando la ubicación geográfica, aspectos culturales y demografía
+de su población.
+
+La atención materna, ginecológica y neonatal es de vital importancia
+para el bienestar de la población de cada parroquia. Por ende la
+creación de centros de atención con estos servicios ayudarían a reducir
+notablemente la tasa de movilidad de mujeres en edad reproductiva (10-49
+años).
+
+Con fuente en los registros administrativos del Ministerio de Salud
+Pública: Recursos y Actividades de Salud y Egresos hospitalarios, es
+posible encontrar cuántas mujeres se han atendido fuera de su parroquia
+de residencia habitual, permitiendo indagar en el impacto que tienen los
+centros de atención sobre la tasa de movilidad relacionada a
+complicaciones en atención ginecológica, materna y neonatal.
+
+Los autores pretenden utilizar regresiones logísticas o modelos
+generalizados para determinar si la inclusión de nuevos centros de salud
+afecta la probabilidad de que una parroquia sea considerada autónoma,
+importadora o exportadora de pacientes. La interpretación de estos
+resultados permitiría entender las necesidades por ser atendidas para
+una mejor planificación y asignación de recursos a estas especialidades.
+
+\end{document}

@@ -1,0 +1,33 @@
+---
+author: 
+  - Bajaña Alex
+  - Chanatasig Evelyn
+  - Heredia Aracely
+  - Lombeida Esteban 
+  
+date: '`r format(Sys.Date())`'
+title: "Evaluación de Impacto de nuevos centros de salud sobre la tasa de movilidad para mujeres en edad reproductiva."
+subtitle: "Tópico: Datos y enfoque en investigaciones inclusivas"
+output:
+  pdf_document:
+    number_sections: 1.0
+    toc_depth: 1.0
+    keep_tex: true
+    toc: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Resumen
+
+La provisión autónoma de servicios de salud se entiende como la capacidad de prevenir, atender y curar las afecciones de la población de una parroquia con los medios disponibles en la misma. De modo que las parroquias que cuentan con suficientes recursos para ofrecer servicios de salud a su población son consideradas autónomas. Las parroquias que reciben más pacientes que sus residentes habituales son importadoras netas, y aquellas que no pueden solventar las necesidades de servicios de salud de su población son exportadoras netas.
+
+La disposición geográfica de hospitales o centros de salud, de acuerdo a la planificación gubernamental, en caso de ser bien ejecutada, implicaría que los servicios de salud sean provistos de manera local, considerando la ubicación geográfica, aspectos culturales y demografía de su población.
+
+La atención materna, ginecológica y neonatal es de vital importancia para el bienestar de la población de cada parroquia. Por ende la creación de centros de atención con estos servicios ayudarían a reducir notablemente la tasa de movilidad de mujeres en edad reproductiva (10-49 años).
+
+Con fuente en los registros administrativos del Ministerio de Salud Pública: Recursos y Actividades de Salud y Egresos hospitalarios, es posible encontrar cuántas mujeres se han atendido fuera de su parroquia de residencia habitual, permitiendo indagar en el impacto que tienen los centros de atención sobre la tasa de movilidad relacionada a complicaciones en atención ginecológica, materna y neonatal.
+
+Los autores pretenden utilizar regresiones logísticas o modelos generalizados para determinar si la inclusión de nuevos centros de salud afecta la probabilidad de que una parroquia sea considerada autónoma, importadora o exportadora de pacientes. La interpretación de estos resultados permitiría entender las necesidades por ser atendidas para una mejor planificación y asignación de recursos a estas especialidades.
