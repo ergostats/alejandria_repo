@@ -1,0 +1,33 @@
+---
+author: 
+  - Bajaña, Alex
+  - Chanatasig Evelyn
+  - Heredia, Aracely
+  - Lombeida, Esteban
+date: '`r format(Sys.Date())`'
+title: "Investigación colaborativa con R"
+subtitle: "Tópico: Datos y enfoque en investigaciones inclusivas"
+output:
+  pdf_document:
+    number_sections: 1.0
+    toc_depth: 1.0
+    keep_tex: true
+    toc: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Resumen
+
+El desarrollo de una investigación académica, un reporte profesional o un artículo periodístico, implica la recopilación de una serie de recursos como son bases de datos, bibliografía especializada o análisis personales previos. Recursos con los cuales pretendemos justificar la importancia de nuestros objetivos y la forma de llevarlos a cabo. 
+
+Es claro que un sistema de registro de estos recursos no solo es importante, sino que es la esencia misma de la reproducibilidad de nuestra investigación o documento.  Más aún cuando trabajamos de manera colaborativa. De modo que  cada miembro del equipo pueda llevar un registro de sus recursos de manera  accesible, comprensible y segura para que pueda cumplir con su rol de manera efectiva. 
+
+La discusión de los resultados preliminares de una investigación provienen de la integración de los múltiples esfuerzos de cada uno de los miembros del equipo. Integración que, en caso de ser ordenada generará no solo el mecanismo para la consecución de los objetivos planteados, sino que servirá también de ejemplo para otras experiencias de investigación reproducible en un ambiente colaborativo.
+
+El sistema Alejandría está inspirado en la gran biblioteca del pasado que hoy está cubierta de misticismo e historia. Así como los documentos y objetos de distintas eras y culturas, Alejandría consta de un repositorio para la administración de scripts y archivos de desarrollo implementado en GitHub, un sistema de almacenamiento en OneDrive y, el faro que ilumina nuestras investigaciones, el tablero Alejandría que está implementado con la librería {pins} de R. 
+
+En el taller de 1 hora y 20 minutos, más 25 minutos de preguntas,  enseñaremos la implementación de un sistema como Alejandría para equipos de investigación que buscan una forma efectiva de trabajo colaborativo empleando herramientas de código abierto. Se requiere experiencia con R y Rstudio para obtener mayor valor del taller. 
+
