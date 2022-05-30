@@ -128,7 +128,7 @@ panel_egresos <- egresos %>%
 
 panel_ras <- ras %>%
   map_at(2,mutate,parr_ubi = str_c(prov_ubi,cant_ubi,parr_ubi)) %>% 
-  map(select,parr_ubi, clase ,tipo,entidad,sector,   # Ubicación de los establecimientos de salud
+  map(select,parr_ubi, clase ,tipo,sector,           # Ubicación de los establecimientos de salud
       k505:k508,k549:k551,                           # Consultas de morbilidad
       k580,k603,                                     # Consultas de morbilidad ambulatoria
       k722:k725,k890:k893                            # Consultas prevención
