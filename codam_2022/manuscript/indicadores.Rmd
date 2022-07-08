@@ -1,0 +1,63 @@
+---
+author: 
+  - Bajaña Alex
+  - Chanatasig Evelyn
+  - Heredia Aracely
+  - Lombeida Esteban 
+  
+date: '`r format(Sys.Date())`'
+title: "Evaluación de Impacto de nuevos centros de salud sobre la tasa de movilidad para mujeres en edad reproductiva."
+subtitle: "Tópico: Datos y enfoque en investigaciones inclusivas"
+output:
+  pdf_document:
+    number_sections: 1.0
+    toc_depth: 1.0
+    keep_tex: true
+    toc: true
+---
+
+# Objetivo general: 
+
+Llegar a la matriz de oferta utilización de servicios de salud a nivel de parroquia
+
+# ENEMDU:
+
+Indicadores a nivel de parroquia y area:
+
+1. Porcentaje/Número de mujeres entre 10 y 49 que se encuentran en condición  de pobreza
+2. Porcentaje/Número de mujeres entre 10 y 49 con empleo pleno (40 horas a la semana y salario mayor o igual al minimo por año)
+3. Porcentaje/Número de hogares liderados por mujeres entre ese rango de edad.
+4. Ingresos personal promedio (cálculo en función de las p60 en la ENEMDU) 
+5- Tasa de sumbempleo a nivel parroquia
+6. Tasa de acceso al agua segura como proxy del acceso a servicios básicos
+7. Porcentaje de mujeres que tienen seguro social
+8. Seaparar el estado civil en dos grandes categorias: solteras y casadas; calcular el porcentaje a nivel de parroquia
+
+## Objetivos del análisis:
+
+- Nos permite entender el contexto socio económico del lugar de residencia de las mujeres en edad reproductiva. 
+- Estas varaibles nos van a permitir identificar factores que pueden influir en la tasa de movilidad de las mujeres en edad reproductiva. Son variables de control y análisis de la población **objetivo de este estudio**. 
+- El nivel de la dependencia económica de
+  - La pareja (en el hogar)
+  - El estado (de acuerdo al seguro social)
+> Solicitar sintaxis al INEC
+
+Sin embargo. Dado el corte de la ENEMDU (trimestral hasta 2018 desde cuando empieza la publicación de los datos acumulados) no es posible hacer un match con las bases del RAS (nivel anual). Los resultados de este análisis nos permitiran recomendar al INEC que continue con la recolección periodica de la encuesta a nivel parroquial y de forma acumulada para analisis anuales. Asi mismo esta recomendación permitira el empate con otras fuentes acumuladas como registros administrativos de otra indole.  
+
+# Proyecciones poblacionales
+
+Tentativamente o con la ENEMDU mismo ver la densidad poblacional de las mujeres en edad fertil (!0 a 49 años)
+
+# RAS 
+
+Indicadores de utilizacion, sobre todo consultas (demanda) y medicos (oferta de personal)
+
+
+# Egresos
+
+Indicadores de movilidad y casusas frecuentes en la población de interes
+
+
+# Alternativas en caso de falta de representatividad en la muestra
+ 
+ 1.  Hacer a nivel de la ciudad de recolección de la enemdu, solo ciudades principales
