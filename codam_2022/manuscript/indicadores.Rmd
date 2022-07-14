@@ -22,7 +22,7 @@ Llegar a la matriz de oferta utilización de servicios de salud a nivel de parro
 
 # ENEMDU:
 
-Indicadores a nivel de parroquia y area:
+Indicadores a nivel de parroquia y area (urbano y rural):
 
 1. Porcentaje/Número de mujeres entre 10 y 49 que se encuentran en condición  de pobreza
 2. Porcentaje/Número de mujeres entre 10 y 49 con empleo pleno (40 horas a la semana y salario mayor o igual al minimo por año)
@@ -32,6 +32,14 @@ Indicadores a nivel de parroquia y area:
 6. Tasa de acceso al agua segura como proxy del acceso a servicios básicos
 7. Porcentaje de mujeres que tienen seguro social
 8. Seaparar el estado civil en dos grandes categorias: solteras y casadas; calcular el porcentaje a nivel de parroquia
+9. Relación de parentezco: contar el npumero de mujeres que no son jefes de hogar e hijas (verificar variable que indique embarazos)
+10. Dependencia economica:
+  - 73A. Recibió regalos o donaciones
+  - 74A. Recibió dinero del exterior
+  - 75. Recibió el BONO DE DESARROLLO HUMANO
+  - 77. Recibe el BONO DE DISCAPACIDAD
+> Si al menos una de estas es "Si" entonces existe dependencia y por tanto nuestra dummy será 1
+
 
 ## Objetivos del análisis:
 
@@ -40,7 +48,7 @@ Indicadores a nivel de parroquia y area:
 - El nivel de la dependencia económica de
   - La pareja (en el hogar)
   - El estado (de acuerdo al seguro social)
-> Solicitar sintaxis al INEC
+> Solicitar sintaxis al INEC del acceso agua
 
 Sin embargo. Dado el corte de la ENEMDU (trimestral hasta 2018 desde cuando empieza la publicación de los datos acumulados) no es posible hacer un match con las bases del RAS (nivel anual). Los resultados de este análisis nos permitiran recomendar al INEC que continue con la recolección periodica de la encuesta a nivel parroquial y de forma acumulada para analisis anuales. Asi mismo esta recomendación permitira el empate con otras fuentes acumuladas como registros administrativos de otra indole.  
 
