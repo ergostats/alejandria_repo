@@ -32,7 +32,7 @@ Indicadores a nivel de parroquia y area (urbano y rural):
 6. Tasa de acceso al agua segura como proxy del acceso a servicios básicos
 7. Porcentaje de mujeres que tienen seguro social
 8. Seaparar el estado civil en dos grandes categorias: solteras y casadas; calcular el porcentaje a nivel de parroquia
-9. Relación de parentezco: contar el npumero de mujeres que no son jefes de hogar e hijas (verificar variable que indique embarazos)
+9. Relación de parentezco: contar el núumero de mujeres que no son jefes de hogar e hijas, no hay indicador de embarazos
 10. Dependencia economica:
   - 73A. Recibió regalos o donaciones
   - 74A. Recibió dinero del exterior
