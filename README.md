@@ -2,7 +2,7 @@
 ![](img/portada_alejandria.jpg)
 
 <h1 align = "center"> 
-ALEJANDRÍA 
+Alejandría, un reporsitorio para la investigación con Registros Administrativos Públicos 
 </h1>
 
 
