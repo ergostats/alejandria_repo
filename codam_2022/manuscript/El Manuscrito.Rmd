@@ -35,6 +35,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Datos y Metodología
 
+1. Nuestra Y va a ser el IDSe indice de demanda satisfecha (en terminos de mobilidad)
+2. Nuestra X va a ser número de unidades:
+  - Tipo de establecimiento (puede ser publico o privado y otras, o las tipo de stablecimineot, si tiene internacion o es hospital general, etc)
+  - Numero de unidades donde puedes dar a luz
+  - Nuermo de unidades donde te puedes hacer controles (con numero de consutlas por obstetricia)
+  - Numero de obstetras por cada 1000 y tal vez ginecologos
+  - Tasas de mortalidad y morbilidad relacionado al embarazo y salud reproductiva
+  - Tasa de mortalidad de neonatos
+  - Areas (urbana y rural)
+  - Demás variables mapeadas del RAS, egresos, nacimientos y defunciones fetales
+
+
 # Resultados y discusión
 
 ## Análisis de nuestros resultados
