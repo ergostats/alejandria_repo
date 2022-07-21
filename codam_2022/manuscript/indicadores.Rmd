@@ -60,10 +60,19 @@ Tentativamente o con la ENEMDU mismo ver la densidad poblacional de las mujeres 
 
 Indicadores de utilizacion, sobre todo consultas (demanda) y medicos (oferta de personal)
 
+1. Numero de unidades donde puedes dar a luz
+2. Nuermo de unidades donde te puedes hacer controles (con numero de consutlas por obstetricia)
+3. Numero de obstetras por cada 1000 y tal vez ginecologos
+
+#  Degunciones fetales
+
+# Nacimientos pero a nivel de parroquia
 
 # Egresos
 
 Indicadores de movilidad y casusas frecuentes en la población de interes
+
+- **Indicadores de salud y movilidad en el paper italiano**
 
 
 # Alternativas en caso de falta de representatividad en la muestra
