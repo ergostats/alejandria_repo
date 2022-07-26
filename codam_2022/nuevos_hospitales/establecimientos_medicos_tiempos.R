@@ -14,7 +14,7 @@ library(scales)
 library(patchwork)
 library(pins)
 library(labelled)
-
+ 
 # Funciones auxiliares ----------------------------------------------------
 
 read_funciton <- function(file){
@@ -98,6 +98,7 @@ dicc_clase <- tribble(
   31 , "Otros establecimientos sin internación"
 )
 
+
 dicc_clase <- 
   dicc_clase %>% 
   mutate(
@@ -140,6 +141,8 @@ ras_1 <-
 
 # Oferta de unidades de salud por clase -----------------------------------
 
+write_rds(ras_1,file = "codam_2022/bases_rds/ras_procesando.rds")
+
 parr_clase_estab <- ras_1 %>% 
   # mutate(clase = if_else(str_count(clase) == 1,str_c("0",clase),as.character(clase))) %>% 
   count(parr_ubi,clase_factor,anio) %>% 
@@ -153,7 +156,14 @@ long_stab <- parr_clase_estab %>%
   pivot_longer(cols = -c(1:2),names_to = "clase",values_to = "establecimientos")
 
 
-count(long_stab,clase)
+library(fuzzyjoin)
+  
+count(long_stab,clase) %>% 
+  stringdist_left_join(dicc_clase,
+                       method = c("osa"
+                                  # , "lv", "dl", "hamming", "lcs", "qgram", "cosine", "jaccard", "jw","soundex"
+                                  ),
+                       by = c("clase" = "descripcion")) %>% View
 
 long_stab %>%
   group_by(anio,clase) %>% 
