@@ -20,9 +20,13 @@ carpeta <- board_folder(path = path_temporal)
 
 # Archivo plano:
 
-archivos_egr <- list.files(path = str_c(path_temporal,"nuevos_hospitales/egresos/"),full.names = T)
+# archivos_egr <- list.files(path = str_c(path_temporal,"nuevos_hospitales/egresos/"),full.names = T)
+# 
+# archivos_ras <- list.files(path = str_c(path_temporal,"nuevos_hospitales/ras/"),full.names = T)
 
-archivos_ras <- list.files(path = str_c(path_temporal,"nuevos_hospitales/ras/"),full.names = T)
+archivos_egr <- list.files(path = str_c("../nuevos_hospitales/egresos/"),full.names = T)
+
+archivos_ras <- list.files(path = str_c("../nuevos_hospitales/ras/"),full.names = T)
 
 
 # Funciones auxiliares ----------------------------------------------------
@@ -105,7 +109,7 @@ egresos <- map(archivos_egr,read_funciton)
 
 ras <- map(archivos_ras,read_funciton)
 
-pin_write(board = carpeta,x = egresos %>% map(slice,1:10),name = "egresos_listas")
+  pin_write(board = carpeta,x = egresos %>% map(slice,1:10),name = "egresos_listas")
 
 pin_write(board = carpeta,x = ras %>% map(slice,1:10),name = "ras_listas")
 
