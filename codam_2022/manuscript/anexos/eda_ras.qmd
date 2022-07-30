@@ -1,0 +1,59 @@
+---
+title: "Análisis preliminar RAS"
+format: revealjs
+editor: visual
+---
+
+## Primeras observaciones
+
+Librerias
+
+```{r echo = TRUE}
+library(tidyverse)
+library(gt)
+library(pins)
+library(scales)
+library(patchwork)
+```
+
+Cargar `{pins}`
+
+```{r echo = TRUE}
+
+carpeta <- board_folder("C:/Users/Alex/OneDrive/Documentos/RAR/")
+
+```
+
+## Base de datos de establecimientos clasificados y agrupados
+
+```{r echo=TRUE}
+
+pin_read(board = carpeta, 
+             name = "bdd_establecimientos_clase") 
+```
+
+## Base de datos de establecimientos clasificados y agrupados
+
+```{r}
+
+
+establecimientos_long <-  
+    pin_read(board = carpeta, 
+             name = "bdd_establecimientos_clase") %>% 
+    pivot_longer(cols = 3:15,names_to = "clasificacion_b",values_to = "n")
+
+
+ establecimientos_long %>%
+   group_by(clasificacion_b,anio) %>% 
+   summarise(across(n,sum)) %>% 
+   ggplot(aes(x = anio,
+              y = clasificacion_b,
+              fill = log(n))) +
+   geom_tile() +
+   geom_text(aes(label = n)) +
+   scale_fill_viridis_c() + 
+   theme(axis.title = element_blank()) +
+   labs(title = "Clasificación agrupada de establecimientos del Ecuador",
+        subtitle = "Suma del número de establecimeintos a través de todas las parroquias",caption = "Elaborado por: Evelyn chanatasig, Alex Bajaña, Esteban Lombeida")
+
+```

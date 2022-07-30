@@ -108,10 +108,10 @@ graph_mapa <- function(tabla,fill_var,dpa,centroides,year){
 egresos <- map(archivos_egr,read_funciton)
 
 ras <- map(archivos_ras,read_funciton)
-
-  pin_write(board = carpeta,x = egresos %>% map(slice,1:10),name = "egresos_listas")
-
-pin_write(board = carpeta,x = ras %>% map(slice,1:10),name = "ras_listas")
+# 
+#   pin_write(board = carpeta,x = egresos %>% map(slice,1:10),name = "egresos_listas")
+# 
+# pin_write(board = carpeta,x = ras %>% map(slice,1:10),name = "ras_listas")
 
 # Shapefile para los mapas:
 
