@@ -285,69 +285,69 @@ total_oferta_medica %>%
   pin_write(board = carpeta,x = .,name = "bdd_establecimientos_equipamiento")
 
 
-pin_read(board = carpeta,name = "bdd_establecimientos_equipamiento")
-
-
-parr_clase_estab <- ras_1 %>% 
-  # mutate(clase = if_else(str_count(clase) == 1,str_c("0",clase),as.character(clase))) %>% 
-  count(parr_ubi,clase_factor,anio) %>% 
-  # mutate(
-  #   clase = str_c("clase",clase,sep = "_")) %>% 
-  pivot_wider(names_from = "clase_factor",values_from = "n") %>% 
-  mutate(across(.cols = where(is.numeric),.fns = replace_na,replace = 0)) 
-
-
-parr_clase_estab <- ras_1 %>% 
-  # mutate(clase = if_else(str_count(clase) == 1,str_c("0",clase),as.character(clase))) %>%
-  count(parr_ubi,clase_factor,anio)
+# pin_read(board = carpeta,name = "bdd_establecimientos_equipamiento")
 
 # 
-# read_rds("codam_2022/bases_rds/homol_hospitales.rds") %>% 
-#   write_tsv(file = "codam_2022/bases_rds/homol_estab.txt")
-
-
-# Doctores ----------------------------------------------------------------
-
-tiempos_parti_df <- tiempos_parti %>% 
-  map(~{
-    
-    vars <- .x %>% 
-      pull(codigo_de_la_variable) %>% 
-      str_to_lower()
-    
-    name <- .x %>% 
-      pull(bloque_var) %>% 
-      unique() %>% 
-      str_c(.,"_parcial")
-    
-    ras_1 %>% 
-        mutate(across(.cols = one_of(vars),as.numeric)) %>% 
-      group_by(parr_ubi,anio) %>% 
-      summarise(across(.cols = one_of(vars),sum,na.rm = T)) %>% 
-      ungroup() %>% 
-      rowwise() %>% 
-      mutate(
-        suma = rowSums(across(.cols = one_of(vars)))) %>% 
-      select(parr_ubi,suma,anio) %>% 
-      rename_with(.cols = "suma",~name) 
-    
-  }) %>% 
-  reduce(full_join)
-
-# dir.create("codam_2022/bases_rds")
-
-write_rds(tiempos_parti_df,"codam_2022/bases_rds/doctors_tiempo_parcial.rds")
-write_rds(medicos_completos,"codam_2022/bases_rds/doctors_tiempo_complet.rds")
-write_rds(parr_clase_estab,"codam_2022/bases_rds/clase_establecimientos.rds")
-
-
-# write de los pins -------------------------------------------------------
-
-
-tiempos_parti_df <-  read_rds("codam_2022/bases_rds/doctors_tiempo_parcial.rds")
-
-medicos_completos <- read_rds("codam_2022/bases_rds/doctors_tiempo_complet.rds")
-
-
-
-parr_clase_estab <-  read_rds("codam_2022/bases_rds/clase_establecimientos.rds")
+# parr_clase_estab <- ras_1 %>% 
+#   # mutate(clase = if_else(str_count(clase) == 1,str_c("0",clase),as.character(clase))) %>% 
+#   count(parr_ubi,clase_factor,anio) %>% 
+#   # mutate(
+#   #   clase = str_c("clase",clase,sep = "_")) %>% 
+#   pivot_wider(names_from = "clase_factor",values_from = "n") %>% 
+#   mutate(across(.cols = where(is.numeric),.fns = replace_na,replace = 0)) 
+# 
+# 
+# parr_clase_estab <- ras_1 %>% 
+#   # mutate(clase = if_else(str_count(clase) == 1,str_c("0",clase),as.character(clase))) %>%
+#   count(parr_ubi,clase_factor,anio)
+# 
+# # 
+# # read_rds("codam_2022/bases_rds/homol_hospitales.rds") %>% 
+# #   write_tsv(file = "codam_2022/bases_rds/homol_estab.txt")
+# 
+# 
+# # Doctores ----------------------------------------------------------------
+# 
+# tiempos_parti_df <- tiempos_parti %>% 
+#   map(~{
+#     
+#     vars <- .x %>% 
+#       pull(codigo_de_la_variable) %>% 
+#       str_to_lower()
+#     
+#     name <- .x %>% 
+#       pull(bloque_var) %>% 
+#       unique() %>% 
+#       str_c(.,"_parcial")
+#     
+#     ras_1 %>% 
+#         mutate(across(.cols = one_of(vars),as.numeric)) %>% 
+#       group_by(parr_ubi,anio) %>% 
+#       summarise(across(.cols = one_of(vars),sum,na.rm = T)) %>% 
+#       ungroup() %>% 
+#       rowwise() %>% 
+#       mutate(
+#         suma = rowSums(across(.cols = one_of(vars)))) %>% 
+#       select(parr_ubi,suma,anio) %>% 
+#       rename_with(.cols = "suma",~name) 
+#     
+#   }) %>% 
+#   reduce(full_join)
+# 
+# # dir.create("codam_2022/bases_rds")
+# 
+# write_rds(tiempos_parti_df,"codam_2022/bases_rds/doctors_tiempo_parcial.rds")
+# write_rds(medicos_completos,"codam_2022/bases_rds/doctors_tiempo_complet.rds")
+# write_rds(parr_clase_estab,"codam_2022/bases_rds/clase_establecimientos.rds")
+# 
+# 
+# # write de los pins -------------------------------------------------------
+# 
+# 
+# tiempos_parti_df <-  read_rds("codam_2022/bases_rds/doctors_tiempo_parcial.rds")
+# 
+# medicos_completos <- read_rds("codam_2022/bases_rds/doctors_tiempo_complet.rds")
+# 
+# 
+# 
+# parr_clase_estab <-  read_rds("codam_2022/bases_rds/clase_establecimientos.rds")
