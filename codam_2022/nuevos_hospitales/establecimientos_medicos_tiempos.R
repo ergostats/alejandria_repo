@@ -106,6 +106,28 @@ dicc_clase <- tribble(
 )
 
 
+# Doctores y tiempos ------------------------------------------------------
+
+# Variables de doctores a tiempo completo
+
+dicc <- dicc %>%
+  mutate(bloque_var = str_replace(bloque_var,"_8","_completos"),
+         codigo_de_la_variable = str_to_lower(codigo_de_la_variable)) 
+
+tiempos_completos <-  dicc %>% 
+  filter(str_detect(str_to_lower(descripcion),"8 horas")) 
+  
+
+# Variables de doctores a tiempo parcial
+
+tiempos_parti <- dicc %>% 
+  filter(str_detect(str_to_lower(descripcion),"6 horas|4 horas|eventual"))
+
+
+tiempos_parti_list <- tiempos_parti %>% 
+  split(.$bloque_var)
+
+
 dicc_clase <- 
   dicc_clase %>% 
   mutate(
@@ -140,9 +162,6 @@ ras_1 <-
 
 # ras[[1]]$cant_ubi %>% to_factor()
 
-
-
-  
 # dicc_clase %>% View
 
 
@@ -151,6 +170,123 @@ ras_1 <-
 write_rds(ras_1,file = "codam_2022/bases_rds/ras_procesando.rds")
 
 ras_1 <- read_rds("codam_2022/bases_rds/ras_procesando.rds")
+
+ras_1 %>% 
+  rename_with(.cols = tiempos_completos$codigo_de_la_variable,
+              .fn = ~tiempos_completos$bloque_var)
+
+
+# Asignamos el secuencial del estabecimiento ------------------------------
+
+
+ras_1 <- ras_1 %>% 
+  group_by(anio) %>% 
+  mutate(estab_id_secuencial = row_number()) 
+
+
+# Creamos las categorias de hospitales de acuerdo a su oferta de ---------
+# médicos o de personal de salud
+
+oferta_medicos <- bind_rows(tiempos_completos,
+                            tiempos_parti) %>% 
+  mutate(bloque_var = if_else(str_detect(bloque_var,"completos$",negate = TRUE), 
+                              true = str_c(bloque_var ,"_parcial"),
+                              false = bloque_var))
+
+full_completos <- oferta_medicos %>% 
+  pull(codigo_de_la_variable)
+
+especialidades <- oferta_medicos %>% 
+  split(.$bloque_var) %>% 
+  map(pull,codigo_de_la_variable) 
+
+
+equipamientos_por_especialidad <- imap(.x = especialidades,
+     .f = ~{
+       
+       nombre_bloque <- .y
+       
+       variables_filtro <- .x
+       
+       equipados <- ras_1 %>% 
+         ungroup() %>% 
+         filter(if_all(.cols = all_of(variables_filtro),
+                       .fns = ~.x > 0))  %>% 
+         mutate(equipado = 1)
+       
+       
+       no_equipados <- ras_1 %>% 
+         ungroup() %>% 
+         anti_join(equipados, by = c("estab_id_secuencial","anio")) %>% 
+         mutate(equipado = 0)
+       
+       tag_establecimiento <- bind_rows(
+         equipados,
+         no_equipados
+       ) %>% 
+         select(estab_id_secuencial,anio,equipado) %>% 
+         rename_with(.cols =  equipado,~str_c("equip", nombre_bloque,sep = "_")) %>% 
+       
+       return(tag_establecimiento)
+       
+     }) %>% 
+  reduce(full_join,
+         by = c("estab_id_secuencial","anio"))
+
+
+
+# Clasificaciones en función del equipamiento -----------------------------
+
+
+hospitales_full_equipados <-  equipamientos_por_especialidad %>% 
+  ungroup() %>% 
+  filter(if_any(.cols = 3:20,
+                .fns = ~.x > 0)) %>% 
+  pull(estab_id_secuencial)
+
+# No hay hospitales que tengan tooooooodas las categorias
+
+hospitales_full_tiempo_c <-  equipamientos_por_especialidad %>% 
+  ungroup() %>% 
+  filter(if_any(.cols = matches("completo"),
+                .fns = ~.x > 0)) %>% 
+  pull(estab_id_secuencial)
+
+hospitales_full_tiempo_p <-  equipamientos_por_especialidad %>% 
+  ungroup() %>% 
+  filter(if_any(.cols = matches("parcial"),
+                .fns = ~.x > 0)) %>% 
+  pull(estab_id_secuencial)
+
+equipamientos_por_especialidad <- equipamientos_por_especialidad %>% 
+  mutate(
+    suma_completos = rowSums(across(.cols = matches("completo"),sum)),
+    suma_parciales = rowSums(across(.cols = matches("parcial"),sum)),
+    full_equip_t_c = as.numeric(estab_id_secuencial %in% hospitales_full_tiempo_c),
+    full_equip_t_p = as.numeric(estab_id_secuencial %in% hospitales_full_tiempo_p),
+    my3_equip_t_c = as.numeric(suma_completos > 3),
+    my3_equip_t_p = as.numeric(suma_parciales > 3),
+  ) %>% 
+  inner_join(ras_1 %>% 
+               select(estab_id_secuencial,parr_ubi,anio))
+
+
+
+
+total_oferta_medica <- equipamientos_por_especialidad %>%
+  select(estab_id_secuencial,parr_ubi,anio,everything()) %>% 
+  group_by(parr_ubi,anio) %>% 
+  summarise(across(.cols = where(is.numeric),
+                   .fns = sum,na.rm = T)) 
+
+
+total_oferta_medica %>% 
+  select(-estab_id_secuencial) %>% 
+  pin_write(board = carpeta,x = .,name = "bdd_establecimientos_equipamiento")
+
+
+pin_read(board = carpeta,name = "bdd_establecimientos_equipamiento")
+
 
 parr_clase_estab <- ras_1 %>% 
   # mutate(clase = if_else(str_count(clase) == 1,str_c("0",clase),as.character(clase))) %>% 
@@ -161,28 +297,6 @@ parr_clase_estab <- ras_1 %>%
   mutate(across(.cols = where(is.numeric),.fns = replace_na,replace = 0)) 
 
 
-
-
-
-
-# Homologación de clasificación de los establecimientos -------------------
-
-# long_stab <- parr_clase_estab %>% 
-#   pivot_longer(cols = -c(1:2),names_to = "clase",values_to = "establecimientos")
-# 
-# 
-# 
-#   
-# matches <- count(long_stab,clase) %>% 
-#   stringdist_full_join(dicc_clase,
-#                        method = c("osa"
-#                                   # , "lv", "dl", "hamming", "lcs", "qgram", "cosine", "jaccard", "jw","soundex"
-#                                   ),
-#                        by = c("clase" = "descripcion")) 
-# El match fue un poco manual, y realizado con DataEditR
-
-  
-
 parr_clase_estab <- ras_1 %>% 
   # mutate(clase = if_else(str_count(clase) == 1,str_c("0",clase),as.character(clase))) %>%
   count(parr_ubi,clase_factor,anio)
@@ -192,66 +306,7 @@ parr_clase_estab <- ras_1 %>%
 #   write_tsv(file = "codam_2022/bases_rds/homol_estab.txt")
 
 
-
-# Clasficación de establecimientos de salud -------------------------------
-
-
-estab_homol <- read_excel("codam_2022/bases_rds/diccionario_homologado_establecimientos.xlsx",
-                          sheet = "diccionario_homologado_establec") %>% 
-  select(original = clase.x,clasificacion_a = descripcion ,clasificacion_b = estab_agrupado) 
-
-# Matriz de equivalencia clase de establecimiento
-
-estab_homol %>% 
-  pin_write(board = carpeta,
-            name = "clasificacion_establecimientos")
-
-# Formato largo de la tabla de establecimeintos
-
-establecimientos_long <-  ras_1 %>%  
-  right_join(estab_homol,by = c("clase_factor" = "original")) %>% 
-  count(clasificacion_b,anio,parroquia_factor) 
-
-# Formato ancho de la tabla de establecimeintos
-
- establecimientos_wide <- establecimientos_long %>% 
-  pivot_wider(names_from = "clasificacion_b",values_from = "n") %>% 
-  mutate(across(.cols = where(is.numeric),.fns = replace_na,replace = 0)) 
-
-# Guardamos en {pins}
- 
- establecimientos_wide %>% 
-   pin_write(board = carpeta, 
-             name = "bdd_establecimientos_clase")
-
-
- establecimientos_long %>%
-   group_by(clasificacion_b,anio) %>% 
-   summarise(across(n,sum)) %>% 
-   ggplot(aes(x = anio,
-              y = clasificacion_b,
-              fill = log(n))) +
-   geom_tile() +
-   geom_text(aes(label = n)) +
-   scale_fill_viridis_c() 
- 
- 
-
 # Doctores ----------------------------------------------------------------
-
-tiempos_completos <- dicc %>% 
-  filter(str_detect(str_to_lower(descripcion),"8 horas")) %>% 
-  mutate(bloque_var = str_replace(bloque_var,"_8","_completos"),
-         codigo_de_la_variable = str_to_lower(codigo_de_la_variable))
-
-
-medicos_completos <- ras_1 %>% 
-  rename_with(.cols = tiempos_completos$codigo_de_la_variable,~tiempos_completos$bloque_var) 
-
-tiempos_parti <- dicc %>% 
-  filter(str_detect(str_to_lower(descripcion),"6 horas|4 horas|eventual")) %>% 
-  split(.$bloque_var)
-
 
 tiempos_parti_df <- tiempos_parti %>% 
   map(~{
