@@ -9,8 +9,8 @@
 
 
 #install.packages("tidyverse")
-#install.packages('lubridate')
-# library(scales)
+install.packages('lubridate')
+install.packages("scales")
 
 library(tidyverse)
 library(readxl)
@@ -98,11 +98,16 @@ grafico <- ggplot(base_reduced, aes(x = Periodo,
   labs(title = "Empleo pleno por sexo",
        subtitle = "Se presentan en los ejes miles de personas",
        caption = "Elaborado por: Andrea Sanchez, Alex Bajaña") +
-  theme_minimal() +
+  theme_minimal(base_size = 16) +
   theme(axis.title.x = element_blank(),
         axis.title.y.left = element_text(vjust = 4,colour = "#C70039"),
         axis.title.y.right = element_text(vjust = 4,colour = "#0036A6"),
-        legend.position = "bottom")
+        legend.position = "bottom",
+        plot.margin = margin(t = 0.25,r = 2.25,b = 0.25,l = 2.25, "cm")
+        )
+
+
+grafico
 
 # Tamaño de letra para impresion
 # base_size = 16
@@ -115,4 +120,5 @@ grafico <- ggplot(base_reduced, aes(x = Periodo,
 # ancho 8*4496/2400
 # altura  4*4496/2400
 
+  ggsave("Empleo Adecuado por sexo.png", plot = grafico, width = 8*4496/2400, height = 4*4496/2400 )
   
