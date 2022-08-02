@@ -9,13 +9,14 @@
 
 
 #install.packages("tidyverse")
-install.packages('lubridate')
-install.packages("scales")
+# install.packages('lubridate')
+# install.packages("scales")
 
 library(tidyverse)
 library(readxl)
 library(lubridate)
 library(scales)
+library(ggrepel)
 
 
 # Lectura de la tabla de mercado laboral por sexo -------------------------
@@ -77,7 +78,10 @@ base_reduced <-
   mutate(transformado = if_else(condition = Sexo == "Mujer",
                                 true = Total*2.2,
                                 false = Total),
-         transformado = transformado/1000)
+         transformado = transformado/1000,
+         label = round(Total/1000,0),
+         label = number(label),
+         label = if_else(Periodo == "2021-12-01",label,NA_character_))
 
 #Dos ejes y
 # el segundo eje tiene un rango menor a el primero
@@ -85,8 +89,9 @@ base_reduced <-
 grafico <- ggplot(base_reduced, aes(x = Periodo,
                          y = transformado,
                          color = Sexo)) +
-  geom_point() +
-  geom_line() +
+  geom_point(size = 2,alpha = 0.6) +
+  geom_line(size = 1,alpha = 0.6) +
+  geom_text_repel(aes(label = label),size = 7,show.legend = FALSE) +
   scale_color_manual(values = c("#C70039","#0036A6")) +
   scale_y_continuous(
     name = "Miles de hombres",
@@ -95,15 +100,16 @@ grafico <- ggplot(base_reduced, aes(x = Periodo,
                         name=" Miles de mujeres",
                         labels = number)
   ) +
-  labs(title = "Empleo pleno por sexo",
-       subtitle = "Se presentan en los ejes miles de personas",
-       caption = "Elaborado por: Andrea Sanchez, Alex Bajaña") +
+  labs(title = "Número de ecuatorianos en condición de pleno empleo por sexo",
+       subtitle = "En los ejes se presentan miles de personas",
+       caption = "Fuente: INEC | Elaborado por: Andrea Sanchez, Alex Bajaña") +
   theme_minimal(base_size = 16) +
   theme(axis.title.x = element_blank(),
         axis.title.y.left = element_text(vjust = 4,colour = "#C70039"),
         axis.title.y.right = element_text(vjust = 4,colour = "#0036A6"),
         legend.position = "bottom",
-        plot.margin = margin(t = 0.25,r = 2.25,b = 0.25,l = 2.25, "cm")
+        plot.margin = margin(t = 0.25,r = 2.25,b = 0.25,l = 2.25, "cm"),
+        plot.background = element_rect(fill = "white",colour = "white")
         )
 
 
@@ -120,5 +126,5 @@ grafico
 # ancho 8*4496/2400
 # altura  4*4496/2400
 
-  ggsave("Empleo Adecuado por sexo.png", plot = grafico, width = 8*4496/2400, height = 4*4496/2400 )
+  ggsave("pleno_empleo_sexo.png", plot = grafico, width = 8*4496/2400, height = 4*4496/2400 )
   
