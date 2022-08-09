@@ -44,7 +44,7 @@ Para 2019(nuestro último año?) un total de 4148 establecimientos de salud se r
 La movilidad de salud es un fenómeno migratorio de pacientes que se benefician de servicios de salud lejos de su lugar de residencia. Nante et al (2021)(pendientecitar) proponen calcular la demanda satisfecha en una región utilizando el siguiente indice:
 
 $$
-IDS = A - E / (R + A) * 100
+IDS = (A - E) / (R + A) * 100
 $$
 
 En donde A representa el número de pacientes atraidos hacia determinada region para recibir servicios de salud; E es el número de pacientes que salieron de la misma región en busca de servicios de salud y R es el número de pacientes que residen y se atiende en la región.

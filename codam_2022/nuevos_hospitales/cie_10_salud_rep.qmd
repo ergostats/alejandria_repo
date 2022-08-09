@@ -14,9 +14,7 @@ Enfermedades del sistema genitourinario (N00--N99)
 
 Embarazo, parto y puerperio (O00--O99)
 
-![
-
-](images/paste-C56859BB.png)
+![](images/paste-C56859BB.png)
 
 ## Ciertas afecciones originadas en el período perinatal (P00--P96)
 
