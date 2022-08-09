@@ -60,7 +60,7 @@ diccionario %>%
 
 ```{r}
 base_trabajo <- base_datos %>%
-  select(parr_ubi,
+  select(area,
     mujer_10.19 = k924t, 
     mujer_20.49 = k925t,
     mujer_50.99 = k926t,
@@ -73,12 +73,13 @@ base_trabajo <- base_datos %>%
 
 base_trabajo <- base_trabajo %>% 
   rowid_to_column(var = "estab") %>% 
-  pivot_longer(cols = -estab,
+  pivot_longer(cols = -c(estab,area),
                names_to = "variable",
                values_to = "consultas") %>% 
   separate(col = variable,into = c("sexo","grupo_edad"),
            sep = "_") %>% 
   mutate(
+    area = factor(area,levels = c("Urbano","Rural")),
     sexo = factor(sexo,levels = c("mujer","hombre")),
     sexo = fct_relabel(sexo,.fun = str_to_title),
     grupo_edad = factor(grupo_edad, 
@@ -93,111 +94,46 @@ base_trabajo <- base_trabajo %>%
                                        "No especificada")))
 ```
 
-Diferencia en la media entre hombres y mujeres con su intervalo de confianza:
+Vamos a hacer un facet por area (columnas), cada panel contiene un `tile plot` el cual tiene en el eje horizontal estarán ubicados los numeros de consultas, 
 
 ```{r}
-
-install.packages("fixest")
-
-library(fixest)
-
-base_trabajo %>% 
-  pivot_wider(names_from = sexo,values_from = consultas) %>% 
-  mutate(diferencia = Mujer - Hombre) %>% 
-  summarise(media = mean(diferencia,na.rm = T),
-            sd = sd(diferencia,na.rm = T),
-            n = n()) %>% 
-  mutate(lower  = media - 1.96*sd/sqrt(n),
-         upper  = media + 1.96*sd/sqrt(n)) %>% 
-  flextable()
-
-feols(data = base_trabajo,fml = consultas ~ grupo_edad + sexo + grupo_edad*sexo,cluster = "estab") %>% 
-  summary()
-
+tabla_grafico <- base_trabajo %>% 
+  group_by(area,sexo,grupo_edad) %>% 
+  summarise(consultas = sum(consultas,na.rm = T))
 ```
+# Grafico
 
-
-
-
-```{r}
-
-base_trabajo %>% 
-  pivot_wider(names_from = sexo,values_from = consultas) %>% 
-  mutate(diferencia = Mujer - Hombre) %>% 
-  group_by(grupo_edad) %>% 
-  summarise(media = mean(diferencia,na.rm = T),
-            sd = sd(diferencia,na.rm = T),
-            n = n()) %>% 
-  mutate(lower  = media - 1.96*sd/sqrt(n),
-         upper  = media + 1.96*sd/sqrt(n)) %>% 
-  flextable()
-
-```
-
-# Resumen de los datos para el indicador:
-
-
-
-```{r}
-proyeccion_2019 <- proyecciones[[2]] %>% 
-  filter(year == "2019")
-```
-
-Uniendo las dos tablas y creando el indicador: **Número de doctores por cada 10.000 habitantes**
-  
-```{r}
-resumen <- resumen %>% 
-  # Unión de las proyecciones poblacionales:
-  mutate(dominio = str_to_upper(region)) %>% 
-  right_join(proyeccion_2019) %>% 
-  select(region,jornadas,total_doctores,poblacion) %>% 
-  filter(if_all(.cols = 1:2,.fns = ~!is.na(.))) %>% 
-  # Ordenando los factores:
-  mutate(indicador = (total_doctores/poblacion)*10000, # OMS
-         jornadas = factor(jornadas,levels = c("8 horas",
-                                               "6 horas",
-                                               "4 horas",
-                                               "eventuales")),
-         region = factor(region,levels = c("Región Costa",
-                                           "Región Sierra",
-                                           "Región Amazónica",
-                                           "Región Insular")))
-```
-# Gráfico:
 
 ### El gráfico del tema:
 
 ```{r}
-plot_resultado <- resumen %>% 
-  ggplot(aes(x = jornadas,y = indicador))  +
-  # Lolipop plot:
-  geom_segment(mapping = aes(x = jornadas,xend = jornadas,y = 0,yend = indicador), color="grey") +
-  geom_point(aes(color=region),size=4) +
-  geom_hline(aes(yintercept = 23,color = "OMS"),size =1.5) +
-  # Modificando las dimensiones del gráfico:
-  scale_color_manual(values = c("Región Costa" = "#d4e09b",
-                                "Región Sierra" = "#9CB380",
-                                "Región Amazónica" = "#94A89A",
-                                "Región Insular" = "#C7AC92",
-                                "OMS" = "#99C9F7")) +
-  scale_y_continuous(breaks = c(0,5,10,15,20,23,25,30),minor_breaks = NULL) +
-  facet_wrap(~region,ncol = 1) +
-  coord_flip()
+# plot_resultado <-
+  tabla_grafico %>% 
+  mutate(consultas = if_else(area == "Urbano",true = -consultas,false = consultas)) %>% 
+  ggplot() +
+  geom_col(aes(x = consultas,
+               y = grupo_edad,
+               fill = area,hjust = -1),position = "dodge") +
+  facet_wrap(.~sexo,scales = "free")
 ```
 
 ### Añadimos el tema para que cuadre con la publicación 
 
 ```{r}
 plot_resultado <- plot_resultado +
-  theme_minimal(base_size = 16) +
+  theme_minimal(
+    # base_size = 16
+    ) +
   # Terminando el art attack:
   theme(
     legend.position = "none",
     panel.border = element_blank(),
     panel.grid.major.y = element_blank(),
-    strip.text.x = element_text(hjust = 0,size = 12),
-    axis.title = element_blank(),
-    plot.margin = margin(t = 0.25,r = 7.25,b = 0.25,l = 7.25, "cm"))
+    # strip.text.x = element_text(hjust = 0,size = 12),
+    axis.title = element_blank()
+    # ,
+    # plot.margin = margin(t = 0.25,r = 7.25,b = 0.25,l = 7.25, "cm")
+    )
 ```
 
 ### Añadimos los titulos

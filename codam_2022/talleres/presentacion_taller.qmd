@@ -1,0 +1,116 @@
+---
+title: "Investigación colaborativa con pins"
+author: "Investigaciones ERGOSTATS"
+format: revealjs
+editor: visual
+---
+
+## Configuraciones iniciales
+
+Para acceder añ *repositorio Alejandria* funciona necesitaremos la libreria `{pins}` de R y el servicio de `OneDrive`. Por lo cual vamos a necesitar los siguientes materiales:
+
+-   R (\>=4.2.0)
+
+-   RStudio o RstudioClod <!--# Depende de si se puede acceder a la carpeta de Onedrive -->
+
+-   Una cuenta de OneDrive
+
+-   Curiosidad y amor por la investigación
+
+## Primeros pasos
+
+Envianos un correo con la siguiente información:
+
+-   Primero nos gustaría conocerte primero, déjanos tus nombres y apellidos y desde donde nos escribes.
+
+-   Cuéntanos como conociste este proyecto.
+
+-   Solicítanos el acceso a uno de nuestros repositorios temáticos
+
+Uno de los miembros del **ERGOSTATS** te enviará un correo de confirmación para que puedas empezar tu análisis 😎
+
+## Bien, y ahora ¿que procede? 💭
+
+(Ponemos la foto de la carpeta de OneDrive en la que sale la opción de "Agregar a mi OneDrive")
+
+## Manos a la obra 🦾
+
+De vuelta al RStudio vamos a empezar con nuestro código cargando algunas librerías útiles y que sugerimos para el uso de las tablas en nuestros repositorio
+
+```{r echo=TRUE}
+
+# Escencial 
+
+library(pins)
+
+# Manejo, transformación y visualización:
+
+library(tidyverse)
+library(scales)
+library(gt)
+
+```
+
+## Establecemos nuestro tablero 📋
+
+Con la libreria `{pins}` estableceremos la ruta de nuestro tablero
+
+```{r echo = TRUE, eval= FALSE}
+
+carpeta <- board_folder("C:/User/ergostats/asombroso_repo")
+
+
+```
+
+Revisa los **pins** que tiene cada repositorio.
+
+```{r echo = TRUE, eval= FALSE}
+
+pin_list(board = carpeta)
+
+```
+
+```{r}
+
+print(c("00_catalago",
+        "diccionario_asombroso",
+        "tabla_asombrosa",
+        "matriz",
+        "una_casa"))
+
+```
+
+## Navegando en el repositorio 🔎
+
+Siempre el primer elemento será `00_catalogo`. Observemos que contiene:
+
+```{r, echo=TRUE, eval = FALSE}
+
+library(gt)
+
+pin_read(board = carpeta,name = "00_catalogo") %>% 
+  gt()
+
+```
+
+```{r}
+gt(tibble(
+  `pin` = c(
+        "diccionario_asombroso",
+        "tabla_asombrosa",
+        "matriz",
+        "una_casa"),
+   `Detalle` = c("Diccionario de variables de mi asombrosa tabla que se encuentra en el pin `tabla_asombrosa`",
+                 "Tabla lista para ser empleada en mi análisis estadístico, la cual transforme con la tabla en el pin `matriz`",
+                 "Una tabla o matriz auxiliar super importante",
+                 "Es una exageración, pero sí, pins es así de flexible"),
+  `Tipo` = c("tibble",
+             "tibble, data.frame, etc",
+             "matriz, array",
+             "listas, u otro tipo")
+))
+```
+
+## Vamos a ver ahora un ejemplo
+
+Ejemplo práctico, indicador de demanda insatifecha IDSI y su distrución
