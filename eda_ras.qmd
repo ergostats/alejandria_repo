@@ -1,9 +1,6 @@
 ---
 title: "Análisis preliminar RAS"
-format: 
-  revealjs:
-    theme: moon
-editor: visual
+format: html
 ---
 
 ## Primeras observaciones
@@ -34,34 +31,31 @@ pin_read(board = carpeta,
              name = "bdd_establecimientos_clase") 
 ```
 
-
-
-## Documentación de la base del RAS  {.center} 
+## Documentación de la base del RAS {.center}
 
 ### Base de datos de conteo de unidades de salud de acuerdo a la clasificación agrupada
 
----
+------------------------------------------------------------------------
 
 A la base original se le realizó las siguientes transformaciones:
 
-- Homologación de la variable `clase` de establecimiento.
-  
-  - La lectura de la base de datis se realizó desde archivos `.sav` descargadas desde la página de Ecuador en Cifras empleando la libreria `{haven}`
-  
-  - La lectura de las bases resulta en un data frame cuyas columnas tienen un atributo `<lbl>` el cual se empleo para asignar las etiquetas a los códigos de clase 
+-   Homologación de la variable `clase` de establecimiento.
 
----
+    -   La lectura de la base de datis se realizó desde archivos `.sav` descargadas desde la página de Ecuador en Cifras empleando la libreria `{haven}`
 
-- A través del tiempo se tienen clases que hacen alusión a un mismo grupo de establecimientos, pero que tienen errores de:
+    -   La lectura de las bases resulta en un data frame cuyas columnas tienen un atributo `<lbl>` el cual se empleo para asignar las etiquetas a los códigos de clase
 
-    - Ortografía (en algunos años se usan acentos, en otros no)
-    
-    - Tipeo (en algunos años hay letras o simbolos en lugares distintos)
-    
-    - Clasificaciones recientes (propias de los últimos periodos)  obsoletas (calsificaciones que aparecieron hasta un determinado punto en el tiempo)
-    
----
+------------------------------------------------------------------------
 
+-   A través del tiempo se tienen clases que hacen alusión a un mismo grupo de establecimientos, pero que tienen errores de:
+
+    -   Ortografía (en algunos años se usan acentos, en otros no)
+
+    -   Tipeo (en algunos años hay letras o simbolos en lugares distintos)
+
+    -   Clasificaciones recientes (propias de los últimos periodos) obsoletas (calsificaciones que aparecieron hasta un determinado punto en el tiempo)
+
+------------------------------------------------------------------------
 
 ```{r echo = TRUE,eval=FALSE}
 pins::pin_read(board = carpeta,
@@ -75,28 +69,27 @@ clasificaicion_dicc <- pins::pin_read(board = carpeta,
 
 clasificaicion_dicc %>% 
   head(7) %>% gt() %>% 
-  gt::tab_options( table.background.color = "#FFFFFF00",
+  gt::tab_options(
     column_labels.font.size = px(16),
     column_labels.font.weight = "bold",
-    table.font.color = "white",
     table.font.size = px(12L))
 ```
 
 Origininalmente había un total de `r nrow(clasificaicion_dicc)` categorías sin homologar. En un primer proceso se corregieron los errores de tipeo y ortográficos resultando en `r pull(clasificaicion_dicc,clasificacion_a) %>% unique %>% length` categorías. En un segundo proceso se redujo los establecimiento a su clasificación más general resultando en un total de `r pull(clasificaicion_dicc,clasificacion_b) %>% unique %>% length` categorias.
 
----
+------------------------------------------------------------------------
 
 La base de datos final tinen los siguientes campos:
 
-- Identificadores de la unidad mínima de análisis
+-   Identificadores de la unidad mínima de análisis
 
-  - Año de la base de datos
-  
-  - Código de la parroquia
+    -   Año de la base de datos
 
-- Número de unidades de salud por clasificación
+    -   Código de la parroquia
 
-  - 13 columnas cada una representando una de las 13 categorías en las que se cuentan hospitales, centros de salud, dispensarios, etc. 
+-   Número de unidades de salud por clasificación
+
+    -   13 columnas cada una representando una de las 13 categorías en las que se cuentan hospitales, centros de salud, dispensarios, etc.
 
 ## Base de datos de establecimientos clasificados y agrupados
 
@@ -136,8 +129,7 @@ establecimientos_long %>%
 
 ```
 
-
-## Documentación de la base del RAS  {.center} 
+## Documentación de la base del RAS {.center}
 
 ### Base de datos de conteo de doctres por especialidad en cada parroquia
 
@@ -146,5 +138,3 @@ Se considero el siguiente diccionario de variables para le selección de médico
 ```{r}
 pin_list(carpeta)
 ```
-
-
