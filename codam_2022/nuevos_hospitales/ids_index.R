@@ -300,10 +300,14 @@ ids_first <- panel_egresos_parr %>%
 
 
 # 
-ids_first %>%
+data_ind <- ids_first %>%
   # filter(between(ids_index,-1,1)) %>%
-  filter(ids_index>-100) %>%
-  ggplot(aes(x = ids_index,group = anio)) +
+  filter(ids_index>-100)
+
+
+  ggplot(data = data_ind,
+         aes(x = ids_index,
+             group = anio)) +
   geom_histogram() +
   facet_grid(anio~ .)
 
