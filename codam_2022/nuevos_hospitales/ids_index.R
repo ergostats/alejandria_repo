@@ -10,6 +10,7 @@ library(tidyverse)
 library(pins)
 library(haven)
 library(labelled)
+library(ggrepel)
 
 
 # lectura -----------------------------------------------------------------
@@ -278,11 +279,11 @@ ids_first <- panel_egresos_parr %>%
       ids_index > 100 ~ "Superior a 100",
       ids_index == 100 ~ "Exactamente 100",
       between(ids_index ,50,100) ~ "Entre 50 y 100",
-      between(ids_index ,0 ,50) ~ "Entre 0 y 50",
       ids_index == 0 ~ "Exactamente 0",
-      between(ids_index ,0 ,-50) ~ "Entre 0 y -50",
+      between(ids_index ,0 ,50) ~ "Entre 0 y 50",
+      between(ids_index ,-50, 0) ~ "Entre 0 y -50",
       ids_index == -100 ~ "Exactamente -100", # Primero queremos esta clasificación 
-      between(ids_index ,-50,-100) ~ "Entre -50 y -100", #Luego esta
+      between(ids_index ,-100,-50) ~ "Entre -50 y -100", #Luego esta
       ids_index == -101 ~ "Inferior a -100"
     ),
     ids_index_factor = factor(ids_index_factor,levels = c("Superior a 100",
@@ -312,8 +313,10 @@ data_ind <- ids_first %>%
   facet_grid(anio~ .)
 
 ids_first %>% 
+  filter(ids_index != -100) %>% 
   ggplot() + 
-  geom_bar(aes(x = anio,fill = ids_index_factor),position = position_stack())
+  geom_bar(aes(x = anio,fill = ids_index_factor),
+           position = position_fill())
 
 
 list(panel_expulsados,
