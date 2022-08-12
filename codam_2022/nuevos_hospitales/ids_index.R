@@ -11,6 +11,7 @@ library(pins)
 library(haven)
 library(labelled)
 library(ggrepel)
+library(readxl)
 
 
 # lectura -----------------------------------------------------------------
@@ -235,22 +236,42 @@ pin_write(board = carpeta,x = diccionario,name = "diccionario_egresos")
 write_rds(panel_egresos,"../nuevos_hospitales/egresos_temp.rds")
 
 
+# agregacion de parroquias rurales ----------------------------------------
+
+parroquias_diccionario <- read_excel("codam_2022/nuevos_hospitales/CODIFICACIÓN_2022.xlsx",sheet = "PARROQUIAS") %>% 
+  janitor::clean_names() %>% 
+  mutate(dpa_parurb = if_else(!is.na(dpa_parurb), dpa_parurb, dpa_parroq)) %>% 
+  select(dpa_parurb, dpa_parroq)
+
+
 # calculo del indice ------------------------------------------------------
 
-panel_expulsados <- pin_read(board = carpeta,name = "bdd_egresos_expulsados")
+panel_expulsados <- pin_read(board = carpeta,name = "bdd_egresos_expulsados") %>% 
+  left_join(parroquias_diccionario, by = c("parr_res" = "dpa_parurb")) %>% 
+  mutate(dpa_parroq = if_else(!is.na(dpa_parroq),dpa_parroq,parr_res)) %>% 
+  select(-parr_res) %>% 
+  group_by(dpa_parroq,anio) %>% 
+  summarise(across(where(is.numeric),sum,na.rm = T))
 
-panel_atraidos <- pin_read(board = carpeta,name = "bdd_egresos_atraidos")
+panel_atraidos <- pin_read(board = carpeta,name = "bdd_egresos_atraidos") %>% 
+  left_join(parroquias_diccionario, by = c("parr_ubi" = "dpa_parurb")) %>% 
+  mutate(dpa_parroq = if_else(!is.na(dpa_parroq),dpa_parroq,parr_ubi)) %>% 
+  select(-parr_ubi) %>% 
+  group_by(dpa_parroq,anio) %>% 
+  summarise(across(where(is.numeric),sum,na.rm = T))
+
+
 
 panel_egresos_parr <- full_join(panel_expulsados,
           panel_atraidos,
-          by = c("parr_res" = "parr_ubi",
+          by = c("dpa_parroq",
                  "anio"))
 
 panel_egresos_parr <- panel_egresos_parr %>% 
   rename(egresos_res = egresos.x,egresos_ubi = egresos.y)
 
 ids_first <- panel_egresos_parr %>% 
-  select(anio,parr_res,
+  select(anio,dpa_parroq,
          matches("egresos"),
          matches("total")) %>% 
   mutate(
