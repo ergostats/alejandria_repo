@@ -55,45 +55,6 @@ tasas_mov_mor <- function(panel,group_var){
   
 }
 
-graph_mapa <- function(tabla,fill_var,dpa,centroides,year){
-  
-  
-  mapa_plot <- tabla %>% 
-    split(.[[year]]) %>% 
-    map(~{
-      
-      mapa_pichincha %>% 
-        left_join(.x,by = c("DPA_PARROQ" = dpa)) %>% 
-        fill({{year}},.direction = "downup")
-      
-    }) %>%
-    keep(~length(.x)!= 0) %>% 
-    reduce(bind_rows) %>% 
-    filter(!is.na(anio_egr))
-  
-  # browser()
-  
-  
-  plot <- ggplot(data = mapa_plot) +
-    geom_polygon(aes_string(x = "long",
-                            y = "lat",
-                            group = "group",
-                            fill = fill_var),
-                 color = "white",size = 0.5)+
-    geom_text(data = centroides,
-              aes(x = x, y = y,label = DPA_PARROQ),size = 2,
-              color = "gray") +
-    # scale_fill_viridis_c(option = "inferno")+
-    theme_minimal() +
-    theme(axis.title = element_blank(),
-          axis.text = element_blank(),
-          plot.title = element_text(hjust = 0.5),
-          plot.subtitle = element_text(hjust = 0.5))
-  
-  return(plot)
-  
-}
-
 # Lectura de los datos ----------------------------------------------------
 
 # Egresos hospitalarios: SAV para mantener las etiquetas
