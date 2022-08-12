@@ -10,7 +10,8 @@ library(patchwork)
 library("pins")
 library("data.table")
 
-carpeta <- board_folder("C:/Users/Esteban/OneDrive/RAR")
+# Esteban> carpeta <- board_folder("C:/Users/Esteban/OneDrive/RAR")
+carpeta <- board_folder("C:/Users/Alex/OneDrive/Documentos/RAR/") # Alex >
 
 establecimientos_clase <- pin_read(carpeta, "bdd_establecimientos_clase")
 
@@ -31,13 +32,13 @@ shape_centroides<- pin_read(carpeta, name = "shape_parroquia_centroides")
 bdd_index_ids_19 <- bdd_index_ids %>% filter(anio==2019)
 
 ## Mapa
-graph_mapa <- function(tabla,fill_var,dpa,centroides,year){
+graph_mapa <- function(tabla,fill_var,dpa,centroides,year,shape){
   
   mapa_plot <- tabla %>% 
     split(.[[year]]) %>% 
     map(~{
       
-      shape_parroquia %>% 
+      shape %>% 
         left_join(.x,by = c("DPA_PARROQ" = dpa)) %>% 
         fill({{year}},.direction = "downup")
       
@@ -54,9 +55,9 @@ graph_mapa <- function(tabla,fill_var,dpa,centroides,year){
                             group = "group",
                             fill = fill_var),
                  color = "white",size = 0.5)+
-    geom_text(data = centroides,
-              aes(x = x, y = y,label = DPA_PARROQ),size = 2,
-              color = "gray") +
+    # geom_text(data = shape_centroides,
+    #           aes(x = x, y = y,label = DPA_PARROQ),size = 2,
+    #           color = "gray") +
     # scale_fill_viridis_c(option = "inferno")+
     theme_minimal() +
     theme(axis.title = element_blank(),
@@ -68,16 +69,57 @@ graph_mapa <- function(tabla,fill_var,dpa,centroides,year){
   
 }
 
+pichincha_index <- bdd_index_ids %>% 
+  filter(str_detect(dpa_parroq,"^1701"))
+
 # 
-EC <- graph_mapa(tabla = bdd_index_ids_19 ,
+EC <- graph_mapa(tabla = bdd_index_ids ,
                       fill_var = "ids_index",
                       dpa = "dpa_parroq",
                       centroides = shape_centroides,
-                      year = "anio") +
+                      year = "anio",shape = shape_parroquia) +
   scale_fill_viridis_c(option = "inferno")+
-  # facet_grid(rows = vars(anio)) +
+  facet_grid(rows = vars(anio)) +
   theme(legend.position = "bottom",
         legend.title = element_blank()) +
   labs(title = "b) Egresos hospitalarios",
        subtitle = "Logaritmo del número total de egresos")
 EC
+
+
+
+
+PICH <- graph_mapa(tabla = pichincha_index ,
+                 fill_var = "ids_index",
+                 dpa = "dpa_parroq",
+                 centroides = shape_centroides,
+                 year = "anio",
+                 shape = shape_parroquia %>%   
+                   filter(str_detect(DPA_PARROQ,"^1701"))) +
+  scale_fill_viridis_c(option = "inferno")+
+  facet_grid(rows = vars(anio)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank()) +
+  labs(title = "b) Egresos hospitalarios",
+       subtitle = "Logaritmo del número total de egresos")
+PICH
+
+
+guayas_index <- bdd_index_ids %>% 
+  filter(str_detect(dpa_parroq,"^09"))
+
+
+GUAY <- graph_mapa(tabla = guayas_index ,
+                   fill_var = "ids_index",
+                   dpa = "dpa_parroq",
+                   centroides = shape_centroides,
+                   year = "anio",
+                   shape = shape_parroquia %>%   
+                     filter(str_detect(DPA_PARROQ,"^09"))) +
+  scale_fill_viridis_c(option = "inferno")+
+  facet_grid(rows = vars(anio)) +
+  theme(legend.position = "bottom",
+        legend.title = element_blank()) +
+  labs(title = "b) Egresos hospitalarios",
+       subtitle = "Logaritmo del número total de egresos")
+GUAY
