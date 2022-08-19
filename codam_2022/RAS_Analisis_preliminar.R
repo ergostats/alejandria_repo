@@ -9,19 +9,23 @@ library(scales)
 library(patchwork)
 library("pins")
 library("data.table")
+library(gganimate)
 
-# Esteban> carpeta <- board_folder("C:/Users/Esteban/OneDrive/RAR")
-carpeta <- board_folder("C:/Users/Alex/OneDrive/Documentos/RAR/") # Alex >
+# install.packages("remotes")
+# remotes::install_github("thomasp85/transformr")
+# library("transformr")
+
+Esteban> carpeta <- board_folder("C:/Users/Esteban/OneDrive/RAR")
+# carpeta <- board_folder("C:/Users/Alex/OneDrive/Documentos/RAR/") # Alex >
 
 establecimientos_clase <- pin_read(carpeta, "bdd_establecimientos_clase")
 
+
 ## Egresos
-
 egresos <- pin_read(carpeta, name = "ehh_res_1") 
-
 atraidos <- pin_read(carpeta, name = "bdd_egresos_atraidos") 
 
-atraidos <- pin_read(carpeta, name = "bdd_egresos_atraidos")
+
 
 # Indicadores Modelo
 bdd_index_ids <- pin_read(carpeta, name = "bdd_index_ids")
@@ -30,6 +34,7 @@ shape_centroides<- pin_read(carpeta, name = "shape_parroquia_centroides")
 
 
 bdd_index_ids_19 <- bdd_index_ids %>% filter(anio==2019)
+
 
 ## Mapa
 graph_mapa <- function(tabla,fill_var,dpa,centroides,year,shape){
@@ -108,6 +113,7 @@ PICH
 guayas_index <- bdd_index_ids %>% 
   filter(str_detect(dpa_parroq,"^09"))
 
+pin_write(carpeta, guayas_index)
 
 GUAY <- graph_mapa(tabla = guayas_index ,
                    fill_var = "ids_index",
@@ -117,9 +123,14 @@ GUAY <- graph_mapa(tabla = guayas_index ,
                    shape = shape_parroquia %>%   
                      filter(str_detect(DPA_PARROQ,"^09"))) +
   scale_fill_viridis_c(option = "inferno")+
-  facet_grid(rows = vars(anio)) +
+  # facet_grid(rows = vars(anio)) +
   theme(legend.position = "bottom",
         legend.title = element_blank()) +
-  labs(title = "b) Egresos hospitalarios",
-       subtitle = "Logaritmo del número total de egresos")
+  labs(title = "b) Egresos hospitalarios - Año: {frame_time}'",
+       subtitle = "Logaritmo del número total de egresos")+
+  transition_states(anio,
+                    transition_length = 1,
+                    state_length = 1)
+
 GUAY
+
