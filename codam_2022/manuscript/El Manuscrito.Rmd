@@ -39,6 +39,8 @@ Los autores pretenden utilizar regresiones logísticas o modelos generalizados p
 
 # Revisión de la literatura y punto de entrada al problema
 
+
+
 ## Qué esta hecho en cuanto a este tema.
 
 ## Hemos encontrado trabajos que difieren en sus resultados?
@@ -50,6 +52,11 @@ Los autores pretenden utilizar regresiones logísticas o modelos generalizados p
 Los datos cuantitativos utilizados en este artículo corresponden al Registro Estadístico de Recursos y Actividades de Salud (RAS) desde 20xx hasta 20xx. El principal objetivo del RAS es recopilar informacion relevante relacionada con el personal de salud, consultas de morbilidad, recursos físicos, actividades sanitarias y de trabajo social, etc. de los establecimientos de salud pública a nivel nacional.
 
 Para 2019(nuestro último año?) un total de 4148 establecimientos de salud se registraron en el RAS. $$Podemos incluir un mapa de calor con el número de establecimientos de salud, nos puede servir luego para analizar si en los lugares con mayor unidades de salud es donde se registra mayor migración de pacientes.$$
+
+
+En la construcción de la base de datos, identificamos doctores de tiempo completo y de tiempo parcial registrados en las unidades de salud de cada parroquia. Dentro del grupo de doctores a tiempo parcial se encuentran doctores bajo demanda es decir que asisten por un llamamdo de una de salud por emergencias. Entonces no importaria la especialidad del médico o de la unidad de salud en la que trabaja, este podría dar un primer diagnostico de atención previo a que se de la movilidad.
+
+Cuando contamos los médicos de tiempo parcial podríamos estar teniendo doble contabilidad. Ya que los doctores de tiempo parcial podrían compartir su trabajo en varias unidades de salud lo cual no podríamos identificar con los datos agegados del RAS. Para solventar este problema tomamos el promedio de doctores en la parroquia por clasificación de los establecimientos.
 
 ## Índice de demanda satifecha (IDS)
 
