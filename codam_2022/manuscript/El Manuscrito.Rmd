@@ -23,23 +23,80 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Presentación del problema y justificación del por qué estudiar este problema (al menos 3 argumentos deben sostener nuestro trabajo).
 
-## Preguntas de investigación. 
+La provisión autónoma de servicios de salud se entiende como la capacidad de prevenir, atender y curar las afecciones de la población de una parroquia con los medios disponibles en la misma. De modo que las parroquias que cuentan con suficientes recursos para ofrecer servicios de salud a su población son consideradas autónomas. Las parroquias que reciben más pacientes que sus residentes habituales son importadoras netas, y aquellas que no pueden solventar las necesidades de servicios de salud de su población son exportadoras netas.
+
+La disposición geográfica de hospitales o centros de salud, de acuerdo a la planificación gubernamental, en caso de ser bien ejecutada, implicaría que los servicios de salud sean provistos de manera local, considerando la ubicación geográfica, aspectos culturales y demografía de su población.
+
+La atención materna, ginecológica y neonatal es de vital importancia para el bienestar de la población de cada parroquia. Por ende la creación de centros de atención con estos servicios ayudarían a reducir notablemente la tasa de movilidad de mujeres en edad reproductiva (10-49 años).
+
+Con fuente en los registros administrativos del Ministerio de Salud Pública: Recursos y Actividades de Salud y Egresos hospitalarios, es posible encontrar cuántas mujeres se han atendido fuera de su parroquia de residencia habitual, permitiendo indagar en el impacto que tienen los centros de atención sobre la tasa de movilidad relacionada a complicaciones en atención ginecológica, materna y neonatal.
+
+Los autores pretenden utilizar regresiones logísticas o modelos generalizados para determinar si la inclusión de nuevos centros de salud afecta la probabilidad de que una parroquia sea considerada autónoma, importadora o exportadora de pacientes. La interpretación de estos resultados permitiría entender las necesidades por ser atendidas para una mejor planificación y asignación de recursos a estas especialidades.
+
+## Preguntas de investigación.
 
 ## Pequeño resumen de lo que tendrá nuestro artículo.
 
 # Revisión de la literatura y punto de entrada al problema
 
 ## Qué esta hecho en cuanto a este tema.
+
 ## Hemos encontrado trabajos que difieren en sus resultados?
+
 ## Partiendo de los argumentos de la literatura qué nos hace diferentes?
 
 # Datos y Metodología
 
+Los datos cuantitativos utilizados en este artículo corresponden al Registro Estadístico de Recursos y Actividades de Salud (RAS) desde 20xx hasta 20xx. El principal objetivo del RAS es recopilar informacion relevante relacionada con el personal de salud, consultas de morbilidad, recursos físicos, actividades sanitarias y de trabajo social, etc. de los establecimientos de salud pública a nivel nacional.
+
+Para 2019(nuestro último año?) un total de 4148 establecimientos de salud se registraron en el RAS. $$Podemos incluir un mapa de calor con el número de establecimientos de salud, nos puede servir luego para analizar si en los lugares con mayor unidades de salud es donde se registra mayor migración de pacientes.$$
+
+## Índice de demanda satifecha (IDS)
+
+La movilidad de salud es un fenómeno migratorio de pacientes que se benefician de servicios de salud lejos de su lugar de residencia. Nante et al (2021)(pendiente citar) proponen calcular la demanda satisfecha en una región utilizando el siguiente indice:
+
+$$
+IDS = (A - E) / (R + A) * 100
+$$
+
+En donde 00-A representa el número de pacientes atraidos hacia determinada region para recibir servicios de salud; E es el número de pacientes que salieron de la misma región en busca de servicios de salud y R es el número de pacientes que residen y se atiende en la región.
+
+Un IDS negativo significa que los recurrsos de salud pública de la región no son capaces de satisfacer la demanda de la misma. Por otro lado, un IDS positivo significa que la región cuenta con los medios necesarios para satisfacer su propia demanda y la de otras regiones.
+
+El presente artículo propone la utilización del siguiente modelo de datos de panel que permita identificar los factores que afectan el IDS de maternidad en las parroquias en Ecuador.
+
+# Modelo
+
+$$
+Y_{nt} = \alpha_n + x_nt \beta + v_nt
+$$
+
+Donde, ........ y $x_nt$ representa una matrix que contiene variables independientes como:
+
+-   Porcentaje de hospitales públicos. (BBDD clasificacion establecimientos)
+
+-   Número de unidades de salud públicas o privadas en donde se puede atender un parto.
+
+-   Número de unidades disponibles para control prenatal.
+
+-   Número de obstetras por cada 1000.
+
+-   Número de ginecólogos por cada 1000 (pendiente).
+
+-   Tasas de mortalidad relacionado al embarazo y salud reproductiva
+
+-   Tasas de morbilidad relacionado al embarazo y salud reproductiva
+
+-   Tasa de mortalidad de neonatos
+
+-   Area (urbana y rural)
+
 # Resultados y discusión
 
 ## Análisis de nuestros resultados
+
 ## Con base en nuestra evidencia presentar los argumentos iniciales.
+
 ## Discusión sobre el panorama general del sector
 
 # Conclusiones
- 

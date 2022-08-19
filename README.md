@@ -5,8 +5,20 @@
 ALEJANDRÍA 
 </h1>
 
+Asi como en el pasado
 
 Repositorio para el almacenamiento de los **scripts** para la generación de las tablas de trabajo del tablero Alejandria
+s
+para acceder vas a utilizar el siguiente comando en el CMD o en la terminal de RStudio:s
+
+```
+
+git clone https://github.com/ergostats/alejandria_repo
+
+
+```
+
+s
 
 ![](https://www.elcato.org/sites/default/files/images/stories/alexandria-cop-8-thumbnail.jpg)
 

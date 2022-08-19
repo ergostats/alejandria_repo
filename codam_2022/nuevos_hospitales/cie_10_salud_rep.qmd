@@ -1,0 +1,23 @@
+---
+title: "Documentación egresos"
+format: html
+editor: visual
+---
+
+## 
+
+Enfermedades del sistema genitourinario (N00--N99)
+
+![](images/paste-F9BB3576.png)
+
+## 
+
+Embarazo, parto y puerperio (O00--O99)
+
+![](images/paste-C56859BB.png)
+
+## Ciertas afecciones originadas en el período perinatal (P00--P96)
+
+![](images/paste-B593449F.png)
+
+**Grupo de interes:** Feto y recién nacido afectados por factores maternos y por complicaciones del embarazo, del trabajo de parto y del parto (P00--P04)
