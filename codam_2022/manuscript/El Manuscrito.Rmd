@@ -58,6 +58,16 @@ En la construcción de la base de datos, identificamos doctores de tiempo comple
 
 Cuando contamos los médicos de tiempo parcial podríamos estar teniendo doble contabilidad. Ya que los doctores de tiempo parcial podrían compartir su trabajo en varias unidades de salud lo cual no podríamos identificar con los datos agegados del RAS. Para solventar este problema tomamos el promedio de doctores en la parroquia por clasificación de los establecimientos.
 
+## Limites de la descripción socio-económica de las parroquias
+
+Para el análisis de la situación de los servicios de públicos en provistos para la población de las distintas parroquias se empleo la Encuesta de Calidad del Agua[1]. Ya que se dificulta la observación directa de la situación de estos servicios se emplean las cifras de los indicadores de **acceso seguro al agua**, **tratamiento higienico de residuos** y **calidad de la atención del personal de salud** para explicar aquellos factores que pueden afectar la movilización de las mujeres en edad fertil, pero que por construcción de las fuentes de información no podemos integrarlas a nuestro panel de parroquias. 
+
+Al no estar incluidas las variables de descfripción socio-economica en el modelo. Su efecto estará recogido en el termino de error. 
+
+
+
+[1] Levantada por el Instituto Nacional de Estadística y Censos del Ecuador INEC
+
 ## Índice de demanda satifecha (IDS)
 
 La movilidad de salud es un fenómeno migratorio de pacientes que se benefician de servicios de salud lejos de su lugar de residencia. Nante et al (2021)(pendiente citar) proponen calcular la demanda satisfecha en una región utilizando el siguiente indice:
