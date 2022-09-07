@@ -14,7 +14,7 @@ library(ggrepel)
 library(readxl)
 
 
-# lectura -----------------------------------------------------------------
+# Lectura -----------------------------------------------------------------
 
 archivos_egr <- list.files(path = str_c("../nuevos_hospitales/egresos/"),full.names = T)
 
@@ -38,22 +38,6 @@ read_funciton <- function(file){
   glimpse(tabla)
 }
 
-
-
-tasas_mov_mor <- function(panel,group_var){
-  
-  tabla_1 <- panel %>% 
-    group_by_at(group_var) %>% 
-    summarise(across(c(numero_movilizados,
-                       numero_fallecidos,
-                       egresos),sum)) %>% 
-    ungroup() %>% 
-    mutate(tasa_movilidad = numero_movilizados/egresos,
-           tasa_morbilidad = numero_fallecidos/egresos)
-  
-  return(tabla_1)
-  
-}
 
 # Lectura de los datos ----------------------------------------------------
 
@@ -136,6 +120,10 @@ panel_atraidos <- panel_egresos %>%
       atraidos_compli = sum(compli_mov,na.rm = T),
       egresos = n())
 
+
+# Expulsados --------------------------------------------------------------
+
+
 panel_expulsados <- panel_egresos %>%
   map(mutate,
       across(.cols = c(fallecido,
@@ -154,6 +142,9 @@ panel_expulsados <- panel_egresos %>%
       expulsados_perina = sum(perina_mov,na.rm = T),
       expulsados_compli = sum(compli_mov,na.rm = T),
       egresos = n())
+
+
+# Diccionario de variables creadas ----------------------------------------
 
 diccionario <- tribble(
   ~Variable,            ~ `Territorio de agregación`   ,  ~Detalle,
@@ -188,11 +179,20 @@ panel_atraidos <- panel_atraidos %>%
 # Checkpoint --------------------------------------------------------------
 
 
-pin_write(board = carpeta,x = panel_expulsados,name = "bdd_egresos_expulsados")
+pin_write(board = carpeta,
+          x = panel_expulsados,
+          name = "bdd_egresos_expulsados",
+          versioned = TRUE)
 
-pin_write(board = carpeta,x = panel_atraidos,name = "bdd_egresos_atraidos")
+pin_write(board = carpeta,
+          x = panel_atraidos,
+          name = "bdd_egresos_atraidos",
+          versioned = TRUE)
 
-pin_write(board = carpeta,x = diccionario,name = "diccionario_egresos")
+pin_write(board = carpeta,
+          x = diccionario,
+          name = "diccionario_egresos",
+          versioned = TRUE)
 
 write_rds(panel_egresos,"../nuevos_hospitales/egresos_temp.rds")
 
@@ -205,7 +205,6 @@ parroquias_diccionario <- read_excel("codam_2022/nuevos_hospitales/CODIFICACIÓN
   select(dpa_parurb, dpa_parroq)
 
 
-# calculo del indice ------------------------------------------------------
 
 panel_expulsados <- pin_read(board = carpeta,name = "bdd_egresos_expulsados") %>% 
   left_join(parroquias_diccionario, by = c("parr_res" = "dpa_parurb")) %>% 
@@ -221,6 +220,21 @@ panel_atraidos <- pin_read(board = carpeta,name = "bdd_egresos_atraidos") %>%
   group_by(dpa_parroq,anio) %>% 
   summarise(across(where(is.numeric),sum,na.rm = T))
 
+# gardar la versión con el DPA urbano agregado ----------------------------
+
+
+
+pin_write(board = carpeta,
+          x = panel_expulsados,
+          name = "bdd_egresos_expulsados",
+          versioned = TRUE)
+
+pin_write(board = carpeta,
+          x = panel_atraidos,
+          name = "bdd_egresos_atraidos",
+          versioned = TRUE)
+
+# calculo del indice ------------------------------------------------------
 
 
 panel_egresos_parr <- full_join(panel_expulsados,
@@ -236,27 +250,48 @@ ids_first <- panel_egresos_parr %>%
          matches("egresos"),
          matches("total")) %>% 
   mutate(
+  
+    # Reemplazo los vacíos con ceros:
+    
     across(.cols = c(matches("egresos"),
                      matches("total")),
            .fns = ~replace_na(.x,0)
     ),
+    
+    # Partes del indicador:
+    
     numerador = total_atraidos - total_expulsados,
     denominador = total_atraidos + total_locales_res,
+    
+    # Cálculo del indidcador:
+    
     ids_index = case_when(
       numerador < 0 & denominador == 0 ~ -100,
       numerador == 0 & denominador == 0 ~ 0,
       numerador > 0 & denominador == 0 ~ 100,
       TRUE ~ (numerador/denominador)*100),
+    
+    # Indicador alternativo:
+    # El denominador será el total de egresos de los residentes
+    # de una parroquia ya sea que hayan sido atendidos de manera
+    # interna como en otra parroquia
+    
     ids_index_2 = case_when(
       numerador < 0 & egresos_res == 0 ~ -1,
       numerador == 0 & egresos_res == 0 ~ 0,
       numerador > 0 & egresos_res == 0 ~ 1,
       TRUE ~ (numerador/egresos_res)*100),
     
-    ids_index = case_when(
+    # Re codificación del indicador para aquellos valores del indicador
+    # mayores a 100 en valor absoluto.
+    
+    ids_index_recoded = case_when(
       ids_index > 100  ~  101,
       ids_index < -100 ~ -101,
       TRUE ~ ids_index),
+    
+    # Factor con los intervalos y valores más importantes de la distribución
+    
     ids_index_factor = case_when(
       ids_index > 100 ~ "Superior a 100",
       ids_index == 100 ~ "Exactamente 100",
@@ -266,8 +301,11 @@ ids_first <- panel_egresos_parr %>%
       between(ids_index ,-50, 0) ~ "Entre 0 y -50",
       ids_index == -100 ~ "Exactamente -100", # Primero queremos esta clasificación 
       between(ids_index ,-100,-50) ~ "Entre -50 y -100", #Luego esta
-      ids_index == -101 ~ "Inferior a -100"
+      ids_index < -100 ~ "Inferior a -100"
     ),
+    
+    # Asignación de orden en el factor:
+    
     ids_index_factor = factor(ids_index_factor,levels = c("Superior a 100",
                                                           "Exactamente 100",
                                                           "Entre 50 y 100",
@@ -282,25 +320,14 @@ ids_first <- panel_egresos_parr %>%
 
 
 
-# 
-data_ind <- ids_first %>%
-  # filter(between(ids_index,-1,1)) %>%
-  filter(ids_index>-100)
+
+# Base final --------------------------------------------------------------
 
 
-  ggplot(data = data_ind,
-         aes(x = ids_index,
-             group = anio)) +
-  geom_histogram() +
-  facet_grid(anio~ .)
-
-ids_first %>% 
-  filter(ids_index != -100) %>% 
-  ggplot() + 
-  geom_bar(aes(x = anio,fill = ids_index_factor),
-           position = position_fill())
+pin_write(board = carpeta,
+          x = ids_first ,
+          name = "bdd_index_ids",
+          versioned = TRUE)
 
 
-list(panel_expulsados,
-          panel_atraidos) %>% 
-  map(names)
+
