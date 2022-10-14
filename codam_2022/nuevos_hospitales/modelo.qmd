@@ -1,0 +1,191 @@
+---
+title: "Primeras estimaciones de un modelo causal"
+format: html
+editor: visual
+---
+
+```{r}
+
+# Librerias:
+
+library(tidyverse)
+library(pins)
+library(gt)
+
+```
+
+## Introducción
+
+A diferencia de los modelos explicativos, en los cuales se busca estimar el nivel de asociación entre dos variables, el modelo que planteamos para el análisis de la movilidad de las mujeres en edad reproductiva
+
+que demandan servicios de salud reproductiva, debe ser de carácter causal. Recordemos que la pregunta planteada es determinar si la dotación de nuevas unidades de salud tiene o no efecto sobre la tasa de movilidad, o para ser más específicos, en el indice de demanda satisfecha por servicios de salud.
+
+## Pregunta(s) causal(es)
+
+**Pregunta directa:**
+
+¿En las parroquias en las que se crean nuevas unidades de salud se observa que la tasa de movilidad por demanda de servicios de salud disminuye?
+
+**Pregunta replanteada:**
+
+¿En las parroquias en las que se crean nuevas unidades de salud incrementa la demanda satisfecha por servicios de salud?
+
+**En términos de inferencia causal:**
+
+> ¿Que pasaría si en todas las parroquias del Ecuador se pusieran en operación nuevas unidades de salud en un determinado año en comparación de si la dotación de unidades de salud quedará constante en todas las parroquias?
+
+```{r}
+
+path_temporal <- "C:/Users/Alex/OneDrive/Documentos/RAR/"
+
+carpeta <- board_folder(path = path_temporal)
+
+tabla_indicador_hospitales <- pin_read(board = carpeta,
+          name = "tabla_indicador_hospitales")
+
+
+centroides <- pin_read(board = carpeta,
+          name = "shape_parroquia_centroides") %>% 
+  rename_with(str_to_lower) 
+```
+
+#### Gráfico 1. Comparación de las distribuciones por variación en el número de unidades de salud 
+
+```{r}
+tabla_indicador_hospitales %>% 
+  filter(!is.na(variacion),
+         ids_index >= -150) %>% 
+  ggplot() +
+  geom_density(mapping = aes(x = ids_index,
+                             fill = variacion),
+               alpha = 0.4) +
+  facet_grid(rows = "anio") +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+tabla_indicador_hospitales %>% 
+  filter(!is.na(variacion),
+         ids_index >= -50) %>% 
+  ggplot() +
+  geom_density(mapping = aes(x = ids_index,
+                             fill = variacion),
+               alpha = 0.4) +
+  facet_grid(rows = "anio") +
+  theme(legend.position = "bottom")
+```
+
+#### Diferencia en la media:
+
+```{r}
+tabla_indicador_hospitales %>% 
+  filter(!is.na(variacion)) %>% 
+  group_by(anio,variacion) %>% 
+  summarise(nedia = mean(ids_index,na.rm = TRUE),
+            desviacion_std = sd(ids_index,na.rm = TRUE)) %>% 
+  gt()
+  
+```
+
+Uno de los supuestos que manejamos en el modelo es que las mujeres en edad reproductiva se han de movilizar de parroquias en que hay escasez de unidades y personal desalud a aquellas que están mejor dotadas, en la siguiente tabla, la variable `indicador` toma el valor de `TRUE` si se trata de la capital de provincia y `FALSE` en caso contrario.
+
+```{r}
+
+tabla_indicador_hospitales %>% 
+  ungroup() %>% 
+  mutate(indicador = str_detect(dpa_parroq, "0150$")) %>% 
+  group_by(indicador,anio) %>% 
+  summarise(mean(total_unidades,na.rm = TRUE),
+            sd(total_unidades,na.rm = TRUE)) %>% 
+  gt()
+
+```
+
+Relaciones entre distancia a la capital contra el indicador
+
+```{r eval = TRUE}
+
+tabla_indicador_hospitales <- inner_join(
+  tabla_indicador_hospitales,
+  centroides
+)
+
+tabla_indicador_hospitales %>% 
+  filter(distancia<2e+07,
+         ids_index > -200 ) %>% 
+  ggplot() +
+  geom_hex(mapping = aes(x = distancia,y = ids_index))
+
+```
+
+```{r}
+
+tabla_indicador_hospitales %>% 
+  filter(distancia<2e+07,
+         ids_index > -200 ) %>% 
+  ggplot() +
+  geom_bin_2d(mapping = aes(x = distancia,y = ids_index)) +
+  scale_fill_continuous(trans = "log")
+
+```
+
+Las parroquias que están en un radio de 25000 unidades de distancia son más propensas a ser exportadoras de pacientes, luego de umbral, el numero de exportadoras de pacientes va disminuyendo ya que debido a que no cuentan con dotación o cuentan con una dotación insuficiente de servicios médicos deben movilizarse y una gran distancia recorrida puede complicar los cuadros patológicos de las mujeres en edad reproductiva.
+
+## DAG
+
+```{r, echo = FALSE, fig.height=5.5}
+  library(ggdag)
+# set up DAG
+smk_wt_dag <- dagify(
+  # specify causes of quitting smoking and weight gain:
+  demanda_sat ~ num_unisa_tipo + num_doc_especialidad + 
+    dist_cap + num_reside + num_pacientes + acceso_agua + ingreso_medio,
+  num_unisa_tipo ~ dist_cap + num_reside + num_pacientes + acceso_agua + ingreso_medio + presupues,
+  num_doc_especialidad ~ dist_cap + num_reside + num_pacientes + acceso_agua + ingreso_medio + presupues,
+  # specify causal question:
+  exposure = "num_unisa_tipo", 
+  outcome = "demanda_sat",
+  
+  # Labels descriptivas de las variables
+  
+  labels = c(
+
+    # Pregunta causal
+
+    "demanda_sat" = "demanda satisfecha",
+    "num_unisa_tipo" = "# unidades\nsalud",
+
+    # De la parroquia:
+    "dist_cap" = "distancia a\nla capital",
+    "acceso_agua" = "acceso\nagua",
+    "ingreso_medio" = "ingresos\nmedios",
+    "presupues" = "presupuesto",
+
+    # De la oferta:
+    "num_doc_especialidad" = "# medicos\nespecialidad",
+    "num_reside" = "numero\nresidentes",
+    "num_pacientes" = "numero\npacientes",
+    "num_unisa_lag" = "lag numero\nunidades"
+  )
+) %>% 
+  tidy_dagitty(layout = "star")
+
+smk_wt_dag %>% 
+  filter(name %in% c("demanda_sat", "num_unisa_tipo")) %>% 
+  ggdag(text = FALSE, use_labels = "label") +
+  ylim(min(smk_wt_dag$data$y) - 0.25, max(smk_wt_dag$data$y) + 0.25) +  
+  xlim(min(smk_wt_dag$data$x) - 0.25, max(smk_wt_dag$data$x) + 0.25) +
+  theme_dag()
+```
+
+------------------------------------------------------------------------
+
+```{r, echo = FALSE, fig.height=5.5}
+smk_wt_dag %>% 
+  ggdag(text = FALSE, use_labels = "label") +
+  ylim(min(smk_wt_dag$data$y) - 0.25, max(smk_wt_dag$data$y) + 0.25) +  
+  xlim(min(smk_wt_dag$data$x) - 0.25, max(smk_wt_dag$data$x) + 0.25) +
+  theme_dag()
+```
+
+------------------------------------------------------------------------

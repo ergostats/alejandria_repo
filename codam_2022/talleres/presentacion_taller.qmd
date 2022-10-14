@@ -1,21 +1,72 @@
 ---
-title: "Investigación colaborativa con pins"
-author: "Investigaciones ERGOSTATS"
-format: revealjs
-editor: visual
+title: "."
+author: " "
+format: 
+  revealjs:
+    preview-links: auto
+    logo: images/Avatar2.jpg
+    footer: "@ergostats"
+    chalkboard: true  
+    title-slide-attributes:
+      data-background-image: images/portada.png
+      data-background-size:  cover  
 ---
+
+![](images/meme_1.jpg){.absolute top="50" left="100" width="850" height="450"}
+
+## 1 {background="#43464B" background-image="images/diagrama_file_evolucion_1.png"}
+
+## 2 {background="#43464B" background-image="images/diagrama_file_evolucion_2.png"}
+
+## 3 {background="#43464B" background-image="images/diagrama_file_evolucion_3.png"}
+
+## 4 {background="#43464B" background-image="images/diagrama_file_evolucion_4.png"}
+
+## 5 {background="#43464B" background-image="images/diagrama_file_evolucion_5.png"}
+
+## 6 {background="#43464B" background-image="images/diagrama_file_evolucion_6.png"}
+
+## 7 {background="#43464B" background-image="images/diagrama_file_evolucion_7.png"}
+
+## 8 {background="#43464B" background-image="images/diagrama_file_evolucion_8.png"}
+
+## 9 {background="#43464B" background-image="images/diagrama_file_evolucion_9.png"}
+
+## 10 {background="#43464B" background-image="images/diagrama_file_evolucion_10.png"}
+
+------------------------------------------------------------------------
+
+## Ay ay ay ay ay {background="#43464B" background-image="images/alfa_gifs.gif"}
+
+------------------------------------------------------------------------
+
+## Hora de reunir al equipo {background="#43464B" background-image="images/sordon.jpg"}
+
+------------------------------------------------------------------------
+
+## . {background="#43464B" background-image="images/pins.png"}
+
+## . {background="#43464B" background-image="images/pins_r.png"}
+
+## . {background="#43464B" background-image="images/pins_r_github.png"}
+
+## . {background="#43464B" background-image="images/integracion.png"}
+
+## Manos la obra {background="#43464B" background-image="images/alfa_fiestas.gif"}
 
 ## Configuraciones iniciales
 
-Para acceder añ *repositorio Alejandria* funciona necesitaremos la libreria `{pins}` de R y el servicio de `OneDrive`. Por lo cual vamos a necesitar los siguientes materiales:
+Para acceder al *repositorio Alejandria* funciona necesitaremos la libreria `{pins}` de R y el servicio de `OneDrive`. Por lo cual vamos a necesitar los siguientes materiales:
 
 -   R (\>=4.2.0)
 
--   RStudio o RstudioClod <!--# Depende de si se puede acceder a la carpeta de Onedrive -->
+-   RStudio <!--# Depende de si se puede acceder a la carpeta de Onedrive -->
 
 -   Una cuenta de OneDrive
 
 -   Curiosidad y amor por la investigación
+
+El día de hoy usaremos la carpeta `taller_tr_colab/` Al cual se los agrego. Revisemos los mails. 📧
 
 ## Primeros pasos
 
@@ -31,7 +82,9 @@ Uno de los miembros del **ERGOSTATS** te enviará un correo de confirmación par
 
 ## Bien, y ahora ¿que procede? 💭
 
-(Ponemos la foto de la carpeta de OneDrive en la que sale la opción de "Agregar a mi OneDrive")
+![](images/paste-5D7E27E9.png)
+
+![](images/paste-AA582C94.png)
 
 ## Manos a la obra 🦾
 
@@ -111,6 +164,106 @@ gt(tibble(
 ))
 ```
 
-## Vamos a ver ahora un ejemplo
+## Inspiración {background="#43464B" background-image="images/diagrama_pins_evolucion_1.png"}
 
-Ejemplo práctico, indicador de demanda insatifecha IDSI y su distrución
+## . {background="#43464B" background-image="images/diagrama_pins_evolucion_2.png"}
+
+## . {background="#43464B" background-image="images/diagrama_pins_evolucion_4.png"}
+
+## . {background="#43464B" background-image="images/diagrama_pins_evolucion_4.png"}
+
+## . {background="#43464B" background-image="images/diagrama_pins_evolucion_5.png"}
+
+## . {background="#43464B" background-image="images/diagrama_pins_evolucion_6.png"}
+
+## . {background="#43464B" background-image="images/diagrama_pins_evolucion_7.png"}
+
+## . {background="#43464B" background-image="images/diagrama_pins_evolucion_8.png"}
+
+## {auto-animate="true"}
+
+Funciones estrella de la noche:
+
+```{r eval = FALSE, echo = TRUE}
+
+board_local()
+
+```
+
+## {auto-animate="true"}
+
+Funciones estrella de la noche:
+
+```{r eval = FALSE, echo = TRUE}
+
+board_local()
+
+pin_list()
+
+```
+
+
+## {auto-animate="true"}
+
+Funciones estrella de la noche:
+
+```{r eval = FALSE, echo = TRUE}
+
+board_local()
+
+pin_list()
+
+pin_read()
+
+```
+
+
+## {auto-animate="true"}
+
+Funciones estrella de la noche:
+
+```{r eval = FALSE, echo = TRUE}
+
+board_local()
+
+pin_list()
+
+pin_read()
+
+```
+
+
+## {auto-animate="true"}
+
+Funciones estrella de la noche:
+
+```{r eval = FALSE, echo = TRUE}
+
+board_local()
+
+pin_list()
+
+pin_read()
+
+pin_meta()
+
+```
+
+## {auto-animate="true"}
+
+Funciones estrella de la noche:
+
+```{r eval = FALSE, echo = TRUE}
+
+board_local()
+
+pin_list()
+
+pin_read()
+
+pin_meta()
+
+pin_search(board, search = NULL, ...)
+
+```
+
