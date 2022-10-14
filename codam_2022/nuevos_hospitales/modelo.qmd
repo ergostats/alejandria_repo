@@ -103,17 +103,7 @@ tabla_indicador_hospitales %>%
 
 Relaciones entre distancia a la capital contra el indicador
 
-tabla_indicador_hospitales %\>%
-
-filter(distancia\<2e+07,
-
-ids_index \> -200 ) %\>%
-
-ggplot() +
-
-geom_hex(mapping = aes(x = distancia,y = ids_index))
-
-```{r}
+```{r eval = TRUE}
 
 tabla_indicador_hospitales <- inner_join(
   tabla_indicador_hospitales,
@@ -141,18 +131,61 @@ tabla_indicador_hospitales %>%
 
 Las parroquias que están en un radio de 25000 unidades de distancia son más propensas a ser exportadoras de pacientes, luego de umbral, el numero de exportadoras de pacientes va disminuyendo ya que debido a que no cuentan con dotación o cuentan con una dotación insuficiente de servicios médicos deben movilizarse y una gran distancia recorrida puede complicar los cuadros patológicos de las mujeres en edad reproductiva.
 
-```{r eval=FALSE}
+## DAG
 
-tabla_indicador_hospitales %>% 
-  ungroup() %>% 
-  filter(distancia<2e+07,
-         ids_index > -200,
-         complete.cases(.)) %>% 
-  mutate(ids_index = ids_index + 1000) %>% 
-  ggplot(mapping = aes(x = distancia,y = ids_index)) +
-  geom_point() +
-    xlim(0, 200000) +
- ylim(-200, 100)+
-  geom_density_2d_filled()
+```{r, echo = FALSE, fig.height=5.5}
+  library(ggdag)
+# set up DAG
+smk_wt_dag <- dagify(
+  # specify causes of quitting smoking and weight gain:
+  demanda_sat ~ num_unisa_tipo + num_doc_especialidad + 
+    dist_cap + num_reside + num_pacientes + acceso_agua + ingreso_medio,
+  num_unisa_tipo ~ dist_cap + num_reside + num_pacientes + acceso_agua + ingreso_medio + presupues,
+  num_doc_especialidad ~ dist_cap + num_reside + num_pacientes + acceso_agua + ingreso_medio + presupues,
+  # specify causal question:
+  exposure = "num_unisa_tipo", 
+  outcome = "demanda_sat",
+  
+  # Labels descriptivas de las variables
+  
+  labels = c(
 
+    # Pregunta causal
+
+    "demanda_sat" = "demanda satisfecha",
+    "num_unisa_tipo" = "# unidades\nsalud",
+
+    # De la parroquia:
+    "dist_cap" = "distancia a\nla capital",
+    "acceso_agua" = "acceso\nagua",
+    "ingreso_medio" = "ingresos\nmedios",
+    "presupues" = "presupuesto",
+
+    # De la oferta:
+    "num_doc_especialidad" = "# medicos\nespecialidad",
+    "num_reside" = "numero\nresidentes",
+    "num_pacientes" = "numero\npacientes",
+    "num_unisa_lag" = "lag numero\nunidades"
+  )
+) %>% 
+  tidy_dagitty(layout = "star")
+
+smk_wt_dag %>% 
+  filter(name %in% c("demanda_sat", "num_unisa_tipo")) %>% 
+  ggdag(text = FALSE, use_labels = "label") +
+  ylim(min(smk_wt_dag$data$y) - 0.25, max(smk_wt_dag$data$y) + 0.25) +  
+  xlim(min(smk_wt_dag$data$x) - 0.25, max(smk_wt_dag$data$x) + 0.25) +
+  theme_dag()
 ```
+
+------------------------------------------------------------------------
+
+```{r, echo = FALSE, fig.height=5.5}
+smk_wt_dag %>% 
+  ggdag(text = FALSE, use_labels = "label") +
+  ylim(min(smk_wt_dag$data$y) - 0.25, max(smk_wt_dag$data$y) + 0.25) +  
+  xlim(min(smk_wt_dag$data$x) - 0.25, max(smk_wt_dag$data$x) + 0.25) +
+  theme_dag()
+```
+
+------------------------------------------------------------------------
