@@ -44,7 +44,7 @@ Intrucciones para acceso:
 
 | Fecha de elaboración | Temática general | Fuentes empleadas | Detalle del análisis | Contenido disponible | Enlace a la carpeta |
 | --- | --- |--- | --- |--- |--- | 
-| Mayo 7, 2022 | Salud | * Recursos y actividades de salud RAS \n* Proyecciones poblaciones | Cobertura del personal de salud de acuerdo a la región del Ecuador | Documento ETL (Extract, transform, load) en formato .Rmd | Enlace pendiente hasta organizar la carpeta |
+| Mayo 7, 2022 | Salud | * Recursos y actividades de salud RAS \n* Proyecciones poblaciones | Cobertura del personal de salud de acuerdo a la región del Ecuador | Documento ETL (Extract, transform, load) en formato .Rmd | [Carpeta del post](t1_ras/publicaciones/post_05052022/) |
 | Mayo 15, 2022 | Salud | * Recursos y actividades de salud RAS | Cobertura del personal de salud de acuerdo a la región del Ecuador | Documento ETL (Extract, transform, load) en formato .Rmd | Enlace pendiente hasta organizar la carpeta |
 | Agosto 2, 2022 | Empleo | * Encuesta ENEMDU | El empleo pleno en Ecuador por sexo | Script ETL (Extract, transform, load) en formato .R | Enlace pendiente hasta organizar la carpeta, branch `post_Andrea` |
 | Noviembre 14, 2022 | Percepción | * Encuesta multiproposito | Proporción de hogares con percepción positiva respecto a los servicios de salud pública | Script ETL (Extract, transform, load) en formato .R | Enlace pendiente hasta organizar la carpeta, branch `post_Andrea` |
