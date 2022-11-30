@@ -40,26 +40,25 @@ Intrucciones para acceso:
 
 3. Diviertete con tu investigación y no dudes de hacernos preguntas por este medio empleando un `issue` por cada pregunta que tengas
 
-# Catálogo de análisis estadísticos realizados
+# Catálogo de posts estadísticos realizados
 
 | Fecha de elaboración | Temática general | Fuentes empleadas | Detalle del análisis | Contenido disponible | Enlace a la carpeta |
 | --- | --- |--- | --- |--- |--- | 
 | Mayo 7, 2022 | Salud | * Recursos y actividades de salud RAS \n* Proyecciones poblaciones | Cobertura del personal de salud de acuerdo a la región del Ecuador | Documento ETL (Extract, transform, load) en formato .Rmd | Enlace pendiente hasta organizar la carpeta |
 | Mayo 15, 2022 | Salud | * Recursos y actividades de salud RAS | Cobertura del personal de salud de acuerdo a la región del Ecuador | Documento ETL (Extract, transform, load) en formato .Rmd | Enlace pendiente hasta organizar la carpeta |
+| Agosto 2, 2022 | Empleo | * Encuesta ENEMDU | El empleo pleno en Ecuador por sexo | Script ETL (Extract, transform, load) en formato .R | Enlace pendiente hasta organizar la carpeta, branch `post_Andrea` |
+| Noviembre 14, 2022 | Percepción | * Encuesta multiproposito | Proporción de hogares con percepción positiva respecto a los servicios de salud pública | Script ETL (Extract, transform, load) en formato .R | Enlace pendiente hasta organizar la carpeta, branch `post_Andrea` |
+| Noviembre 24, 2022 | Empleo | * Ministerio del Trabajo  | Evolución del salario básico en Ecuador | Documento ETL (Extract, transform, load) en formato .Rmd | Enlace pendiente hasta organizar la carpeta, branch `post_Andrea` |
 
-| git diff | Show file differences that haven't been staged |
+# Catálogo de materiales de talleres
 
-## URL:
+| Fecha de elaboración | Temática general | Fuentes empleadas | Detalle del análisis | Contenido disponible | Enlace a la carpeta |
+| --- | --- |--- | --- |--- |--- | 
+| Octubre 27, 2022 | Empleo | * Directorio de empresas | Estadísticas sobre el desempeño empresarial {tidyverse} + {pins} | Script ETL (Extract, transform, load) en formato .R\n* Presentación en formato .qmd\n* Presentación pptx | Enlace pendiente hasta organizar la carpeta|
+| Noviembre 2, 2022 | Coyuntura empresarial | * Encuesta ENESEM | Estadpsiticas sobre la inversión en TIC usando {tidyverse} | Script ETL (Extract, transform, load) en formato .R\n* Presentación en formato .qmd | Enlace pendiente hasta organizar la carpeta|
+| Noviembre 19, 2022 | Coyuntura empresarial | * Encuesta ENESEM | Creación de tablas con {gt} | Script ETL (Extract, transform, load) en formato .R\n* Presentación en formato .qmd | Enlace pendiente hasta organizar la carpeta|
 
-https://www.ecuadorencifras.gob.ec/actividades-y-recursos-de-salud/
 
-## Metadatos:
-
-url de los metadatos (apuntan a un rmd)
-
-## Diccionario:
-
-url al dicionario (apuntan a un rmd)
 
 
 
