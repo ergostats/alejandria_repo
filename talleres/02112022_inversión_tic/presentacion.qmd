@@ -1,0 +1,408 @@
+---
+title: "Manejo de encuestas con tidyverse: Caso de estudio sobre la ENESEM"
+subtitle: "Webinar ERGOSTATS"
+author: "Alex Bajaña"
+format: 
+  revealjs:
+    incremental: true 
+editor: visual
+chalkboard: true
+---
+
+# Introducción a la ciencia de datos
+
+## Principio de reproducibilidad
+
+-   ¿Las tablas y figuras son reproducibles a partir del código y los datos?
+-   ¿El código realmente hace lo que crees que hace?
+-   Además de lo que se hizo, ¿está claro por qué se hizo? Por ejemplo, ¿cómo se eligieron las configuraciones de los parámetros?
+
+## Aún más lejos
+
+-   ¿Es posible extender el código a otro conjunto de datos?
+-   ¿Si me cambio de computador puedo reejecutar el código sin mayores configuraciones salvo por la instalación?
+
+## Principio de `tidy data`
+
+![](images/paste-EBD6F253.png)
+
+-   Cada variable debe tener su propia columna.
+
+-   Cada observación debe tener su propia fila.
+
+-   Cada valor debe tener su propia celda.
+
+## Ejecución de código
+
+![](images/paste-45B29C2B.png)
+
+## Busqueda de ayuda
+
+-   Abrir una ventana de ayuda:
+
+```{r eval =FALSE, echo=TRUE}
+
+help.start()
+
+```
+
+-   Buscar información acerca de un tema específico:
+
+```{r eval =FALSE, echo=TRUE}
+
+help.search("…")
+```
+
+-   Buscar ayuda sobre una función:
+
+```{r eval = FALSE, echo=TRUE}
+
+help(…)
+
+?…
+
+
+
+```
+
+## Busqueda de ayuda
+
+Viñetas:
+
+-   Buscar viñetas disponibles: `vignete()`
+
+-   Buscar una viñeta específica: `vignette("…")`
+
+Web:
+
+-   [Stackoverflow](https://stackoverflow.com)
+
+-   [Rpubs](https://rpubs.com/)
+
+-   [Mailing List](https://www.r-project.org/mail.html)
+
+-   [Github](https://github.com/trending/r)
+
+> Recuerda que R es en primera instancia un software de carácter estadístico, los temas de ayuda incrementan a medida que cargues librerias.
+
+## Vamos a hacer una equivalencia entre java y R antes de empezar
+
+Una parte de código provista por sus compañeros:
+
+```{java eval = FALSE, echo=TRUE}
+
+@SuppressLint("MissingInflatedId")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        temperatur = (EditText) findViewById(R.id.txttemperatur);
+    }
+    
+public void abrirSignosm (View vista) {
+ String valortemper, valorpeso1, valorpresion1;
+
+if (temper < 36) {
+            valortemper = "Temperatura bajo de lo normal HIPOTERMIA";
+        } else if (temper >= 36 && temper <= 37) {
+            valortemper = "Temperatura normal";
+        } else {
+            valortemper = "Temperatura rebasa los limites : Fiebre";
+        }
+
+```
+
+## Ahora veamolo en R
+
+```{r eval=FALSE, echo=TRUE}
+
+valortemper <- 50
+
+if (temper < 36 & is.numeric(valortemper)) {
+            valortemper = "Temperatura bajo de lo normal HIPOTERMIA";
+        } else if (temper >= 36 & temper <= 37) {
+            valortemper = "Temperatura normal";
+        } else {
+            valortemper = "Temperatura rebasa los limites : Fiebre";
+        }
+```
+
+> La diferencia es que en R todo se trabaja con objetos y se guardan en la memoria RAM (ojo)
+
+## Las tecnologías de la información
+
+> *Luego de más de una década de políticas para impulsar un mayor acceso y uso de estas tecnologías, los países de América Latina y el Caribe han logrado avances significativos (...) no obstante, avanzan a velocidades distintas y con grandes brechas, tanto entre ellos como en el interior de cada uno, además de con fuertes rezagos respecto de las economías más desarrolladas.*[^1]
+
+[^1]: https://www.cepal.org/es/temas/tecnologias-de-la-informacion-y-las-comunicaciones-tic/acerca-tecnologias-la-informacion
+
+## Puntos preliminares🌟
+
+::: {align="center"}
+**!Gracias por asistir a este webinar¡**
+:::
+
+-   El webinar está planeado para tener una duración de **1h45min**
+
+-   En cualquier momento puedes alzar (en Zoom) la mano para hacernos preguntas
+
+-   Siguenos en Facebook, Twitter, Youtube y TikTok como:
+
+    ::: {style="color: gray;"}
+    @ergostats
+    :::
+
+## Contenido 📑
+
+-   Al final de este webinar tu serás capaz de:
+
+    -   Estimar valores poblacionales de **medias, proporciones, totales, y cuantiles**
+
+    -   Implementar pruebas **T**
+
+    -   Ajustar un modelo de regresion lineal
+
+-   No cubriremos a detalle:
+
+    -   Ponderación, calibración y otros metodos de estimación de modelos de regresión
+
+## Herramientas
+
+::: {.incremental style="color: gray;"}
+-   R (\>= 4.0.0)
+
+-   RStudio
+
+-   GIT
+
+-   Github
+
+-   [Encuesta Estructural Empresarial](https://www.ecuadorencifras.gob.ec/encuesta-a-empresas/)
+
+-   [Calidad de las encuestas (CEPAL)](https://www.cepal.org/sites/default/files/publication/files/45681/S2000293_es.pdf)
+:::
+
+## La ENESEM 🏢
+
+La Encuesta Estructural Empresarial (ENESEM) tiene 2 objetivos:
+
+::: columns
+::: {.column width="50%"}
+Calcular agregados económicos 💸
+
+-   Producción
+
+-   Consumo intermedio
+
+-   Valor agregado
+
+-   Entre otros.
+:::
+
+::: {.column width="50%"}
+Presentar información sobre: 🧑‍🏭
+
+-   Materias primas y productos elaborados
+
+-   Mercaderías y servicios vendidos
+
+-   Uso de tecnologías y comunicación (TIC)
+:::
+:::
+
+## Limites: 🚨
+
+-   La encuesta está dirigida a empresas.
+
+-   Se incluyen todas las actividades económicas clasificadas con CIIU salvo por:
+
+    -   ***A.*** Agricultura, ganadería, silvicultura y pesca.
+
+    -   ***O.*** Administración pública y defensa; planes de seguridad social de afiliación obligatoria.
+
+    -   ***T.*** Actividades de los hogares como empleadores; actividades no diferenciadas de los hogares como productores de bienes y servicios para uso propio.
+
+    -   ***U.*** Actividades de organizaciones y órganos extraterritoriales
+
+## Últimos detalles:
+
+::: incremental
+-   **Universo de analisis**
+
+    -   Las empresas de tamaño grande, mediana A y mediana B que cumplen con los criterios de clasificación de cobertura temática para el año 2019.
+
+-   **Unidades de analisis**
+
+    -   Empresas
+
+-   **Tipo de muestreo**
+
+    -   Muestreo probabilístico de elementos con selección aleatoria.
+:::
+
+## Resumen oficial
+
+![](images/paste-BF4E111F.png)
+
+## Librerias a usar {auto-animate="true"}
+
+```{r echo=TRUE}
+
+# Para el manejo de las tablas, y verbos importantes
+library(tidyverse)
+
+```
+
+## Librerias a usar {auto-animate="true"}
+
+```{r echo=TRUE}
+# Para el manejo de las tablas, y verbos importantes
+library(tidyverse)
+
+# Para el manejo de encuestas
+library(srvyr)
+library(survey)
+```
+
+## Librerias a usar {auto-animate="true"}
+
+```{r echo=TRUE}
+# Para el manejo de las tablas, y verbos importantes
+library(tidyverse)
+
+# Para el manejo de encuestas
+library(srvyr)
+library(survey)
+
+# Para hacer tablas bonitas
+library(gt)
+```
+
+## Librerias a usar {auto-animate="true"}
+
+```{r echo=TRUE}
+# Para el manejo de las tablas, y verbos importantes
+library(tidyverse)
+
+# Para el manejo de encuestas
+library(srvyr)
+library(survey)
+
+# Para hacer tablas bonitas
+library(gt)
+```
+
+Version de R:
+
+```{r, echo=TRUE}
+
+R.version
+```
+
+## Declarando la encuesta
+
+De esta manera, un postestrato está conformado por las empresas que tienen un mismo tamaño de empresa y sección económica de acuerdo con el DIEE 2020, fragmentando los dominios originales de la muestra. [^2]
+
+[^2]: Documento con el diseño muestral de la ENESEM
+
+```{r, echo = TRUE,eval=FALSE}
+objeto_survey <- enesem_tics_raw %>% 
+  as_survey_design(ids = id_empresa,
+                   weights = f_exp,
+                   strata = c(----))
+```
+
+## Estadisticas descriptivas 👾
+
+1\. Crear un objeto `tbl_svy` usando: `as_survey_design`
+
+2\. Subconjunto de datos (si es necesario) usando `filter` (subpoblaciones)
+
+3\. Especificar dominios de análisis usando `group_by`
+
+4\. Dentro de `summarize`, especificamos variables para calcular incluyendo medias, totales, proporciones, cuantiles y más
+
+## Las funciones que nos van a ayudar
+
+-   Funciones a tener en cuenta:
+
+-   `survey_mean`
+
+-   `survey_total` (sumas totales)
+
+-   `survey_median`
+
+-   `survey_quantile`
+
+-   `survey_ratio`
+
+## Inversión en TIC promedio por sector económico
+
+```{r, echo = TRUE,eval=FALSE}
+
+survey_mean(
+  x,
+  na.rm = FALSE,
+  vartype = c("se","ci","var","cv"),
+  level = 0.95,
+  proportion = FALSE,
+  deff = FALSE,
+  df = NULL,
+  ...
+)
+
+```
+
+## Total de personas empleadas por medianas y grandes empresas en Ecuador
+
+```{r, echo = TRUE,eval=FALSE}
+survey_total(
+  x,
+  na.rm = FALSE,
+  vartype = c("se", "ci", "var", "cv"),
+  level = 0.95,
+  deff = FALSE,
+  df = NULL,
+  ...
+)
+```
+
+## Primer y tercer quantil de inversion en TIC
+
+```{r, echo = TRUE,eval=FALSE}
+survey_quantile(
+  x,
+  quantiles,
+  na.rm = FALSE,
+  vartype = c("se","ci","var","cv"),
+  level = 0.95,
+  df = NULL,
+  ...
+)
+
+```
+
+## Ventas promedio en relación a la inversión en TIC
+
+```{r, echo = TRUE,eval=FALSE}
+
+survey_ratio(
+  numerator,
+  denominator,
+  na.rm = FALSE,
+  vartype = c("se","ci","var","cv"),
+  level = 0.95,
+  deff = FALSE,
+  df = NULL,
+  ...
+)
+
+
+```
+
+## El retorno de la inversion en TIC
+
+```{r, eval = FALSE, echo = TRUE}
+
+roi <-   enesem_tics_raw %>% 
+  mutate(personal = tic2_5_pers_ocup_h + tic2_5_pers_ocup_m,
+         indicador = 	(tic3_1_1_ventas - tic3_2_1_compras - tic1_2)/tic1_2)
+```

@@ -1,0 +1,360 @@
+---
+title: "Tablas asombrosas con la libreria {gt}"
+author: "Alex Bajaña"
+format: revealjs
+editor: visual
+---
+
+## Bienvenidos 🖖
+
+⏲️ El taller va a tener una duración de 2h
+
+🪐 Descarga el material de este taller en:
+
+[Repositorio del taller](AlexVB4891/taller_tablas_gt)
+
+Ya que estás por ahí puedes dejarnos tu ⭐
+
+Si necesitas ayuda levanta tu mano 🖐️
+
+## Algunas reglas generales
+
+-   ❔ No dudes en preguntar, la forma más chevere de aprender es en conjunto
+
+-   👨‍💻 Si no tienes computador no te preocupes, el taller quedará gravado y lo podrás seguir en casa.
+
+-   📹 Para acceder al material audiovisual. Envianos un correo a:
+
+    [alexvbr\@ergostats.org](alexvbr@ergostats.org)
+
+-   🤫 Si requieres salir, hazlo de forma respetuosa y sin aviso.
+
+## Alex Vinicio Bajaña Rivera
+
+::: columns
+::: {.column width="50%"}
+![](images/IMG-20220721-WA0060.jpg)
+:::
+
+::: {.column width="50%"}
+-   Tengo 30 años
+
+-   7 de experiencia
+
+-   Actualmente soy investigador para el Banco Mundial y fundador del Centro de Inestigación Estadística ERGOSTATS
+
+-   \\\@AlexBajaa5
+
+-   alexvbr\@ergostats.org
+:::
+:::
+
+## Agenda
+
+|               |                                                             |
+|----------------------------|--------------------------------------------|
+| 11:00 - 11:30 | Introducción y presentación del taller                      |
+| 11:30 - 12:00 | La librería {gt} para crear tablas que cuentan una historia |
+| 12:00 - 12:30 | De una tabla sencilla a una tabla asombrosa                 |
+| 12:30 - 13:00 | Recapitulación y futuros pasos                              |
+| 13:00 - ????  | ¿Bielas?                                                    |
+
+## Recursos
+
+::: columns
+::: {.column width="50%"}
+![](images/paste-105A8617.png){fig-align="center" width="337"}
+
+Documentación `{gt}`
+
+![](images/paste-E441F88D.png){fig-align="center" width="217"}
+
+::: {.column width="50%"}
+Documentación `{gtsummary}`
+:::
+:::
+
+::: {.column width="50%"}
+![](images/paste-BA32A8F1.png){width="392"}
+
+El blog de Thomas Mock
+
+![](images/paste-B94999F4.png){fig-align="center" width="191"}
+
+R para ciencia de datos
+:::
+:::
+
+## Ambiente de trabajo
+
+Esta presentación se realizó con la versión de R:
+
+```{r}
+
+R.version
+```
+
+> Para este taller necesitamos cualquier versión desde la R 4.2.0
+
+## Ambiente de trabajo
+
+Librerías:
+
+```{r echo=TRUE}
+
+# Para nuestras tablas
+
+library(gt)
+
+# Para nuestras tablas
+library(gtExtras)
+
+# Para manejar los insumos de nuestras tablas
+library(tidyverse)
+
+# Para formatos cheveres
+library(scales)
+
+# Para resumen de modelos
+library(broom)
+
+# Para leer desde spss
+library(haven)
+
+```
+
+# Manos a la obra
+
+![](https://livetodai.com/uploads/default/original/2X/6/664686f8dff68555d61e62cdc7c5b360c78b5e84.jpg){fig-align="center"}
+
+## Algunos ejemplos {auto-animate="true"}
+
+![](https://www.meme-arsenal.com/memes/526cd41c1a1996d566d4b18879a38479.jpg)
+
+## Algunos ejemplos {auto-animate="true"}
+
+::: columns
+::: {.column width="50%"}
+![](https://www.meme-arsenal.com/memes/526cd41c1a1996d566d4b18879a38479.jpg)
+:::
+
+::: {.column width="50%"}
+![](https://www.w3schools.com/datascience/img_lr_table.png)
+:::
+:::
+
+## Algunos ejemplos {auto-animate="true"}
+
+::: columns
+::: {.column width="50%"}
+![](https://www.meme-arsenal.com/memes/526cd41c1a1996d566d4b18879a38479.jpg)
+
+![](https://www.w3schools.com/datascience/img_lr_table.png)
+:::
+
+::: {.column width="50%"}
+![](https://www.rstudio.com/blog/winners-of-the-2021-table-contest/images/10-imperial-march-redux.png)
+:::
+:::
+
+## Instancias 🧑‍🔬 {auto-animate="true"}
+
+::: columns
+::: {.column width="50%"}
+Análisis exploratorio
+
+![](https://www.meme-arsenal.com/memes/526cd41c1a1996d566d4b18879a38479.jpg)
+
+![](https://www.w3schools.com/datascience/img_lr_table.png)
+:::
+
+::: {.column width="50%"}
+![](https://www.rstudio.com/blog/winners-of-the-2021-table-contest/images/10-imperial-march-redux.png)
+:::
+:::
+
+## Instancias 🧑‍🔬 {auto-animate="true"}
+
+::: columns
+::: {.column width="50%"}
+Análisis exploratorio
+
+![](https://www.meme-arsenal.com/memes/526cd41c1a1996d566d4b18879a38479.jpg)
+
+Modelado:
+
+![](https://www.w3schools.com/datascience/img_lr_table.png)
+:::
+
+::: {.column width="50%"}
+![](https://www.rstudio.com/blog/winners-of-the-2021-table-contest/images/10-imperial-march-redux.png)
+:::
+:::
+
+## Instancias 🧑‍🔬 {auto-animate="true"}
+
+::: columns
+::: {.column width="50%"}
+Análisis exploratorio
+
+![](https://www.meme-arsenal.com/memes/526cd41c1a1996d566d4b18879a38479.jpg)
+
+Modelado:
+
+![](https://www.w3schools.com/datascience/img_lr_table.png)
+:::
+
+::: {.column width="50%"}
+Comunicación
+
+![](https://www.rstudio.com/blog/winners-of-the-2021-table-contest/images/10-imperial-march-redux.png)
+:::
+:::
+
+## Las 6 etapas del análisis de datos 🏗️
+
+**Esto no es una receta, ni está escrito en piedra**
+
+::: incremental
+-   Partimos de una **pregunta** cuya solución se encuentre en los datos (🤞). 
+
+-   Luego, **recolectamos y preparamos** nuestros datos.
+
+-   A continuación **procesamos** los datos, y los estructuramos para el análisis. 
+
+-   En el **análisis** buscamos patrones y evidencia 🔍.
+
+-   No hay análisis sin comunicación por eso necesitamos **compartir** nuestros hallazgos.
+
+-   Seguros de la evidencia **actuamos** en función de la información. 🎉
+:::
+
+## El flujo de trabajo {tidyverse}
+
+![](https://oliviergimenez.github.io/intro_tidyverse/assets/img/01_tidyverse_data_science.png)
+
+## El flujo de trabajo {gt}
+
+![](https://miro.medium.com/max/1400/1*DbXBt48YhbYWIeKZ3We_ZA.png)
+
+-   Los datos, incluso resumidos pueden ser muy densos de digerir
+
+-   Después del trabajo duro, es necesario **comunicar**
+
+## Siendo sinceros, la mayoria del tiempo estamos así
+
+![](http://edutechniques.com/wp-content/uploads/2019/09/e8df23cc-9bfe-4776-ae54-22d67d47f15a-6442-000008859e923c5f.png)
+
+## Pregunta de análisis 📓
+
+> ¿En que medida la inversión en tecnologías de la información (TIC) promueven un cambio en la capacidad de una empresa para generar ganancias?
+
+Dos mecanismos principales:
+
+1.  Incremento de los agregados (ventas, ganancias) a traves del acceso de oportunidades de crecimiento debido al uso TIC's 📈
+
+2.  Creación de ventajas competitivas por la reducción de costos relacionada al uso de TIC's 📉
+
+## Tenemos tecnología
+
+![](https://i.ytimg.com/vi/HBassqJ46N8/hqdefault.jpg)
+
+## La ENESEM 🏢
+
+La Encuesta Estructural Empresarial (ENESEM) tiene 2 objetivos:
+
+::: columns
+::: {.column width="50%"}
+Calcular agregados económicos 💸
+
+-   Producción
+
+-   Consumo intermedio
+
+-   Valor agregado
+
+-   Entre otros.
+:::
+
+::: {.column width="50%"}
+Presentar información sobre: 🧑‍🏭
+
+-   Materias primas y productos elaborados
+
+-   Mercaderías y servicios vendidos
+
+-   Uso de tecnologías y comunicación (TIC)
+:::
+:::
+
+## Limites: 🚨
+
+-   La encuesta está dirigida a empresas.
+
+-   Se incluyen todas las actividades económicas clasificadas con CIIU salvo por:
+
+    -   ***A.*** Agricultura, ganadería, silvicultura y pesca.
+
+    -   ***O.*** Administración pública y defensa; planes de seguridad social de afiliación obligatoria.
+
+    -   ***T.*** Actividades de los hogares como empleadores; actividades no diferenciadas de los hogares como productores de bienes y servicios para uso propio.
+
+    -   ***U.*** Actividades de organizaciones y órganos extraterritoriales
+
+## Últimos detalles:
+
+::: incremental
+-   **Universo de analisis**
+
+    -   Las empresas de tamaño grande, mediana A y mediana B que cumplen con los criterios de clasificación de cobertura temática para el año 2019.
+
+-   **Unidades de analisis**
+
+    -   Empresas
+
+-   **Tipo de muestreo**
+
+    -   Muestreo probabilístico de elementos con selección aleatoria.
+:::
+
+## Procesamiento
+
+Para este análisis se unieron dos fuentes de información:
+
+-   El Tomo I de la ENESEM para empresas
+
+-   El módulo de TIC de la ENESEM
+
+Explora el archivo de procesamiento de datos en el archivo que llamaremos con la función `source()`
+
+```{r eval=FALSE, echo=TRUE}
+
+source("scripts/01_procesamiento_enesem.R")
+
+```
+
+## Como funciona {gt}
+
+![](images/paste-68447223.png)
+
+## Más sobre {gt}
+
+![](images/paste-87031819.png)
+
+## ¿Quieres aprender más?
+
+Enlaces:
+
+<https://es.r4ds.hadley.nz/>
+
+<https://www.danieldsjoberg.com/gtsummary/>
+
+<https://gt.rstudio.com/>
+
+<https://themockup.blog/>
+
+-   Siguenos en Facebook, Twitter, Youtube y TikTok como:
+
+    ::: {style="color: gray;"}
+    @ergostats
+    :::

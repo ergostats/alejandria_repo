@@ -1,0 +1,238 @@
+---
+title: "Reporte estadística ERGOSTATS"
+subtitle: "Número 1: Muestras complejas y la Encuesta Multiproposito"
+author: 
+    - "Alex Bajaña"
+    - "Andrea Díaz"
+date: "2022-08-18"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    includes:
+       in_header: headr.html
+---
+
+<style>
+body {
+text-align: justify}
+</style>
+
+
+## ¿Que rayos es la UPM?
+
+<!-- :::: {style="display: flex;"} -->
+
+<!-- ::: {} -->
+
+
+El muestreo de la ENEMDU es probabilístico y bi-etápico , donde la Unidad Primaria de Muestreo (UPM) es el conglomerado y la Unidad Secundaria de Muestreo (USM) son las viviendas ocupadas. Se considera a la UPM, la agrupación de viviendas ocupadas que tienen actualmente los conglomerados y van de 30 a 60 viviendas ocupadas, tanto para el área amanzanada como para el área dispersa, próximas entre sí y con límites definidos.
+
+### Estructura del código de identificación del UPM 
+
+El número de identificación de la UPM (conglomerado) se define con cuatro variables y está formado por 12 dígitos de la siguiente manera:
+
+<center>
+
+![](codigo_UPM.png)
+
+</center>
+
+**Fuente:** INEC
+
+<!-- ::: -->
+
+<!-- ::: {} -->
+
+
+El diseño vigente, desde 2017, contempla una actualización dentro de la construcción de la Unidad Primaria de Muestreo (UPM). Para años anteriores, se realizaba la selección de sectores censales bajo un criterio operativo para la ejecución y levantamiento de información del Censo de Población y Vivienda. Sin embargo, en función al crecimiento y disminución de la población en ciertas áreas geográficas a través del tiempo, estas UPM’s pasaron a ser heterogéneas en cuanto al número de viviendas ocupadas que tienen dentro de sus límites, generando así, probabilidades de selección inadecuadas en la segunda etapa. Esta heterogeneidad se solventa al reconstruir y equilibrar el tamaño de las UPM con respecto al número de viviendas ocupadas con el objetivo de obtener conglomerados que cumplan con las necesidades del diseño muestral. Este procedimiento contó con el acompañamiento técnico de KOSTAT y CEPAL
+
+### Referencia:
+
+<https://www.ecuadorencifras.gob.ec/diseno-muestral-2/#:~:text=El%20muestreo%20de%20la%20ENEMDU,Primaria%20de%20Muestreo%20(UPM)>
+
+
+<https://www.ecuadorencifras.gob.ec/documentos/web-inec/EMPLEO/2018/Disenio_Muestral_2018/SIEH%20-MMM.pdf>
+
+<https://www.ecuadorencifras.gob.ec/documentos/web-inec/Multiproposito/201812_Calculo_de_errores_estandar_y_declaracion_de_muestras_complejas_Multi.pdf>
+
+
+
+
+## Estimación de ratios en muestras complejas
+
+<!-- :::: {style="display: flex;"} -->
+
+<!-- ::: {} -->
+
+En los estudios epidemiológicos a menudo se utilizan encuestas domiciliarias para estimar la frecuencia de determinadas características de salud o de factores de riesgo en la población. Debido a restricciones prácticas y económicas es frecuente que el muestreo simple aleatorio (MSA) no resulte suficientemente eficiente o factible.
+
+Los diseños muestrales que incorporan combinaciones de estrategias alternativas de muestreo, como la estratificación, la selección en etapas, la formación de conglomerados o el empleo de probabilidades de selección desiguales se denominan complejos. El análisis de los datos obtenidos mediante diseños muestrales complejos puede resultar más complicado por la posible existencia de una correlación entre las observaciones de un mismo conglomerado.
+
+En resumen, el diseño de una encuesta es complejo si tiene: varias etapas de selección, probabilidad de selección desigual y estratificación
+
+
+### Más información
+
+<https://scielosp.org/pdf/rpsp/2004.v15n3/176-184/es>
+<https://rpubs.com/jaortega/EncuestaR2>
+
+
+
+
+
+## Estimación de ratios en muestras complejas en R
+
+<!-- :::: {style="display: flex;"} -->
+
+<!-- ::: {} -->
+
+Una de las posibilidades que presenta R en el análisis de muestras de diseño complejo es el paquete Survey.  Básicamente, en vez de tener que especificar en cada estimación las variables de peso o, en su caso, las correspondientes a cada uno de los conglomerados  o UPM´s, la librería survey, ligado a un objeto de datos, declara inicialmente las características técnicas de la encuesta. 
+Entonces, se debe especificar las variables de estratos, conglomerados y pesos, para que, una vez el paquete reconoce a la encuesta, se pueden utilizar cualquiera de las técnicas de análisis y modelización que nos proporciona el paquete sin necesidad de reespecificar la parte técnica.
+
+Esta herramienta posibilita la inclusión del tipo de ponderación adecuado (sampling weights, precision weights or frequency weights), unidades primarias de muestreo, estratos, efectos de diseño y demás características intrínsecas a varios tipos de muestreo. 
+
+
+### Material de consulta
+
+<https://rpubs.com/jcms2665/CS>
+
+
+
+## Estimación de ratios en muestras complejas en Encuesta Multipropósito
+
+<!-- :::: {style="display: flex;"} -->
+
+<!-- ::: {} -->
+
+
+En el segundo capítulo sobre la Metodología de la Encuesta Multipropósito se presenta el diseño y construcción de los productos estadísticos, variables e indicadores, tabulados; además, se muestra todo lo referente al proceso del diseño muestral de la encuesta. A partir de las bases de datos de la Encuesta Multipropósito 2019 se derivan 2 variables: la identificación única de las personas (corresponde a cada registro de la base de datos) y el identificador de hogar, los dos permiten unir las bases de datos en cualesquiera de los dos niveles.
+
+
+<center>
+
+![](var_principales.png)
+
+</center>
+
+**Fuente:** INEC
+
+<!-- ::: -->
+
+<!-- ::: {} -->
+
+
+De igual forma, la tabla 8 del documento sobre la Metodología de la Encuesta Multipropósito, menciona los principales indicadores que serán reportados desde la Encuesta Multipropósito 2020, como son, de manera general, el porcentaje de personas que realizaron deporte, la percepción de los servicios que brindan las instituciones públicas, acceso a la tecnología. 
+
+El instrumento utilizado para recabar la información de la Encuesta Multipropósito 2020 se compone de dos formularios físicos, los mismos que constan de una serie de preguntas, distribuidas en diferentes secciones. Las instrucciones para el diligenciamiento y conceptos básicos constan en el manual del encuestador.
+
+Además, el documento consultado establece que el tamaño de muestra de la Encuesta Multipropósito 2020 fue calculado considerando los siguientes parámetros: margen de error relativo del 12%, nivel de confianza del 95%, tasa de no respuesta del 20%; y menciona los algoritmos que se utilizaron para el cálculo de los tamaños de muestra tanto de personas, como de viviendas y UPM
+
+
+### Documento de consulta
+
+<https://www.ecuadorencifras.gob.ec/documentos/web-inec/Multiproposito/2020/202012_Metodologia%20Multiproposito.pdf>
+
+
+
+## Explicación del ratio con la base 2020 de la Encuesta Multipropósito
+<!-- :::: {style="display: flex;"} -->
+
+<!-- ::: {} -->
+
+<center>
+
+![](atencion_salud.jpg)
+</center>
+
+<!-- ::: -->
+
+<!-- ::: {} -->
+
+
+### Código utilizado
+
+```{r}
+
+install.packages("tidyverse")
+
+# Librerías ---------------------------------------------------------------
+
+library(haven)
+library(magrittr)
+library(tidyverse)
+library(srvyr)
+
+
+# Lectura de la base de datos ---------------------------------------------
+
+multibdd_salud <- read_sav("201912_multibdd_salud.sav")
+
+
+# Diseño muestral ---------------------------------------------------------
+
+svy <-  multibdd_salud %>%  
+  as_survey_design(ids = upm, 
+                   strata = estrato5,
+                   weights = fexp5)
+
+
+# Descripción de las nuevas variables a crear--------------------------------------
+
+#caso 1 –> Hogares donde alguno de sus miembros tuvo alguna enfermedad o necesidad de atención de su salud y recibió atención.
+#caso 2 -> Hogares donde alguno de sus miembros recibió tuvo una consulta de control
+#proc_instal -> Trato en el establecimiento de salud (1: si, 2: no)
+#servicio -> Calificación del servicio de salud
+#espera -> tiempo de espera en horas y minutos
+#x2 -> numerador del ratio
+#y2 -> denominador del ratio
+
+
+
+
+# Creación de nuevas variables --------------------------------------------
+
+base1 <- svy %>% 
+  mutate(caso1 = if_else(s102p1 == 1 & s102p2 <= 2, true = 1, false = 0 ),
+         caso2 = if_else((s102p1 == 1 & s102p2 >= 3 & s102p4 == 1) | (s102p1 == 2 & s102p4 == 1), true = 1, false = 0),
+         proc_instal = if_else((s102p91 == 1 & s102p92 == 1 & s102p93 == 1 & s102p94 == 1 & s102p95 == 1), true = 1, false = 0),
+         servicio = if_else(s102p10 <= 2, true = 1, false = 0),
+         espera = if_else(s102p6a == 0 & s102p6b <= 30, true = 1, false = 0),
+         x2 = if_else((caso1 == 1 | caso2 == 1) & s102p5 <= 5 & proc_instal == 1  & servicio == 1 & espera == 1, true = 1, false = 0),
+         y2 = if_else((caso1 == 1 | caso2 == 1) & s102p5 <= 5, true = 1, false = 0),
+         ratio = x2/y2
+  )
+
+
+# Construcción del indicador atención en el centro de salud---------------------
+
+base1 %>% 
+  group_by(area) %>% 
+  summarise(ratio = survey_mean(ratio))
+
+survey::svyratio(~x2, ~y2, base1)                                          
+
+```
+
+<!-- ::: -->
+
+<!-- ::: {} -->
+
+
+El ratio calculado comprende: 
+
+X2:ser atendido por enfermedad, accidente, dolor, etc.  y de ser curado en un centro de salud público o con medicina ancestral, además de recibir una atención respetuosa, a tiempo, con una explicación clara del diagnostico con buenas instalaciones, que brinde consejos para el cuidado de la salud y un tiempo de espera menor a 30 minutos lo que implicaría un buen servicio de salud; 
+
+Y2:ser atendido en un centro de salud publico por accidente, dolor, etc.
+
+Entonces, la probabilidad de que suceda el X2 frente a Y2 es de 38. 83%
+
+Lo que implicaría una deficiencia en la atención en un centro de salud pública.
+
+
+
+#### Referencia:
+https://rstudio.cloud/spaces/266867/content/4321782
+
+
+
