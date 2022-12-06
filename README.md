@@ -30,7 +30,7 @@ git clone https://github.com/ergostats/alejandria_repo
 
 Intrucciones para acceso:
 
-1. Envianos un correo a: ![CDI ERGOSTATS](cdiergostats@gmail.com) contandonos:
+1. Envianos un correo a: [CDI ERGOSTATS](cdiergostats@gmail.com) contandonos:
  * Nombre y ciudad en la que resides
  * Insititución a la que pertences, si eres independiente puedes poner *Investigador independiente*
  * Objetivo de la investigación
@@ -49,7 +49,7 @@ Intrucciones para acceso:
 | Agosto 2, 2022 | Empleo | * Encuesta ENEMDU | El empleo pleno en Ecuador por sexo | Script ETL (Extract, transform, load) en formato .R |[Carpeta del post](post/02082022_pleno_empleo_por_sexo/) |
 | Noviembre 14, 2022 | Percepción | * Encuesta multiproposito | Proporción de hogares con percepción positiva respecto a los servicios de salud pública | Script ETL (Extract, transform, load) en formato .R | [Carpeta del post](post/14112022_servicios_salud_publica/)  |
 | Noviembre 24, 2022 | Empleo | * Ministerio del Trabajo  | Evolución del salario básico en Ecuador | Documento ETL (Extract, transform, load) en formato .Rmd | [Carpeta del post](post/24112022_salario_basico/)  |
-| Noviembre 30, 2022 | Empleo | * Ministerio del Trabajo  | Empleo adecuado | Documento ETL (Extract, transform, load) en formato .Rmd | [Carpeta del post](post/24112022_empleo_adecuado/)  |
+| Noviembre 30, 2022 | Empleo | * Ministerio del Trabajo  | Empleo adecuado | Documento ETL (Extract, transform, load) en formato .Rmd | [Carpeta del post](post/30112022_empleo_adecuado/)  |
 
 # Catálogo de materiales de talleres
 
