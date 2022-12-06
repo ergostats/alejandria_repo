@@ -1,0 +1,105 @@
+---
+title: "Salario Básico Unificado"
+author: "Alex Bajaña"
+date: "16/11/2022"
+output: html_document
+---
+  
+  
+# Cargamos librerias:
+  
+```{r, message=FALSE,warning=FALSE}
+library(tidyverse)
+library(scales)
+```
+
+# Con que versión de R trabajamos
+
+```{r}
+R.version 
+```
+
+
+# Directorio (bases crudas)
+
+
+# Elaboración de las bases de datos:
+
+```{r}
+
+
+
+salary <- tibble(anios = c(2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022),
+                 salario_basico_unificado = c(264, 292, 318, 340, 354, 366, 375, 386, 394, 400, 400, 425),
+                 tasa_variacion = c(0.1000, 0.1060, 0.0890, 0.0692, 0.0412, 0.0339, 0.0244, 0.0293, 0.0207, 0.0152, 0, 0.0625))
+
+salarys <- salary %>% 
+  mutate(tasa_variacion = percent(tasa_variacion),
+         tasa_variacion = str_c("(",tasa_variacion,")"),
+         sbu = dollar(salario_basico_unificado),
+         label = str_c(sbu,tasa_variacion,sep = "\n")) %>% 
+  filter(anios >= 2019)
+
+```
+
+# Grafico
+
+
+### El gráfico del tema:
+
+```{r}
+plot_resultado <-
+  salarys%>% 
+  ggplot(aes(x = anios,
+             y = salario_basico_unificado)) +
+  geom_line(size = 1, color = "#071441") +
+  geom_point(size = 1, color = "#071441") +
+  geom_text(aes(label = label), 
+            color = "#475483",
+            vjust = 1.7,
+            size = 6) +
+  scale_y_continuous(limits = c(380,430),labels = dollar) +
+  xlim(c(2018.5,2022.5))
+```
+
+### Añadimos el tema para que cuadre con la publicación 
+
+```{r}
+plot_resultado <- plot_resultado +
+  theme_minimal(
+    base_size = 16
+    ) +
+  # Terminando el art attack:
+  theme(
+    legend.position = "none",
+    panel.border = element_blank(),
+    panel.grid.major.y = element_blank(),
+    # strip.text.x = element_text(hjust = 0,size = 12),
+    axis.title = element_blank(),
+    plot.margin = margin(t = 0.25,r = 7.25,b = 0.25,l = 7.25, "cm"),
+    plot.caption = element_text(hjust = 0)
+    )
+```
+
+### Añadimos los titulos
+
+```{r}
+plot_resultado <- plot_resultado +
+  labs(title = "Evolución del salario básico unificado en Ecuador 2019-2022",
+       subtitle = "Se presentan el valor en USD y las tasas de variación",
+       caption = "En parentesis se presenta la tasa de variación respecto al periodo anterior.\nFuente: Consejo Nacional de Trabajo y Salario | Elaboración: Alex B., Estefania T., Andrea D."
+  )
+```
+
+### Guardando la imagen:
+
+```{r}
+ggsave(plot = plot_resultado,filename = "post_sbu_17112022.png",
+       width = 	8*4496/2400,height = 4*4496/2400) # Dimensiones fijas
+```
+
+
+
+# Citas
+
+https://www.trabajo.gob.ec/el-consejo-nacional-del-trabajo-y-salarios-sesionara-por-primera-vez/

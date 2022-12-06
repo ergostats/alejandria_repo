@@ -1,0 +1,335 @@
+---
+title: "Reporte sectores económicos"
+author: "Asistentes al taller CODAM"
+format: revealjs
+editor: visual
+execute: 
+  echo: true
+  warning: false
+---
+
+## Instalación
+
+```{r, eval = FALSE}
+libraries <- c(
+  
+  # La estrella de la tarde
+  "pins",
+  
+  # El aliado versatil
+  "tidyverse",
+  
+  # El pana cuadrado
+  "gt"
+  
+  
+)
+```
+
+## Instalación
+
+```{r, eval = FALSE}
+condicion <- libraries %in% installed.packages()[,1]
+
+if(any(!condicion)){
+  
+  install.packages(libraries[!condicion])
+  
+}
+
+
+```
+
+## Cargamos en el ambiente
+
+```{r}
+
+library(pins)
+library(tidyverse)
+library(gt)
+
+carpeta <- board_folder("C:/Users/Alex/OneDrive/taller_tr_colab")
+
+pin_list(carpeta)
+
+```
+
+---
+
+```{r, echo = FALSE}
+
+pin_list(carpeta)
+```
+
+
+## Un breve web scrapping:
+    
+```{r}
+
+pin_read(carpeta,"insumos_banderas")
+
+
+pin_versions(board = carpeta,name = "insumos_banderas") 
+
+
+```
+
+## Mas detalles con pin_meta:
+
+```{r, eval=FALSE}
+
+# Pimera versión:
+
+pin_meta(board = carpeta,
+         name = "insumos_banderas",
+         version = "20221027T133015Z-d7eb2")
+
+# Segunda versión:
+pin_meta(board = carpeta,
+         name = "insumos_banderas",
+         version = "20221027T203310Z-f4277")
+
+
+```
+
+---
+
+
+```{r, eval=FALSE}
+
+# Pimera versión:
+
+pin_meta(board = carpeta,
+         name = "insumos_banderas",
+         version = "20221027T133015Z-d7eb2")
+
+# Segunda versión:
+pin_meta(board = carpeta,
+         name = "insumos_banderas",
+         version = "20221027T203310Z-f4277")
+
+
+```
+
+## Para limpiar mi pins:
+
+```{r, eval=FALSE}
+
+# Todo el pin:
+
+pin_delete(board = carpeta, name = "ventas")
+
+# Una versión del pin:
+
+pin_version_delete(board = carpeta,
+                   name = "insumos_banderas",
+                   version = "20221027T133015Z-d7eb2")
+
+# Chequeemos:
+
+pin_versions(carpeta,"insumos_banderas")
+
+```
+
+## Insumos para una tabla increible:
+
+```{r}
+
+# Con pin podemos compartir muchas cosas:
+
+pin_list(board = carpeta)
+
+generar_mapa <- pin_read(carpeta,"function_generar_mapa" )
+
+class(generar_mapa)
+
+# :O Una función
+
+plazas_trab <- pin_read(carpeta,"die_plazas_trabajo" )
+```
+
+## Tabla 2019
+
+```{r, eval = FALSE}
+
+tabla_2019 <- plazas_trab %>% 
+  ungroup() %>% 
+  filter(anio == 2019)
+
+tabla_2019 %>% 
+  # inner_join(banderas) %>% 
+  ggplot()+
+  geom_tile(mapping = aes(x = provincia,
+                          y=gsectores,
+                          fill = log(plazas_totales))) +
+  geom_text(mapping = aes(x = provincia,
+                          y=gsectores,
+                          label = plazas_totales),
+            color="gray") +
+  coord_flip() +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1),
+        axis.title = element_blank())
+
+```
+
+> Para mejorar la presentación podemos transformar los datos a `log`
+
+---
+
+```{r, echo = FALSE}
+
+tabla_2019 <- plazas_trab %>% 
+  ungroup() %>% 
+  filter(anio == 2019)
+
+tabla_2019 %>% 
+  # inner_join(banderas) %>% 
+  ggplot()+
+  geom_tile(mapping = aes(x = provincia,
+                          y=gsectores,
+                          fill = log(plazas_totales))) +
+  geom_text(mapping = aes(x = provincia,
+                          y=gsectores,
+                          label = plazas_totales),
+            color="gray") +
+  coord_flip() +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1),
+        axis.title = element_blank())
+
+```
+
+## Caso aplicado para un sector económico
+
+¿Y como sería para comparar? Usamos `facet_wrap`
+
+```{r}
+tabla_1920 <- plazas_trab %>% 
+  ungroup() %>% 
+  filter(anio >= 2019)
+
+plot <- tabla_1920 %>% 
+  # inner_join(banderas) %>% 
+  ggplot()+
+  geom_tile(mapping = aes(x = provincia,
+                          y=gsectores,
+                          fill = log(plazas_totales))) +
+  geom_text(mapping = aes(x = provincia,
+                          y=gsectores,
+                          label = plazas_totales),
+            color="gray")
+```
+
+---
+
+
+```{r}
+plot +
+  coord_flip() +
+  theme(axis.text.x = element_text(angle = 45,
+                                   hjust = 1),
+        axis.title = element_blank()) +
+  facet_wrap(.~anio)
+```
+
+## Usamos el resultado del web scrapping
+
+
+```{r}
+banderas <- pin_read(carpeta,name = "insumos_banderas")
+
+tabla_gt <- tabla_2019 %>% 
+  filter(str_detect(gsectores,"Servicios")) %>% 
+  inner_join(banderas)
+
+funcion_banderas <- pin_read(carpeta,"function_add_flag")
+```
+
+## Hagamos una tabla bonita:
+
+```{r}
+tabla_gt %>% 
+  select(url,provincia,capital,gsectores,plazas_totales) %>% 
+  group_by(gsectores) %>% 
+  gt() %>% 
+  cols_label(url = "",
+                 provincia = md("**Provincia**"),
+                 capital = md("**Capital**"),
+                 plazas_totales = md("**Plazas de trabajo**")) %>% 
+  funcion_banderas()
+  
+
+```
+
+## Ejercicio para ti: ¿Como se añadiría la comparación del 2020?
+
+1.  Un tab spaner para ventas:
+    1.  2019
+    2.  2020
+    3.  Variación
+2.  Lo mismo para empleo y exportaciones
+
+> **Hint:** Mira con la función `pin_list()` que pines tienes disponibles. 
+
+## Un mapita
+
+
+```{r, eval = FALSE}
+
+# Leemos el pin que preparamos:
+
+mapa_coordenadas <- pin_read(carpeta,"shape_provincia")
+
+# Ahora unimos nuestros datos de los distintos pins:
+
+tabla_2019_mapa <- tabla_2019 %>% 
+  filter(str_detect(gsectores,"Minas")) %>% 
+  inner_join(mapa_coordenadas,
+             by = c("codigo_provincia" = "DPA_PROVIN"))
+
+tabla_2019_mapa %>% 
+  ggplot()+
+  geom_polygon(mapping = aes(x = long,
+                             y = lat,
+                             fill = log(plazas_totales),
+                             group = group)) +
+  theme_minimal()+
+  theme(axis.title = element_blank(),
+        axis.text  = element_blank())
+```
+
+---
+
+
+```{r, echo = FALSE}
+
+# Leemos el pin que preparamos:
+
+mapa_coordenadas <- pin_read(carpeta,"shape_provincia")
+
+# Ahora unimos nuestros datos de los distintos pins:
+
+tabla_2019_mapa <- tabla_2019 %>% 
+  filter(str_detect(gsectores,"Minas")) %>% 
+  inner_join(mapa_coordenadas,
+             by = c("codigo_provincia" = "DPA_PROVIN"))
+
+
+tabla_2019_mapa %>% 
+  ggplot()+
+  geom_polygon(mapping = aes(x = long,
+                             y = lat,
+                             fill = log(plazas_totales),
+                             group = group)) +
+  theme_minimal()+
+  theme(axis.title = element_blank(),
+        axis.text  = element_blank())
+
+```
+
+
+> No olvidar transformar a logaritmos
+
+
+
