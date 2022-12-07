@@ -81,28 +81,62 @@ tabla_union <- inner_join (tabla_pea,
 
 
 resultado <- tabla_union %>% 
-  mutate(ratio = (pea_adecuado/pea)*100) %>% 
+  mutate(ratio = pea_adecuado/pea) %>% 
   select(p10a, pea, pea_adecuado, ratio) %>% 
   rename(niv_inst = p10a) %>% 
-  filter(niv_inst >= 1) %>% 
-  mutate(niv_inst = as.factor(niv_inst))
+  filter(!is.na(niv_inst)) %>% 
+  mutate(niv_inst = as_factor(niv_inst))
 
 
-tabla_impresion_1 <- resultado %>% 
+tabla_impresion <- resultado %>% 
   gt() %>% 
-  cols_label(niv_inst = "Nivel_instruccion", 
+  cols_label(niv_inst = "Nivel instrucción", 
              pea = "PEA", 
              pea_adecuado = "PEA con empleo adecuado", 
              ratio = "Proporción de empleo adecuado") %>% 
-  fmt_number(columns = vars(pea, pea_adecuado), decimals = 2, use_seps = TRUE) %>% 
-  fmt_percent(columns = ratio, decimals = 2) %>% 
-  tab_footnote(footnote = "La proporcion de empleo adecuado segun su nivel de educación") %>% 
+  fmt_number(columns = c(pea, pea_adecuado), 
+             decimals = 0, 
+             use_seps = TRUE,
+             sep_mark = " ") %>% 
+  
+  # fmt_percent toma los valores y los multiplicaa por 100 y lo pone en formato porcentaje
+  
+  fmt_percent(columns = ratio, 
+              decimals = 2) %>% 
+  
+    tab_footnote(
+      locations = cells_column_labels(
+        columns = ratio 
+      ),
+      footnote = "La proporcion de empleo adecuado segun su nivel de educación") 
+
+
+# Pendientes: -------------------------------------------------------------
+
+# Comentar el codigo
+# Generar las tres alternaativas con los themes de gtExtras
+# La cifra total
+
+impresion_1 <- tabla_impresion %>% 
   gt_theme_dark()
 
 
-gtsave(data = tabla_impresion_1, filename = “post/30112022_empleo_adecuado/tabla_impresion_1.png”)
+gtsave(data = tabla_impresion_1,
+       filename = "post/30112022_empleo_adecuado/tabla_impresion_1.png")
 
 
+# Cifra total pero con IRIS (adapatar el ejemplo) -------------------------
+
+res <- iris %>% 
+  group_by(Species) %>% 
+  summarise(Petal.Length = sum(Petal.Length,na.rm = T),
+            Sepal.Length  = sum(Sepal.Length,na.rm = T))
+
+res %>% 
+  ungroup() %>% 
+  summarise(Petal.Length = sum(Petal.Length,na.rm = T),
+            Sepal.Length  = sum(Sepal.Length,na.rm = T)) %>% 
+  mutate(ratio_total = Petal.Length/Sepal.Length)
 
 
 resultado2 <- tabla_resultante %>% 
