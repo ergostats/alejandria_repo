@@ -5,6 +5,9 @@
 library(haven)
 library(tidyverse)
 library(srvyr)
+library(scales)
+library(gt)
+library(gtExtras)
 
 
 # Lectura de la base de datos ---------------------------------------------
@@ -76,5 +79,35 @@ tabla_union <- inner_join (tabla_pea,
 # `pea` y `pea_adecuado` ya están expandidos por ende solo
 # nos resta hacer la división entre ambos valores:
 
+
 resultado <- tabla_union %>% 
-  mutate(ratio = (pea_adecuado/pea)*100)
+  mutate(ratio = (pea_adecuado/pea)*100) %>% 
+  select(p10a, pea, pea_adecuado, ratio) %>% 
+  rename(niv_inst = p10a) %>% 
+  filter(niv_inst >= 1) %>% 
+  mutate(niv_inst = as.factor(niv_inst))
+
+
+tabla_impresion_1 <- resultado %>% 
+  gt() %>% 
+  cols_label(niv_inst = "Nivel_instruccion", 
+             pea = "PEA", 
+             pea_adecuado = "PEA con empleo adecuado", 
+             ratio = "Proporción de empleo adecuado") %>% 
+  fmt_number(columns = vars(pea, pea_adecuado), decimals = 2, use_seps = TRUE) %>% 
+  fmt_percent(columns = ratio, decimals = 2) %>% 
+  tab_footnote(footnote = "La proporcion de empleo adecuado segun su nivel de educación") %>% 
+  gt_theme_dark()
+
+
+gtsave(data = tabla_impresion_1, filename = “post/30112022_empleo_adecuado/tabla_impresion_1.png”)
+
+
+
+
+resultado2 <- tabla_resultante %>% 
+  ungroup() %>% 
+  summarise(Total_pea = survey_total(pea+pea_adecuado)) %>% 
+  mutate(indicador = (pea_adecuado/Total_pea)*100)
+
+
