@@ -1,0 +1,10 @@
+---
+title: "Pornóstico de ventas para el sector comercial"
+author: "Alex Bajaña"
+format: revealjs
+editor: visual
+---
+
+## Datos utilizados
+
+Ventas mensuales de las empresas privadas en Ecuador.
