@@ -1,0 +1,88 @@
+---
+title: "Guia de subida de datos al repositorio"
+author: "Alex Bajaña"
+format: html
+editor: visual
+---
+
+## Importancia de los proyectos
+
+Hay dos escenarios en los que vamos a trabajar:
+
+1.  Tenemos un repositorio en GitHub y lo clonamos en nuestro computador.
+    1.  El clon siempre lo hacemos en la carpeta Documentos/ de windows no en OneDrive
+
+    2.  Creamos el proyecto de R (Si es que en el repositorio no hay el archivo .Rproj) en ese directorio
+2.  Empezamos un proyecto en local:
+    1.  Creamos un proyecto nuevo con una carpeta desde Rstudio
+
+    2.  Iniciamos el control de versiones en ese repositorio
+
+    3.  Creamos el repositorio de GitHub para compartir con el resto del equipo
+
+Proyectos en nuestras manos:
+
+1.  Repositorio Alejandria para la producción estadística
+2.  Periodico ERGOSTATS para la publicación de blogs
+3.  Creación y seguimiento de indicadores fiscales
+
+Cada uno tiene su versión en GitHub y en local.
+
+## Comandos de Git asociados al \`add\`
+
+Siempre empezamos con la sincronización entre la carpeta local y el repositorio en GitHub:
+
+```{cmd, eval = FALSe}
+
+git pull 
+
+# Si es que es necesario
+
+git fetch
+
+```
+
+Cuando hayas modificado un archivo que ya este en el control de versiones: (en el git status sale como \`modified\`)
+
+```{cmd, eval = FALSE}
+
+git add -u
+
+```
+
+Ahora otra alternativa cuando tienes muchos archivos que cambiaste vamos a usar la extensión de los archivos:
+
+**Escenario 1:**
+
+Tengo un nuevo archivo `qmd` y no está en el control de versiones:
+
+```{cmd}
+
+# Para archivos .qmd
+
+git add *.qmd
+
+# Para scripts de R
+
+git add *.R
+
+# Para scripts de python
+
+git add *.py
+
+
+```
+
+**Escenario 2:**
+
+Si los archivos ya existian en el control de versiones:
+
+```{cmd, eval = FALSE}
+
+git add -u
+
+```
+
+## Importante:
+
+Siempre verificar el `git status` para evitar subir tablas de datos, recordemos que solo manejamos control de versiones de documentos y scripts.

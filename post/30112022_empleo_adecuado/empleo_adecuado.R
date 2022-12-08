@@ -93,6 +93,7 @@ tabla_union <- inner_join (tabla_pea,
 
 resultado <- tabla_union %>% 
   mutate(ratio = pea_adecuado/pea) %>% 
+<<<<<<< HEAD
 
   
   
@@ -105,12 +106,15 @@ resultado <- tabla_union %>%
 #Se eliminan los valores vacios de la variable niv_inst
 #Se trata como factor a la variable niv_inst
 
+=======
+>>>>>>> d5d7182e7481394efc11690d3429c308decd8cbc
   select(p10a, pea, pea_adecuado, ratio) %>% 
   rename(niv_inst = p10a) %>% 
   filter(!is.na(niv_inst)) %>% 
   mutate(niv_inst = as_factor(niv_inst))
 
 
+<<<<<<< HEAD
 
 
 # Edición de la tabla resultante ------------------------------------------
@@ -122,14 +126,21 @@ tabla_impresion <- resultado %>%
   
   #renombrar a las columnas de la tabla
   
+=======
+tabla_impresion <- resultado %>% 
+  gt() %>% 
+>>>>>>> d5d7182e7481394efc11690d3429c308decd8cbc
   cols_label(niv_inst = "Nivel instrucción", 
              pea = "PEA", 
              pea_adecuado = "PEA con empleo adecuado", 
              ratio = "Proporción de empleo adecuado") %>% 
+<<<<<<< HEAD
   
   #fmt_number permite mejorar la presentacion de cifras y colocar como separador de miles
   # un espacio vacio
   
+=======
+>>>>>>> d5d7182e7481394efc11690d3429c308decd8cbc
   fmt_number(columns = c(pea, pea_adecuado), 
              decimals = 0, 
              use_seps = TRUE,
@@ -140,6 +151,7 @@ tabla_impresion <- resultado %>%
   fmt_percent(columns = ratio, 
               decimals = 2) %>% 
   
+<<<<<<< HEAD
   # colocación de un titulo y subtitulo a la tabla 
   
   tab_header(
@@ -153,8 +165,41 @@ tabla_impresion <- resultado %>%
       columns = ratio 
     ),
     footnote = "La proporcion dentro de cada nivel de instrucción que tiene un empleo adecuado" )
+=======
+    tab_footnote(
+      locations = cells_column_labels(
+        columns = ratio 
+      ),
+      footnote = "La proporcion de empleo adecuado segun su nivel de educación") 
 
 
+# Pendientes: -------------------------------------------------------------
+
+# Comentar el codigo
+# Generar las tres alternaativas con los themes de gtExtras
+# La cifra total
+
+impresion_1 <- tabla_impresion %>% 
+  gt_theme_dark()
+
+
+gtsave(data = tabla_impresion_1,
+       filename = "post/30112022_empleo_adecuado/tabla_impresion_1.png")
+>>>>>>> d5d7182e7481394efc11690d3429c308decd8cbc
+
+
+# Cifra total pero con IRIS (adapatar el ejemplo) -------------------------
+
+res <- iris %>% 
+  group_by(Species) %>% 
+  summarise(Petal.Length = sum(Petal.Length,na.rm = T),
+            Sepal.Length  = sum(Sepal.Length,na.rm = T))
+
+res %>% 
+  ungroup() %>% 
+  summarise(Petal.Length = sum(Petal.Length,na.rm = T),
+            Sepal.Length  = sum(Sepal.Length,na.rm = T)) %>% 
+  mutate(ratio_total = Petal.Length/Sepal.Length)
 
 # Temas diferentes de presentacion para la Tabla impresión ----------------
 
