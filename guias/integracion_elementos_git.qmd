@@ -83,6 +83,16 @@ git add -u
 
 ```
 
+**Escenario 3:**
+
+Tengo una nueva carpeta donde no hay datos:
+
+```{cmd}
+
+git add nombre_carpeta/
+
+```
+
 ## Importante:
 
 Siempre verificar el `git status` para evitar subir tablas de datos, recordemos que solo manejamos control de versiones de documentos y scripts.
