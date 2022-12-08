@@ -1,6 +1,11 @@
 
+# Instalacion del paquete webshot2  ---------------------------------------
+#toma screenshots de paginas web
 
-# Librerías ---------------------------------------------------------------
+install.packages("webshot2")
+
+
+# Instalación de Librerías ------------------------------------------------
 
 library(haven)
 library(tidyverse)
@@ -80,34 +85,133 @@ tabla_union <- inner_join (tabla_pea,
 # nos resta hacer la división entre ambos valores:
 
 
+
+# Creación del primer indicador de la PEA ---------------------------------
+
+#El ratio muestra la proporción de la población económicamente activa con empleo 
+#adecuado sobre la población económica mente activa segun su nivel de instrucción
+
 resultado <- tabla_union %>% 
-  mutate(ratio = (pea_adecuado/pea)*100) %>% 
+  mutate(ratio = pea_adecuado/pea) %>% 
+
+  
+  
+
+# Editando la tabla resultado ---------------------------------------------
+
+
+#Se excluye las variables que tienen información sobre la desviacion estandar("_se")
+#Renombrar la variable p10a a niv_inst (nivel de instrucción)
+#Se eliminan los valores vacios de la variable niv_inst
+#Se trata como factor a la variable niv_inst
+
   select(p10a, pea, pea_adecuado, ratio) %>% 
   rename(niv_inst = p10a) %>% 
-  filter(niv_inst >= 1) %>% 
-  mutate(niv_inst = as.factor(niv_inst))
+  filter(!is.na(niv_inst)) %>% 
+  mutate(niv_inst = as_factor(niv_inst))
 
 
-tabla_impresion_1 <- resultado %>% 
+
+
+# Edición de la tabla resultante ------------------------------------------
+
+#Utilización de algunas funciones del paquete "gt" para mejorar la visualizacion de la tabla
+
+tabla_impresion <- resultado %>% 
   gt() %>% 
-  cols_label(niv_inst = "Nivel_instruccion", 
+  
+  #renombrar a las columnas de la tabla
+  
+  cols_label(niv_inst = "Nivel instrucción", 
              pea = "PEA", 
              pea_adecuado = "PEA con empleo adecuado", 
              ratio = "Proporción de empleo adecuado") %>% 
-  fmt_number(columns = vars(pea, pea_adecuado), decimals = 2, use_seps = TRUE) %>% 
-  fmt_percent(columns = ratio, decimals = 2) %>% 
-  tab_footnote(footnote = "La proporcion de empleo adecuado segun su nivel de educación") %>% 
-  gt_theme_dark()
+  
+  #fmt_number permite mejorar la presentacion de cifras y colocar como separador de miles
+  # un espacio vacio
+  
+  fmt_number(columns = c(pea, pea_adecuado), 
+             decimals = 0, 
+             use_seps = TRUE,
+             sep_mark = " ") %>% 
+  
+  # fmt_percent toma los valores y los multiplicaa por 100 y lo pone en formato porcentaje
+  
+  fmt_percent(columns = ratio, 
+              decimals = 2) %>% 
+  
+  # colocación de un titulo y subtitulo a la tabla 
+  
+  tab_header(
+    title = md("Empleo Adecuado"),
+    subtitle = md("Considerando el nivel de instrucción de la Población Económicamente Activa ")) %>%
+  
+  #colocación de un pie de página para la columna proporcion de empleo adecuado
+  
+  tab_footnote(
+    locations = cells_column_labels(
+      columns = ratio 
+    ),
+    footnote = "La proporcion dentro de cada nivel de instrucción que tiene un empleo adecuado" )
 
 
-gtsave(data = tabla_impresion_1, filename = “post/30112022_empleo_adecuado/tabla_impresion_1.png”)
+
+# Temas diferentes de presentacion para la Tabla impresión ----------------
+
+tabla_impresion_1 <- tabla_impresion %>% 
+  gt_theme_guardian()
+  
+gtsave(data = tabla_impresion_1,
+       filename = "post/30112022_empleo_adecuado/tabla_impresion_1.png")
+
+
+tabla_impresion_2 <- tabla_impresion %>% 
+  gt_theme_excel()
+
+gtsave(data = tabla_impresion_2,
+       filename = "post/30112022_empleo_adecuado/tabla_impresion_2.png")
+
+
+tabla_impresion_3 <- tabla_impresion %>% 
+  gt_theme_nytimes()
+
+gtsave(data = tabla_impresion_3,
+       filename = "post/30112022_empleo_adecuado/tabla_impresion_3.png")
 
 
 
+################################################################################
+# Tarea específica del post -----------------------------------------------
 
-resultado2 <- tabla_resultante %>% 
+#1.- Cuál es el nivel de instrucción con mayor empleo adecuado?
+#R: Postgrado (86.17%)
+
+#2.- Cuál es el nivel con menor empleo adecuado? 
+#R: Centro de Alfabetización (1.52%)
+################################################################################
+
+
+
+# Indicador 2 -------------------------------------------------------------
+
+# Muestra el porcentaje de la población económicamente activa con empleo adecuado 
+#sobre el total de la población economicamente activa.
+
+
+
+tabla_pea_total <- tabla_svy %>% 
+  group_by(p10a) %>% 
+  summarise(pea = sum(pea, na.rm = T),
+            pea_adecuado = sum(pea_adecuado, na.rm = T))
+
+
+tabla_pea_total %>% 
   ungroup() %>% 
-  summarise(Total_pea = survey_total(pea+pea_adecuado)) %>% 
-  mutate(indicador = (pea_adecuado/Total_pea)*100)
+  summarise(pea = sum(pea, na.rm = T),
+            pea_adecuado = sum(pea_adecuado, na.rm = T),
+            pea_total = sum(pea + pea_adecuado)) %>% 
+  mutate(indicador = pea_adecuado/pea_total)
 
 
+##################################################################################################
+#En sintesis, la proporción total de la PEA con empleo adecuado sobre la PEA total es del 27.8%
