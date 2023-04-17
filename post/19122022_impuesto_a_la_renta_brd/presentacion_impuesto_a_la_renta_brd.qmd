@@ -1,0 +1,74 @@
+---
+title: "Impuesto a la renta para las personas naturales en
+relación de dependencia"
+format: revealjs
+editor: visual
+---
+
+## Dato curioso
+
+En el caso de la relación bajo dependencia el trabajador no paga directamente el impuesto a la renta, sino que el empleador retiene el impuesto a la renta, por ende, las personas deben estar atentas a cuál es el valor de la retención del impuesto a la renta.
+
+### Además...
+
+Se debe considerar que el impuesto a la renta se paga anualmente. La fecha de vencimiento depende del noveno digito de la cedula o RUC y está entre el 10 de marzo y 28 de marzo para personas naturales.
+
+## Conceptos clave para la aplicación en la tabla
+
+### Base imponible
+
+Es la totalidad de los ingresos ordinarios y extraordinarios gravados con el impuesto, menos las devoluciones, descuentos, costos, gastos y deducciones, imputables a tales ingresos
+
+### Franja exenta
+
+Empieza a partir de los USD\$ 11.310 anuales. En términos del valor de la canasta básica, cuyo valor es de 761,14 a noviembre de 2022, este valor representa 15 canastas aproximadamente.
+
+## Tabla de franjas de impuesto a la renta
+
+![](Imagen1.png){fig-align="center" width="390"}
+
+## Gastos deducibles
+
+Se consideran a todos los gastos que se efectúen para obtener, mantener y mejorar los ingresos, como los gastos de salud; vestimenta; educación, arte y cultura; vivienda; alimentación; turismo.
+
+Ejemplos:
+
+-   Alimentación: compra de productos naturales y artificiales; compra de alimentos en centros de expendio de alimentos preparados; y pensiones alimenticias.
+
+-   Educación, Arte y Cultura: matrículas, pensiones en las instituciones y pago por concepto de formación y capacitación.
+
+-   Turismo: pasajes de avión, pago de paquetes turísticos, acceso a parques de atracciones.
+
+-   Salud: Honorarios médicos, medicamentos y primas de seguro médico.
+
+-   Vestimenta: Compra de cualquier tipo de prenda vestir, pañales y por la confección de esas prendas.
+
+-   Vivienda: Arriendos, impuestos prediales y los intereses de préstamos hipotecarios
+
+## Estructura del impuesto a la renta
+
+El ejemplo está desarrollado para una persona que al mes tiene como ingresos 1676 USD (SP7 de acuerdo con la ley de servicio público) más 500 de utilidades, décimos, fondos de reserva.
+
+![](images/image-1045859165.png)
+
+## Declaración de gastos personales
+
+Se considera valores anuales
+
+![](images/image-1216988597.png)
+
+## Los insumos para el cálculo del impuesto a la renta
+
+Resumen de los ingresos y gastos personales, ademas de un resumen impositivo
+
+![](images/image-1609037940.png)
+
+## Impuesto a la renta a pagar
+
+![](images/image-2130549202.png)
+
+**El total de impuesto a la renta** que debes pagar es de 260.84\$ USD
+
+Más información:
+
+<https://github.com/AlexB4891/income_tax_calculator_table>\
