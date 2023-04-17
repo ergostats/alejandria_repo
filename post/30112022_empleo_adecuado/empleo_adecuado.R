@@ -2,7 +2,7 @@
 # Instalacion del paquete webshot2  ---------------------------------------
 #toma screenshots de paginas web
 
-install.packages("webshot2")
+# install.packages("webshot2")
 
 
 # Instalación de Librerías ------------------------------------------------
@@ -105,6 +105,8 @@ resultado <- tabla_union %>%
 #Se eliminan los valores vacios de la variable niv_inst
 #Se trata como factor a la variable niv_inst
 
+resultado <- tabla_union %>% 
+  mutate(ratio = pea_adecuado/pea) %>% 
   select(p10a, pea, pea_adecuado, ratio) %>% 
   rename(niv_inst = p10a) %>% 
   filter(!is.na(niv_inst)) %>% 
@@ -117,11 +119,11 @@ resultado <- tabla_union %>%
 
 #Utilización de algunas funciones del paquete "gt" para mejorar la visualizacion de la tabla
 
-tabla_impresion <- resultado %>% 
-  gt() %>% 
   
   #renombrar a las columnas de la tabla
   
+tabla_impresion <- resultado %>% 
+  gt() %>% 
   cols_label(niv_inst = "Nivel instrucción", 
              pea = "PEA", 
              pea_adecuado = "PEA con empleo adecuado", 
@@ -152,8 +154,20 @@ tabla_impresion <- resultado %>%
     locations = cells_column_labels(
       columns = ratio 
     ),
-    footnote = "La proporcion dentro de cada nivel de instrucción que tiene un empleo adecuado" )
+    footnote = "La proporcion dentro de cada nivel de instrucción que tiene un empleo adecuado" ) %>% 
+  
+  cols_width(
+    everything() ~ px(120)
+  )
+  
 
+# Pendientes: -------------------------------------------------------------
+
+# Comentar el codigo
+# Generar las tres alternaativas con los themes de gtExtras
+# La cifra total
+
+# Cifra total pero con IRIS (adapatar el ejemplo) -------------------------
 
 
 # Temas diferentes de presentacion para la Tabla impresión ----------------
@@ -209,7 +223,9 @@ tabla_pea_total <- resultado %>%
 tabla_pea_total %>% 
   mutate(indicador = pea_adecuado/pea)
 
-
+# La PEA en Ecuador es de 8.6 millones de trabajadores, de los cuales 2.92 millones tienen un empleo adecuado
+# es decir el 33% de la PEA, el resto de compatriotas están desempleados o tienen un empleo
+# donde el contrato laboral no cumple con todas las condiciones del empleo adeacudo.
 
 ##################################################################################################
 #La pea en ecuador, es de 8.6 millones de trabajadores de ,so cuales 2.92 millones tienene un empleo adecuado
