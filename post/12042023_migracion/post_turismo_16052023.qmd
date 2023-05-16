@@ -6,7 +6,7 @@ editor: visual
 
 # Objetivo
 
-Queremos construir un mapa temático o *coroplético* del mundo, que indique **el número salidas de ecuatorianos mayores de 18 años por motivos de estudios**.
+Queremos construir un mapa temático o *coroplético* del mundo, que indique **el número salidas de ecuatorianos mayores de 18 años por motivos de turismo**.
 
 # Cargamos librerias:
 
@@ -115,7 +115,7 @@ Primero filtramos y contamos las salidas de ecuatorianos mayores a 18 años, por
 conteo_pais <- base_datos %>%
   filter(tip_movi == 2,            # Salidas
          tip_naci == 1,            # De ecuatorianos
-         mot_viam == 4,            # Por estudios
+         mot_viam == 1,            # Por turismo
          edad > 18) %>%            # Mayores de 18 años
   count(pais_prod) %>% 
   mutate(iso_n3 = str_pad(pais_prod,3,pad = "0"))
@@ -185,10 +185,10 @@ plot_resultado
 ```{r}
 plot_resultado <- plot_resultado +
   labs(
-    title = "Salidas de ecuatorianos por motivos de estudios y destino",
+    title = "Salidas de ecuatorianos por motivos de turismo y destino",
     fill = "Salidas de ecuatorianos",
        subtitle = "Personas mayores de 18 años en el año 2021",
-       caption = "Fuente: Registro de Entradas y Salidas Internacionales (ESI, INEC)\nElaboración: Alex Bajaña") 
+       caption = "Fuente: Registro de Entradas y Salidas Internacionales (ESI, INEC)\nElaboración: Alex Bajaña, Luis Portilla") 
 
 plot_resultado
 ```
@@ -300,10 +300,10 @@ Las dimensiones son para nuestra publicación, cambiar si es necesario.
 ```{r}
 
 gt::gtsave(data = tabla_gt,
-           filename = "tabla_10.png")
+           filename = "tabla_10_turismo.png")
 
 ggsave(plot = plot_resultado,
-       filename = "mapa_migracion_estudios.png",
+       filename = "mapa_migracion_turismo.png",
        width = 	8*4496/2400,height = 4*4496/2400) # Dimensiones fijas
 ```
 
@@ -312,7 +312,7 @@ ggsave(plot = plot_resultado,
 ```{r}
 plot_final <- ggdraw() +
   draw_plot(plot_resultado ) +
-  draw_image("tabla_10.png",
+  draw_image("tabla_10_turismo.png",
              scale = 0.3,
              x = -0.27,
              y = -0.13) +
@@ -320,7 +320,7 @@ plot_final <- ggdraw() +
 
 plot_final
 
-png( "post_completo.png",res = 250,
+png( "post_completo_turismo.png",res = 250,
      width = 8*4496/2400,
      height = 4*4496/2400,units = "in")
 
@@ -350,9 +350,9 @@ n2 <- conteo_pais %>% pull(n) %>% sum()
 
 ### Conceptos
 
--   **Salidas de ecuatorianos por motivo de estudio:** Consideramos las salidas de ecuatorianos mayores de 18 años. Una misma persona puede salir más de una vez del Ecuador por motivos de estudios en un mismo año, un estudiante puede regresar al país por vacaciones.
+-   **Salidas de ecuatorianos por motivo de turismo:** Consideramos las salidas de ecuatorianos mayores de 18 años. Una misma persona puede salir más de una vez del Ecuador por motivos de estudios en un mismo año, un estudiante puede regresar al país por vacaciones.
 
--   **Estudiantes**: El visado por motivo de estudios depende de cada país. Tres requisitos básicos con: solicitud de visado, pasaporte valido y pruebas sobre la admisión en algún programa de estudios de manera regular, entre otros, visita la página del consulado del país al que desear ir para conocer los requisitos especificos.
+-   **Turismo**: El visado por motivo de estudios depende de cada país. Tres requisitos básicos con: solicitud de visado, pasaporte valido y pruebas sobre la admisión en algún programa de estudios de manera regular, entre otros, visita la página del consulado del país al que desear ir para conocer los requisitos especificos.
 
 ### Estadísticas claves
 
