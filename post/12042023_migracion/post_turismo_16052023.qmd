@@ -350,17 +350,17 @@ n2 <- conteo_pais %>% pull(n) %>% sum()
 
 ### Conceptos
 
--   **Salidas de ecuatorianos por motivo de turismo:** Consideramos las salidas de ecuatorianos mayores de 18 años. Una misma persona puede salir más de una vez del Ecuador por motivos de estudios en un mismo año, un estudiante puede regresar al país por vacaciones.
+-   **Salidas de ecuatorianos por motivo de turismo:** Consideramos las salidas de ecuatorianos mayores de 18 años. La estancia como turista en gran parte del mundo tiene una duracion maxima de 90 dias, y en territorios como el de paises europeos que son parte del convenio Schengen, la estadia de 3 meses se da de manera semestral.
 
--   **Turismo**: El visado por motivo de estudios depende de cada país. Tres requisitos básicos con: solicitud de visado, pasaporte valido y pruebas sobre la admisión en algún programa de estudios de manera regular, entre otros, visita la página del consulado del país al que desear ir para conocer los requisitos especificos.
+-   **Turismo**: El visado por motivo de turismo depende de cada país. Algunos requisitos básicos suelen ser: solicitud de visado, pasaporte valido, prueba de fondos suficientes, itinerario de viaje, seguro medico de viaje, entre otros. Visita la página del consulado del país al que desear ir para conocer los requisitos especificos.
 
 ### Estadísticas claves
 
--   Más del 50% de las salidas por motivos de estudio tienen como destino a Estados Unidos, España y Brasil. No requieres visa para ir a Brasil.
+-   Más del 50% de las salidas por motivos de turismo tienen como destino a Estados Unidos solamente, los destinos que le siguen son Mexico y Colombia. Segun el reglamento de visas colombiano, los ecuatorianos no necesitan tramitar su visa para entrar a su territorio.
 
--   Hacia los países europeos más frecuentes: Alemania, Francia y España) se realizaron el 28.5% de las salidas.
+-   El pais europeo con transito de ecuatorianos más frecuentes es España, al cual se realizaron el 2.66% de las salidas.
 
--   Las salidas por estudios (`r scales::number(n2)`) representan el `r scales::percent(n2/n1)` del total de las salidas de ecuatorianos mayores a 18 años (`r scales::number(n1)`)
+-   Las salidas por turismo (`r scales::number(n2)`) representan el `r scales::percent(n2/n1)` del total de las salidas de ecuatorianos mayores a 18 años (`r scales::number(n1)`)
 
 # Citas
 
