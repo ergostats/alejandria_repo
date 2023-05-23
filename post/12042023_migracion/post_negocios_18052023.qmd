@@ -360,7 +360,7 @@ n2 <- conteo_pais %>% pull(n) %>% sum()
 
 -   Hacia los países europeos más frecuentes: Alemania, Francia y España) se realizaron el 28.5% de las salidas.
 
--   Las salidas por estudios (`r scales::number(n2)`) representan el `r scales::percent(n2/n1)` del total de las salidas de ecuatorianos mayores a 18 años (`r scales::number(n1)`)
+-   Las salidas por negocios (`r scales::number(n2)`) representan el `r scales::percent(n2/n1)` del total de las salidas de ecuatorianos mayores a 18 años (`r scales::number(n1)`)
 
 # Citas
 
