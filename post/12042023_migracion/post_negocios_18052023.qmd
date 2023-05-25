@@ -350,15 +350,15 @@ n2 <- conteo_pais %>% pull(n) %>% sum()
 
 ### Conceptos
 
--   **Salidas de ecuatorianos por motivo de negocio:** Consideramos las salidas de ecuatorianos mayores de 18 años. Una misma persona puede salir más de una vez del Ecuador por motivos de negocios en un mismo año, un estudiante puede regresar al país por vacaciones.
+-   **Salidas de ecuatorianos por motivos de negocios:** Consideramos las salidas de ecuatorianos mayores de 18 años. La estancia máxima, generalmente, es de 90 días por año, sin embargo existen excepciones como el convenio Schengen o el convenio de países de la UNASUR.
 
--   **Estudiantes**: El visado por motivo de estudios depende de cada país. Tres requisitos básicos con: solicitud de visado, pasaporte valido y pruebas sobre la admisión en algún programa de estudios de manera regular, entre otros, visita la página del consulado del país al que desear ir para conocer los requisitos especificos.
+-   **Negocios:** El visado por motivos de negocios depende de cada país. Algunos requisitos suelen ser: pasaporte válido, carta de invitación de la empresa u organización, antecedentes de la actividad laboral que se realiza, entre otros. Se recomienda visitar la página del consulado del país al que desear ir para conocer los requisitos específicos.
 
 ### Estadísticas claves
 
--   Más del 50% de las salidas por motivos de estudio tienen como destino a Estados Unidos, España y Brasil. No requieres visa para ir a Brasil.
+-   Más del 50% de las salidas por motivos de negocio tienen como destino a países sudamericanos como Perú y Colombia, a los cuales se puede ingresar solamente con la cédula de identidad. En América del Norte, Estados Unidos y México concentran alrededor del 28% de salidas.
 
--   Hacia los países europeos más frecuentes: Alemania, Francia y España) se realizaron el 28.5% de las salidas.
+-   España es el país europeo con mayor tránsito por motivos de negocio, sin embargo el resto de este continente no es muy visitado por este motivo.
 
 -   Las salidas por negocios (`r scales::number(n2)`) representan el `r scales::percent(n2/n1)` del total de las salidas de ecuatorianos mayores a 18 años (`r scales::number(n1)`)
 
