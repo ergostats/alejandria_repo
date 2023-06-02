@@ -1,0 +1,371 @@
+---
+title: "Migración y motivos"
+format: html
+editor: visual
+---
+
+# Objetivo
+
+Queremos construir un mapa temático o *coroplético* del mundo, que indique **el número salidas de ecuatorianos mayores de 18 años por motivos de turismo**.
+
+# Cargamos librerias:
+
+```{r, message=FALSE,warning=FALSE}
+
+library(tidyverse)
+library(haven)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(gt)
+library(cowplot)
+library(gtExtras)
+library(countrycode)
+
+
+```
+
+# Con que versión de R trabajamos
+
+```{r}
+R.version
+```
+
+# Metadato (bases crudas)
+
+En la carpeta:
+
+```{r}
+
+ruta_local <- "../migracion/data/"
+  
+```
+
+# Descarga y lectura de las bases de datos:
+
+### Descarga
+
+Se descarga la base de datos del Registro de Entradas y Salidas Internacionales (ESI) del enlace:
+
+<https://www.ecuadorencifras.gob.ec/entradas-y-salidas-internacionales/>
+
+Y se realizaron las siguientes acciones:
+
+-   Descarga en formato `.dta`
+
+-   Descompresión en un proyecto local de R
+
+-   Re ubicación del archivo con la base de datos dentro del directorio `data/` en un proyecto local de R
+
+### Lectura
+
+```{r,eval=TRUE,echo=FALSE}
+base_datos <- haven::read_dta("../../../migracion/esi_2021.dta")
+
+diccionario <- base_datos %>% 
+  map(attributes) %>% 
+  map_chr("label") %>% 
+  enframe(name = "variable",value = "etiqueta") %>% 
+  mutate(etiqueta = str_to_sentence(etiqueta))
+```
+
+Empleamos la librería `{haven}` para traer las etiquetas de las variables y de las categorías.
+
+```{r,eval=FALSE,echo=TRUE}
+
+base_datos <- read_dta("data/esi_2021.dta")
+
+diccionario <- base_datos %>% 
+  map(attributes) %>% 
+  map_chr("label") %>% 
+  enframe(name = "variable",value = "etiqueta") %>% 
+  mutate(etiqueta = str_to_sentence(etiqueta))
+
+```
+
+Variables que vamos a utilizar:
+
+```{r, echo=FALSE}
+
+diccionario %>% 
+  filter(variable %in% c("tip_movi",
+                         "tip_naci",
+                         "mot_viam",
+                         "edad",
+                         "pais_prod")) %>% 
+  gt()
+
+```
+
+Adicional a la ESI debemos cargar el mapa del mundo:
+
+```{r}
+
+world <- ne_countries(scale = "medium",
+                      returnclass = "sf")
+
+```
+
+# Modificamos las bases de datos:
+
+Primero filtramos y contamos las salidas de ecuatorianos mayores a 18 años, por motivo de estudios:
+
+```{r}
+
+conteo_pais <- base_datos %>%
+  filter(tip_movi == 2,            # Salidas
+         tip_naci == 1,            # De ecuatorianos
+         mot_viam == 1,            # Por turismo
+         edad > 18) %>%            # Mayores de 18 años
+  count(pais_prod) %>% 
+  mutate(iso_n3 = str_pad(pais_prod,3,pad = "0"))
+
+```
+
+Unimos los datos al mapa del mundo y transformamos el conteo con el logaritmo, una transformación que facilita la lectura de mapas, adicional a ello quitamos del gráfico a la Antártica:
+
+```{r}
+
+tabla_grafico <- left_join(x = world,
+                            y = conteo_pais,
+                            by = "iso_n3") %>%
+  filter(continent != "Antarctica") %>%
+  mutate(n = log(n))
+
+
+```
+
+Valos a definir una variable para hacer transparante los valores vacios o missing en la variable que vamos a gráficar en el mapa:
+
+```{r}
+tabla_grafico <- tabla_grafico %>%
+  mutate(transparente = !is.na(n))
+```
+
+# Gráfico:
+
+### El gráfico del tema:
+
+```{r}
+plot_resultado <- ggplot() +
+  geom_sf(data = tabla_grafico,
+          aes(fill = n,
+              alpha = transparente) ,
+          color = "#7D7D7C") +
+  scale_alpha_manual(values = c(0.2,1),
+                     guide = 'none') +
+  scale_fill_gradient2(low = "#3c7fb1",
+                       mid = "#5bc9e5",
+                       high = "#8fcf9c",
+                       midpoint = 4,
+                       labels = ~scales::number(exp(.),
+                                                accuracy = 1))
+
+plot_resultado
+```
+
+### Añadimos el tema para que cuadre con la publicación
+
+```{r}
+plot_resultado <- plot_resultado +
+  theme_minimal(base_size = 16) +
+  theme(axis.text = element_blank(),
+        legend.position = "bottom",
+        legend.key.width = unit(120,
+                                units = 'points'),
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        plot.caption = element_text(hjust = 0)) 
+
+plot_resultado
+```
+
+### Añadimos los títulos
+
+```{r}
+plot_resultado <- plot_resultado +
+  labs(
+    title = "Salidas de ecuatorianos por motivos de turismo y destino",
+    fill = "Salidas de ecuatorianos",
+       subtitle = "Personas mayores de 18 años en el año 2021",
+       caption = "Fuente: Registro de Entradas y Salidas Internacionales (ESI, INEC)\nElaboración: Alex Bajaña, Luis Portilla") 
+
+plot_resultado
+```
+
+### Últimos detalles
+
+```{r}
+
+plot_resultado <- plot_resultado +
+  guides(fill = guide_colorbar(title.position = "bottom",
+                             label.position = "bottom",
+                             title.hjust = 0.5,
+                             barheight = unit(10,"points")))
+
+plot_resultado
+
+```
+
+# Tabla
+
+Extraemos los códigos de color del mapa:
+
+```{r}
+
+data_mapa <- layer_data(plot = plot_resultado,i = 1)
+
+data_mapa <- tabla_grafico %>%
+  inner_join(data_mapa %>% 
+               select(geometry,fill))
+
+
+colores <- data_mapa %>% 
+  as_tibble() %>% 
+  select(fill,iso_n3)
+```
+
+Preparo el resumen para generar la tabla del top 10 de países a los que migran los ecuatorianos:
+
+```{r}
+resumen_tabla <- conteo_pais %>%
+  arrange(desc(n)) %>%
+  inner_join(unique(colores)) %>%
+  slice(1:10) %>%
+  dplyr::mutate(
+    porcent = n/sum(n),
+    nombre = as_factor(pais_prod),
+    iso_numerico = as.numeric(iso_n3),
+    pais = countrycode(sourcevar = iso_numerico,
+                       origin = "iso3n",
+                       destination = "country.name"),
+    iso_pais = tolower(countrycode(sourcevar =iso_numerico,
+                                   origin = "iso3n",
+                                   destination = "iso2c")),
+    imagen =
+      sprintf(
+        "https://flagcdn.com/w320/%s.png",
+        iso_pais
+      )
+
+  )
+
+colores_vector <- resumen_tabla %>% pull(fill)
+```
+
+Generamos la tabla con `{gt}:`
+
+```{r}
+
+tabla_gt <- resumen_tabla %>%
+  select(imagen,nombre,n,porcent) %>%
+  gt() %>%
+
+  text_transform(
+    locations = cells_body(columns = imagen),
+    fn = function(x) {
+      web_image(
+        url = x,
+        height =  20
+      )
+    }
+  ) %>%
+  gt::fmt_percent(columns = porcent) %>%
+  gt::fmt_number(columns = n,decimals = 0) %>%
+  gtExtras::gt_theme_538() %>%
+  cols_align(
+    align ="center",
+    columns = everything()
+  ) %>%
+  cols_label(
+    imagen = "",
+    nombre = "País destino",
+    n = "Salidas",
+    porcent = "Porcentaje"
+  ) %>%
+  data_color(
+    columns = n,
+    colors = colores_vector
+  ) %>% 
+  opt_table_font(font = "Helvetica")
+
+tabla_gt
+
+```
+
+### Guardando la imagen y la tabla:
+
+Las dimensiones son para nuestra publicación, cambiar si es necesario.
+
+```{r}
+
+gt::gtsave(data = tabla_gt,
+           filename = "tabla_10_turismo.png")
+
+ggsave(plot = plot_resultado,
+       filename = "mapa_migracion_turismo.png",
+       width = 	8*4496/2400,height = 4*4496/2400) # Dimensiones fijas
+```
+
+### Unión
+
+```{r}
+plot_final <- ggdraw() +
+  draw_plot(plot_resultado ) +
+  draw_image("tabla_10_turismo.png",
+             scale = 0.3,
+             x = -0.27,
+             y = -0.13) +
+  draw_text("")
+
+plot_final
+
+png( "post_completo_turismo.png",res = 250,
+     width = 8*4496/2400,
+     height = 4*4496/2400,units = "in")
+
+plot_final
+
+dev.off()
+
+```
+
+# Ultima cifra
+
+```{r}
+
+conteo_pais_2 <- base_datos %>%
+    filter(tip_movi == 2,            # Salidas
+           tip_naci == 1,            # De ecuatorianos
+           edad > 18) %>%            # Mayores de 18 años
+    count(pais_prod,name = "total_salidas") %>% 
+    mutate(iso_n3 = str_pad(pais_prod,3,pad = "0"))
+
+n1 <- conteo_pais_2 %>% pull(total_salidas) %>% sum()
+
+n2 <- conteo_pais %>% pull(n) %>% sum()
+```
+
+# Guión
+
+### Conceptos
+
+-   **Salidas de ecuatorianos por motivo de turismo:** Consideramos las salidas de ecuatorianos mayores de 18 años. Una misma persona puede salir más de una vez del Ecuador por motivos de estudios en un mismo año, un estudiante puede regresar al país por vacaciones.
+
+-   **Turismo**: El visado por motivo de estudios depende de cada país. Tres requisitos básicos con: solicitud de visado, pasaporte valido y pruebas sobre la admisión en algún programa de estudios de manera regular, entre otros, visita la página del consulado del país al que desear ir para conocer los requisitos especificos.
+
+### Estadísticas claves
+
+-   Más del 50% de las salidas por motivos de estudio tienen como destino a Estados Unidos, España y Brasil. No requieres visa para ir a Brasil.
+
+-   Hacia los países europeos más frecuentes: Alemania, Francia y España) se realizaron el 28.5% de las salidas.
+
+-   Las salidas por estudios (`r scales::number(n2)`) representan el `r scales::percent(n2/n1)` del total de las salidas de ecuatorianos mayores a 18 años (`r scales::number(n1)`)
+
+# Citas
+
+https://gt.rstudio.com/reference/ggplot_image.html
+
+https://github.com/ropensci/rnaturalearth
+
+https://tidyverse.org
