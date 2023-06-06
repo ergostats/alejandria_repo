@@ -60,93 +60,12 @@ base_datos <- read_tsv("top_10_mensual.txt")
 
 # Modificamos las bases de datos:
 
-Primero filtramos y contamos las salidas de ecuatorianos mayores a 18 años, por motivo de negocios:
+Agregamos una nueva variable que nos indica la posición del país en el top 10:
 
 ```{r}
 base_datos <- base_datos %>%
-  mutate(rank=rep(seq(10),12))
+  mutate(rank=rep(seq(1,10,by=1),12))
   
-graficos_estaticos <- ggplot(data = base_datos,
-                             aes(x = rank,
-                                 group = pais_prod,
-                                 fill = pais_prod,
-                                 color = pais_prod))+
-  geom_tile(aes(y = acum/2,
-                height = acum,
-                width = 0.9),alpha=0.8,color=NA)+
-  geom_text(aes(y=0,label=paste(pais_prod," ")),vjust = 0.2, hjust = 1)+
-  geom_text(aes(y=acum,label= pais_prod,hjust=0))
-
-graficos_estaticos
-  
-anim = graficos_estaticos + transition_states(mes_movi, transition_length = 4, state_length = 1) +
-  view_follow(fixed_x = TRUE)  +
-  labs(title = 'Migracion por residencia : {mes_movi}',  
-       subtitle  =  "Top 10 Paises",
-       caption  = "Salidas de ecuatorianos | Data Source: ESI(INEC)")
-
-animate(anim, 200, fps = 20,  width = 1200, height = 1000, 
-        renderer = gifski_renderer("gganim.gif"))
-```
-
-```{r}
-staticplot = ggplot(gdp_formatted, aes(rank, group = country_name, 
-                fill = as.factor(country_name), color = as.factor(country_name))) +
-  geom_tile(aes(y = value/2,
-                height = value,
-                width = 0.9), alpha = 0.8, color = NA) +
-  geom_text(aes(y = 0, label = paste(country_name, " ")), vjust = 0.2, hjust = 1) +
-  geom_text(aes(y=value,label = Value_lbl, hjust=0)) +
-  coord_flip(clip = "off", expand = FALSE) +
-  scale_y_continuous(labels = scales::comma) +
-  scale_x_reverse() +
-  guides(color = FALSE, fill = FALSE) +
-  theme(axis.line=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks=element_blank(),
-        axis.title.x=element_blank(),
-         axis.title.y=element_blank(),
-        legend.position="none",
-        panel.background=element_blank(),
-        panel.border=element_blank(),
-        panel.grid.major=element_blank(),
-        panel.grid.minor=element_blank(),
-        panel.grid.major.x = element_line( size=.1, color="grey" ),
-        panel.grid.minor.x = element_line( size=.1, color="grey" ),
-        plot.title=element_text(size=25, hjust=0.5, face="bold", colour="grey", vjust=-1),
-        plot.subtitle=element_text(size=18, hjust=0.5, face="italic", color="grey"),
-        plot.caption =element_text(size=8, hjust=0.5, face="italic", color="grey"),
-        plot.background=element_blank(),
-       plot.margin = margin(2,2, 2, 4, "cm"))
-
-
-
-anim = staticplot + transition_states(year, transition_length = 4, state_length = 1) +
-  view_follow(fixed_x = TRUE)  +
-  labs(title = 'GDP per Year : {closest_state}',  
-       subtitle  =  "Top 10 Countries",
-       caption  = "GDP in Billions USD | Data Source: World Bank Data")
-```
-
-Unimos los datos al mapa del mundo y transformamos el conteo con el logaritmo, una transformación que facilita la lectura de mapas, adicional a ello quitamos del gráfico a la Antártica:
-
-```{r}
-
-tabla_grafico <- left_join(x = world,
-                            y = conteo_pais,
-                            by = "iso_n3") %>%
-  filter(continent != "Antarctica") %>%
-  mutate(n = log(n))
-
-
-```
-
-Vamos a definir una variable para hacer transparante los valores vacios o missing en la variable que vamos a gráficar en el mapa:
-
-```{r}
-tabla_grafico <- tabla_grafico %>%
-  mutate(transparente = !is.na(n))
 ```
 
 # Gráfico:
@@ -154,187 +73,63 @@ tabla_grafico <- tabla_grafico %>%
 ### El gráfico del tema:
 
 ```{r}
-plot_resultado <- ggplot() +
-  geom_sf(data = tabla_grafico,
-          aes(fill = n,
-              alpha = transparente) ,
-          color = "#7D7D7C") +
-  scale_alpha_manual(values = c(0.2,1),
-                     guide = 'none') +
-  scale_fill_gradient2(low = "#3c7fb1",
-                       mid = "#5bc9e5",
-                       high = "#8fcf9c",
-                       midpoint = 4,
-                       labels = ~scales::number(exp(.),
-                                                accuracy = 1))
+graficos_estaticos <- ggplot(data = base_datos,
+                             aes(x = rank,
+                                 group = pais_prod,
+                                 fill = as.factor(pais_prod),
+                                 color = as.factor(pais_prod)))+
+  geom_tile(aes(y = acum/2,
+                height = acum,
+                width = 0.9),alpha=0.8,color=NA)+
+  geom_text(aes(y=0,label=paste(pais_prod," ")),vjust = 0.2, hjust = 1)+
+  geom_text(aes(y=trunc(acum),label= trunc(acum),hjust=0))+
+  coord_flip(clip = "off", expand = FALSE)+
+  scale_y_continuous(labels = scales::comma)+
+  scale_x_reverse()+
+  guides(color = none, fill = none)
 
-plot_resultado
 ```
 
 ### Añadimos el tema para que cuadre con la publicación
 
 ```{r}
-plot_resultado <- plot_resultado +
-  theme_minimal(base_size = 16) +
-  theme(axis.text = element_blank(),
-        legend.position = "bottom",
-        legend.key.width = unit(120,
-                                units = 'points'),
-        plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5),
-        plot.caption = element_text(hjust = 0)) 
-
-plot_resultado
+graficos_estaticos <- graficos_estaticos +
+  theme(axis.line=element_blank(),
+        axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        axis.title.x=element_blank(),
+        axis.title.y=element_blank(),
+        legend.position="none",
+        panel.background=element_blank(),
+        panel.border=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank(),
+        panel.grid.major.x = element_line( size=.1, color="grey" ),
+        panel.grid.minor.x = element_line( size=.1, color="grey" ),
+        plot.title=element_text(size=25, hjust=0.5, face="bold", colour="black", vjust=-1),
+        plot.subtitle=element_text(size=18, hjust=0.5, face="italic", color="black"),
+        plot.caption =element_text(size=8, hjust=0.5, face="italic", color="black"),
+        plot.background=element_blank(),
+        plot.margin = margin(2,2, 2, 5, "cm"))
+  
 ```
 
 ### Añadimos los títulos
 
 ```{r}
-plot_resultado <- plot_resultado +
-  labs(
-    title = "Salidas de ecuatorianos por motivos de negocios y destino",
-    fill = "Salidas de ecuatorianos",
-       subtitle = "Personas mayores de 18 años en el año 2021",
-       caption = "Fuente: Registro de Entradas y Salidas Internacionales (ESI, INEC)\nElaboración: Alex Bajaña, Brad Puglla") 
-
-plot_resultado
+anim = graficos_estaticos + transition_states(mes_movi, transition_length = 4, state_length = 1) +
+  view_follow(fixed_x = TRUE)  +
+  labs(title = 'Migracion por motivo de residencia : ',  
+       subtitle  =  "Top 10 Paises del año 2021",
+       caption  = "Salidas de ecuatorianos | Data Source: ESI(INEC)")
 ```
 
 ### Últimos detalles
 
 ```{r}
-
-plot_resultado <- plot_resultado +
-  guides(fill = guide_colorbar(title.position = "bottom",
-                             label.position = "bottom",
-                             title.hjust = 0.5,
-                             barheight = unit(10,"points")))
-
-plot_resultado
-
-```
-
-# Tabla
-
-Extraemos los códigos de color del mapa:
-
-```{r}
-
-data_mapa <- layer_data(plot = plot_resultado,i = 1)
-
-data_mapa <- tabla_grafico %>%
-  inner_join(data_mapa %>% 
-               select(geometry,fill))
-
-
-colores <- data_mapa %>% 
-  as_tibble() %>% 
-  select(fill,iso_n3)
-```
-
-Preparo el resumen para generar la tabla del top 10 de países a los que migran los ecuatorianos:
-
-```{r}
-resumen_tabla <- conteo_pais %>%
-  arrange(desc(n)) %>%
-  inner_join(unique(colores)) %>%
-  slice(1:10) %>%
-  dplyr::mutate(
-    porcent = n/sum(n),
-    nombre = as_factor(pais_prod),
-    iso_numerico = as.numeric(iso_n3),
-    pais = countrycode(sourcevar = iso_numerico,
-                       origin = "iso3n",
-                       destination = "country.name"),
-    iso_pais = tolower(countrycode(sourcevar =iso_numerico,
-                                   origin = "iso3n",
-                                   destination = "iso2c")),
-    imagen =
-      sprintf(
-        "https://flagcdn.com/w320/%s.png",
-        iso_pais
-      )
-
-  )
-
-colores_vector <- resumen_tabla %>% pull(fill)
-```
-
-Generamos la tabla con `{gt}:`
-
-```{r}
-
-tabla_gt <- resumen_tabla %>%
-  select(imagen,nombre,n,porcent) %>%
-  gt() %>%
-
-  text_transform(
-    locations = cells_body(columns = imagen),
-    fn = function(x) {
-      web_image(
-        url = x,
-        height =  20
-      )
-    }
-  ) %>%
-  gt::fmt_percent(columns = porcent) %>%
-  gt::fmt_number(columns = n,decimals = 0) %>%
-  gtExtras::gt_theme_538() %>%
-  cols_align(
-    align ="center",
-    columns = everything()
-  ) %>%
-  cols_label(
-    imagen = "",
-    nombre = "País destino",
-    n = "Salidas",
-    porcent = "Porcentaje"
-  ) %>%
-  data_color(
-    columns = n,
-    colors = colores_vector
-  ) %>% 
-  opt_table_font(font = "Helvetica")
-
-tabla_gt
-
-```
-
-### Guardando la imagen y la tabla:
-
-Las dimensiones son para nuestra publicación, cambiar si es necesario.
-
-```{r}
-
-gt::gtsave(data = tabla_gt,
-           filename = "tabla_10_negocios.png")
-
-ggsave(plot = plot_resultado,
-       filename = "mapa_migracion_negocios.png",
-       width = 	8*4496/2400,height = 4*4496/2400) # Dimensiones fijas
-```
-
-### Unión
-
-```{r}
-plot_final <- ggdraw() +
-  draw_plot(plot_resultado ) +
-  draw_image("tabla_10_negocios.png",
-             scale = 0.3,
-             x = -0.27,
-             y = -0.13) +
-  draw_text("")
-
-plot_final
-
-png( "post_completo_negocios.png",res = 250,
-     width = 8*4496/2400,
-     height = 4*4496/2400,units = "in")
-
-plot_final
-
-dev.off()
-
+animate(anim, 300, fps = 20,  width = 1200, height = 1000, 
+        renderer = gifski_renderer("gganim.gif"))
 ```
 
 # Ultima cifra
