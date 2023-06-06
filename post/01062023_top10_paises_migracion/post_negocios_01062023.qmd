@@ -6,7 +6,7 @@ editor: visual
 
 # Objetivo
 
-Queremos construir un mapa temático o *coroplético* del mundo, que indique **el número salidas de ecuatorianos mayores de 18 años por motivos de negocios**.
+Queremos construir un gráfico de barras animado, que indique **el top 10 de países a donde migraron los ecuatorianos por motivo de residencia.**
 
 # Cargamos librerias:
 
