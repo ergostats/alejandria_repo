@@ -1,121 +1,958 @@
-anio_movi	mes_movi	pais_prod	n	acum
-2021	1	Estados Unidos de América	24288	24288
-2021	1	México	3212	3212
-2021	1	España	3182	3182
-2021	1	Perú	2417	2417
-2021	1	Colombia	2316	2316
-2021	1	Chile	2127	2127
-2021	1	Panamá	954	954
-2021	1	Argentina	771	771
-2021	1	Italia	708	708
-2021	1	Brasil	571	571
-2021	2	Estados Unidos de América	18321	42609
-2021	2	México	3538	6750
-2021	2	España	2335	5517
-2021	2	Perú	1924	4341
-2021	2	Colombia	1771	4087
-2021	2	Chile	1651	3778
-2021	2	Panamá	825	1779
-2021	2	Argentina	641	1412
-2021	2	Italia	703	1411
-2021	2	Brasil	382	953
-2021	3	Estados Unidos de América	20568	63177
-2021	3	México	3671	10421
-2021	3	España	2917	8434
-2021	3	Perú	2357	6698
-2021	3	Colombia	2020	6107
-2021	3	Chile	1745	5523
-2021	3	Panamá	1138	2917
-2021	3	Italia	722	2133
-2021	3	Argentina	596	2008
-2021	3	Brasil	478	1431
-2021	4	Estados Unidos de América	24514	87691
-2021	4	México	4428	14849
-2021	4	España	2858	11292
-2021	4	Perú	1873	8571
-2021	4	Colombia	1805	7912
-2021	4	Chile	526	6049
-2021	4	Panamá	587	3504
-2021	4	Italia	783	2916
-2021	4	Argentina	300	2308
-2021	4	Sin especificar	682	1760
-2021	5	Estados Unidos de América	39097	126788
-2021	5	México	4613	19462
-2021	5	España	3162	14454
-2021	5	Perú	2188	10759
-2021	5	Colombia	1581	9493
-2021	5	Chile	348	6397
-2021	5	Panamá	954	4458
-2021	5	Italia	895	3811
-2021	5	Argentina	398	2706
-2021	5	Sin especificar	497	2257
-2021	6	Estados Unidos de América	43978	170766
-2021	6	México	5090	24552
-2021	6	España	3884	18338
-2021	6	Perú	2149	12908
-2021	6	Colombia	2495	11988
-2021	6	Chile	426	6823
-2021	6	Panamá	1212	5670
-2021	6	Italia	986	4797
-2021	6	Argentina	150	2856
-2021	6	Sin especificar	451	2708
-2021	7	Estados Unidos de América	37331	208097
-2021	7	México	5355	29907
-2021	7	España	5445	23783
-2021	7	Perú	2720	15628
-2021	7	Colombia	3199	15187
-2021	7	Chile	702	7525
-2021	7	Panamá	1338	7008
-2021	7	Italia	1300	6097
-2021	7	Sin especificar	587	3295
-2021	7	Brasil	678	3183
-2021	8	Estados Unidos de América	42186	250283
-2021	8	México	6654	36561
-2021	8	España	6656	30439
-2021	8	Colombia	4601	19788
-2021	8	Perú	2690	18318
-2021	8	Panamá	1617	8625
-2021	8	Chile	1057	8582
-2021	8	Italia	1592	7689
-2021	8	Brasil	584	3767
-2021	8	Sin especificar	340	3635
-2021	9	Estados Unidos de América	41896	292179
-2021	9	México	4379	40940
-2021	9	España	6596	37035
-2021	9	Colombia	4641	24429
-2021	9	Perú	3114	21432
-2021	9	Panamá	2507	11132
-2021	9	Chile	1078	9660
-2021	9	Italia	1906	9595
-2021	9	República Dominicana	1081	4573
-2021	9	Brasil	791	4558
-2021	10	Estados Unidos de América	41513	333692
-2021	10	España	6773	43808
-2021	10	México	2655	43595
-2021	10	Colombia	5378	29807
-2021	10	Perú	3676	25108
-2021	10	Panamá	4019	15151
-2021	10	Italia	1407	11002
-2021	10	Chile	1302	10962
-2021	10	República Dominicana	1128	5701
-2021	10	Brasil	886	5444
-2021	11	Estados Unidos de América	42434	376126
-2021	11	España	6467	50275
-2021	11	México	3260	46855
-2021	11	Colombia	7424	37231
-2021	11	Perú	3862	28970
-2021	11	Panamá	4867	20018
-2021	11	Chile	1502	12464
-2021	11	Italia	1366	12368
-2021	11	República Dominicana	1171	6872
-2021	11	Brasil	936	6380
-2021	12	Estados Unidos de América	36602	412728
-2021	12	España	5936	56211
-2021	12	México	2370	49225
-2021	12	Colombia	7696	44927
-2021	12	Perú	3743	32713
-2021	12	Panamá	4085	24103
-2021	12	Chile	1989	14453
-2021	12	Italia	1580	13948
-2021	12	República Dominicana	1216	8088
-2021	12	Brasil	967	7347
+name	anio_movi	mes_movi	n	acum
+Colombia	2014	1	399	399
+Estados Unidos	2014	1	381	381
+Perú	2014	1	292	292
+Panamá	2014	1	185	185
+México	2014	1	76	76
+Chile	2014	1	60	60
+Brasil	2014	1	47	47
+España	2014	1	41	41
+Argentina	2014	1	31	31
+Guatemala	2014	1	28	28
+Colombia	2014	2	528	927
+Estados Unidos	2014	2	344	725
+Perú	2014	2	314	606
+Panamá	2014	2	197	382
+México	2014	2	79	155
+Brasil	2014	2	57	104
+Chile	2014	2	44	104
+España	2014	2	40	81
+Argentina	2014	2	34	65
+Costa Rica	2014	2	30	48
+Guatemala	2014	2	20	48
+Colombia	2014	3	491	1418
+Estados Unidos	2014	3	385	1110
+Perú	2014	3	377	983
+Panamá	2014	3	181	563
+México	2014	3	84	239
+Chile	2014	3	86	190
+Brasil	2014	3	85	189
+España	2014	3	47	128
+Argentina	2014	3	46	111
+Costa Rica	2014	3	53	101
+Colombia	2014	4	414	1832
+Estados Unidos	2014	4	352	1462
+Perú	2014	4	322	1305
+Panamá	2014	4	159	722
+México	2014	4	65	304
+Brasil	2014	4	66	255
+Chile	2014	4	53	243
+España	2014	4	43	171
+Argentina	2014	4	42	153
+China Republica Popular (Pekín)	2014	4	81	135
+Colombia	2014	5	469	2301
+Estados Unidos	2014	5	350	1812
+Perú	2014	5	334	1639
+Panamá	2014	5	155	877
+México	2014	5	75	379
+Brasil	2014	5	72	327
+Chile	2014	5	69	312
+España	2014	5	53	224
+Argentina	2014	5	42	195
+China Republica Popular (Pekín)	2014	5	36	171
+Colombia	2014	6	437	2738
+Estados Unidos	2014	6	284	2096
+Perú	2014	6	284	1923
+Panamá	2014	6	163	1040
+México	2014	6	84	463
+Brasil	2014	6	39	366
+Chile	2014	6	48	360
+España	2014	6	32	256
+Argentina	2014	6	47	242
+China Republica Popular (Pekín)	2014	6	23	194
+Colombia	2014	7	434	3172
+Estados Unidos	2014	7	274	2370
+Perú	2014	7	239	2162
+Panamá	2014	7	173	1213
+México	2014	7	43	506
+Brasil	2014	7	55	421
+Chile	2014	7	43	403
+España	2014	7	24	280
+Argentina	2014	7	32	274
+Costa Rica	2014	7	28	221
+Colombia	2014	8	423	3595
+Estados Unidos	2014	8	238	2608
+Perú	2014	8	283	2445
+Panamá	2014	8	141	1354
+México	2014	8	56	562
+Brasil	2014	8	79	500
+Chile	2014	8	45	448
+Argentina	2014	8	47	321
+España	2014	8	19	299
+Costa Rica	2014	8	20	241
+Colombia	2014	9	446	4041
+Estados Unidos	2014	9	386	2994
+Perú	2014	9	383	2828
+Panamá	2014	9	198	1552
+México	2014	9	63	625
+Brasil	2014	9	67	567
+Chile	2014	9	53	501
+Argentina	2014	9	71	392
+España	2014	9	46	345
+China Republica Popular (Pekín)	2014	9	40	266
+Colombia	2014	10	413	4454
+Estados Unidos	2014	10	380	3374
+Perú	2014	10	317	3145
+Panamá	2014	10	171	1723
+México	2014	10	85	710
+Brasil	2014	10	79	646
+Chile	2014	10	72	573
+Argentina	2014	10	53	445
+España	2014	10	56	401
+China Republica Popular (Pekín)	2014	10	81	347
+Colombia	2014	11	500	4954
+Estados Unidos	2014	11	391	3765
+Perú	2014	11	333	3478
+Panamá	2014	11	170	1893
+México	2014	11	100	810
+Brasil	2014	11	95	741
+Chile	2014	11	67	640
+Argentina	2014	11	51	496
+España	2014	11	57	458
+China Republica Popular (Pekín)	2014	11	35	382
+Colombia	2014	12	317	5271
+Estados Unidos	2014	12	223	3988
+Perú	2014	12	219	3697
+Panamá	2014	12	149	2042
+México	2014	12	47	857
+Brasil	2014	12	38	779
+Chile	2014	12	52	692
+Argentina	2014	12	34	530
+España	2014	12	18	476
+China Republica Popular (Pekín)	2014	12	15	397
+Colombia	2015	1	477	5748
+Estados Unidos	2015	1	448	4436
+Perú	2015	1	291	3988
+Panamá	2015	1	234	2276
+México	2015	1	77	934
+Brasil	2015	1	79	858
+Chile	2015	1	66	758
+Argentina	2015	1	28	558
+España	2015	1	48	524
+China Republica Popular (Pekín)	2015	1	47	444
+Colombia	2015	2	476	6224
+Estados Unidos	2015	2	321	4757
+Perú	2015	2	291	4279
+Panamá	2015	2	206	2482
+México	2015	2	76	1010
+Brasil	2015	2	49	907
+Chile	2015	2	36	794
+Argentina	2015	2	44	602
+España	2015	2	48	572
+China Republica Popular (Pekín)	2015	2	13	457
+Colombia	2015	3	517	6741
+Estados Unidos	2015	3	403	5160
+Perú	2015	3	344	4623
+Panamá	2015	3	188	2670
+México	2015	3	74	1084
+Brasil	2015	3	89	996
+Chile	2015	3	68	862
+Argentina	2015	3	71	673
+España	2015	3	42	614
+China Republica Popular (Pekín)	2015	3	56	513
+Colombia	2015	4	453	7194
+Estados Unidos	2015	4	423	5583
+Perú	2015	4	304	4927
+Panamá	2015	4	255	2925
+México	2015	4	65	1149
+Brasil	2015	4	97	1093
+Chile	2015	4	69	931
+Argentina	2015	4	61	734
+España	2015	4	59	673
+China Republica Popular (Pekín)	2015	4	95	608
+Colombia	2015	5	577	7771
+Estados Unidos	2015	5	384	5967
+Perú	2015	5	332	5259
+Panamá	2015	5	209	3134
+México	2015	5	85	1234
+Brasil	2015	5	103	1196
+Chile	2015	5	78	1009
+Argentina	2015	5	60	794
+España	2015	5	49	722
+China Republica Popular (Pekín)	2015	5	25	633
+Colombia	2015	6	485	8256
+Estados Unidos	2015	6	376	6343
+Perú	2015	6	342	5601
+Panamá	2015	6	248	3382
+México	2015	6	82	1316
+Brasil	2015	6	81	1277
+Chile	2015	6	64	1073
+Argentina	2015	6	70	864
+España	2015	6	46	768
+China Republica Popular (Pekín)	2015	6	18	651
+Colombia	2015	7	436	8692
+Estados Unidos	2015	7	276	6619
+Perú	2015	7	261	5862
+Panamá	2015	7	193	3575
+México	2015	7	42	1358
+Brasil	2015	7	70	1347
+Chile	2015	7	61	1134
+Argentina	2015	7	48	912
+España	2015	7	31	799
+China Republica Popular (Pekín)	2015	7	28	679
+Colombia	2015	8	384	9076
+Estados Unidos	2015	8	285	6904
+Perú	2015	8	300	6162
+Panamá	2015	8	137	3712
+México	2015	8	46	1404
+Brasil	2015	8	55	1402
+Chile	2015	8	53	1187
+Argentina	2015	8	55	967
+España	2015	8	22	821
+China Republica Popular (Pekín)	2015	8	25	704
+Colombia	2015	9	542	9618
+Estados Unidos	2015	9	425	7329
+Perú	2015	9	312	6474
+Panamá	2015	9	205	3917
+México	2015	9	76	1480
+Brasil	2015	9	68	1470
+Chile	2015	9	87	1274
+Argentina	2015	9	63	1030
+España	2015	9	37	858
+China Republica Popular (Pekín)	2015	9	25	729
+Colombia	2015	10	533	10151
+Estados Unidos	2015	10	414	7743
+Perú	2015	10	317	6791
+Panamá	2015	10	163	4080
+México	2015	10	85	1565
+Brasil	2015	10	59	1529
+Chile	2015	10	88	1362
+Argentina	2015	10	51	1081
+España	2015	10	60	918
+China Republica Popular (Pekín)	2015	10	63	792
+Colombia	2015	11	409	10560
+Estados Unidos	2015	11	340	8083
+Perú	2015	11	340	7131
+Panamá	2015	11	178	4258
+México	2015	11	92	1657
+Brasil	2015	11	104	1633
+Chile	2015	11	65	1427
+Argentina	2015	11	57	1138
+España	2015	11	42	960
+China Republica Popular (Pekín)	2015	11	39	831
+Colombia	2015	12	277	10837
+Estados Unidos	2015	12	206	8289
+Perú	2015	12	175	7306
+Panamá	2015	12	135	4393
+México	2015	12	43	1700
+Brasil	2015	12	28	1661
+Chile	2015	12	44	1471
+Argentina	2015	12	33	1171
+España	2015	12	21	981
+China Republica Popular (Pekín)	2015	12	12	843
+Colombia	2017	1	440	11277
+Perú	2017	1	296	7602
+Panamá	2017	1	167	4560
+México	2017	1	89	1789
+Chile	2017	1	71	1542
+España	2017	1	53	1034
+Costa Rica	2017	1	41	789
+Guatemala	2017	1	29	622
+Venezuela	2017	1	27	607
+Estados Unidos de América	2017	1	434	434
+Colombia	2017	2	435	11712
+Perú	2017	2	237	7839
+Panamá	2017	2	145	4705
+México	2017	2	51	1840
+Chile	2017	2	41	1583
+España	2017	2	53	1087
+Costa Rica	2017	2	23	812
+Estados Unidos de América	2017	2	323	757
+Guatemala	2017	2	23	645
+Venezuela	2017	2	15	622
+Colombia	2017	3	504	12216
+Perú	2017	3	324	8163
+Panamá	2017	3	191	4896
+México	2017	3	87	1927
+Chile	2017	3	72	1655
+Estados Unidos de América	2017	3	397	1154
+España	2017	3	61	1148
+Costa Rica	2017	3	42	854
+Guatemala	2017	3	27	672
+Venezuela	2017	3	23	645
+Colombia	2017	4	378	12594
+Perú	2017	4	282	8445
+Panamá	2017	4	135	5031
+México	2017	4	54	1981
+Chile	2017	4	73	1728
+Estados Unidos de América	2017	4	304	1458
+España	2017	4	46	1194
+Costa Rica	2017	4	26	880
+Guatemala	2017	4	21	693
+Venezuela	2017	4	11	656
+Colombia	2017	5	546	13140
+Perú	2017	5	358	8803
+Panamá	2017	5	212	5243
+México	2017	5	88	2069
+Estados Unidos de América	2017	5	367	1825
+Chile	2017	5	79	1807
+España	2017	5	72	1266
+Costa Rica	2017	5	49	929
+Guatemala	2017	5	24	717
+Venezuela	2017	5	13	669
+Colombia	2017	6	427	13567
+Perú	2017	6	286	9089
+Panamá	2017	6	162	5405
+Estados Unidos de América	2017	6	351	2176
+México	2017	6	103	2172
+Chile	2017	6	57	1864
+España	2017	6	46	1312
+Costa Rica	2017	6	33	962
+Guatemala	2017	6	25	742
+Venezuela	2017	6	14	683
+Colombia	2017	7	480	14047
+Perú	2017	7	280	9369
+Panamá	2017	7	155	5560
+Estados Unidos de América	2017	7	254	2430
+México	2017	7	75	2247
+Chile	2017	7	53	1917
+España	2017	7	26	1338
+Costa Rica	2017	7	48	1010
+Guatemala	2017	7	28	770
+Venezuela	2017	7	14	697
+Colombia	2017	8	354	14401
+Perú	2017	8	277	9646
+Panamá	2017	8	104	5664
+Estados Unidos de América	2017	8	192	2622
+México	2017	8	77	2324
+Chile	2017	8	70	1987
+España	2017	8	23	1361
+Costa Rica	2017	8	25	1035
+Guatemala	2017	8	25	795
+Venezuela	2017	8	12	709
+Colombia	2017	9	435	14836
+Perú	2017	9	291	9937
+Panamá	2017	9	165	5829
+Estados Unidos de América	2017	9	293	2915
+México	2017	9	69	2393
+Chile	2017	9	62	2049
+España	2017	9	67	1428
+Costa Rica	2017	9	37	1072
+Guatemala	2017	9	20	815
+Venezuela	2017	9	6	715
+Colombia	2017	10	505	15341
+Perú	2017	10	317	10254
+Panamá	2017	10	167	5996
+Estados Unidos de América	2017	10	392	3307
+México	2017	10	85	2478
+Chile	2017	10	52	2101
+España	2017	10	88	1516
+Costa Rica	2017	10	44	1116
+Guatemala	2017	10	30	845
+Venezuela	2017	10	5	720
+Colombia	2017	11	458	15799
+Perú	2017	11	310	10564
+Panamá	2017	11	139	6135
+Estados Unidos de América	2017	11	287	3594
+México	2017	11	88	2566
+Chile	2017	11	75	2176
+España	2017	11	55	1571
+Costa Rica	2017	11	32	1148
+Guatemala	2017	11	28	873
+Venezuela	2017	11	11	731
+Colombia	2017	12	251	16050
+Perú	2017	12	194	10758
+Panamá	2017	12	91	6226
+Estados Unidos de América	2017	12	135	3729
+México	2017	12	46	2612
+Chile	2017	12	41	2217
+España	2017	12	34	1605
+Costa Rica	2017	12	17	1165
+Guatemala	2017	12	11	884
+Venezuela	2017	12	6	737
+Colombia	2018	1	468	16518
+Perú	2018	1	279	11037
+Panamá	2018	1	178	6404
+Estados Unidos de América	2018	1	328	4057
+México	2018	1	91	2703
+Chile	2018	1	79	2296
+Brasil	2018	1	48	1709
+España	2018	1	55	1660
+Argentina	2018	1	33	1204
+Costa Rica	2018	1	25	1190
+Colombia	2018	2	496	17014
+Perú	2018	2	249	11286
+Panamá	2018	2	127	6531
+Estados Unidos de América	2018	2	275	4332
+México	2018	2	81	2784
+Chile	2018	2	32	2328
+Brasil	2018	2	44	1753
+España	2018	2	73	1733
+Argentina	2018	2	23	1227
+Costa Rica	2018	2	30	1220
+Colombia	2018	3	459	17473
+Perú	2018	3	270	11556
+Panamá	2018	3	156	6687
+Estados Unidos de América	2018	3	368	4700
+México	2018	3	103	2887
+Chile	2018	3	74	2402
+Brasil	2018	3	97	1850
+España	2018	3	38	1771
+Argentina	2018	3	55	1282
+Costa Rica	2018	3	38	1258
+Colombia	2018	4	525	17998
+Perú	2018	4	350	11906
+Panamá	2018	4	202	6889
+Estados Unidos de América	2018	4	391	5091
+México	2018	4	91	2978
+Chile	2018	4	84	2486
+Brasil	2018	4	73	1923
+España	2018	4	66	1837
+Argentina	2018	4	54	1336
+Costa Rica	2018	4	32	1290
+Colombia	2018	5	603	18601
+Perú	2018	5	407	12313
+Panamá	2018	5	197	7086
+Estados Unidos de América	2018	5	391	5482
+México	2018	5	83	3061
+Chile	2018	5	80	2566
+Brasil	2018	5	96	2019
+España	2018	5	76	1913
+Argentina	2018	5	54	1390
+Costa Rica	2018	5	35	1325
+Colombia	2018	6	541	19142
+Perú	2018	6	323	12636
+Panamá	2018	6	157	7243
+Estados Unidos de América	2018	6	321	5803
+México	2018	6	98	3159
+Chile	2018	6	62	2628
+Brasil	2018	6	67	2086
+España	2018	6	51	1964
+Argentina	2018	6	38	1428
+Costa Rica	2018	6	35	1360
+Colombia	2018	7	505	19647
+Perú	2018	7	337	12973
+Panamá	2018	7	153	7396
+Estados Unidos de América	2018	7	297	6100
+México	2018	7	90	3249
+Chile	2018	7	69	2697
+Brasil	2018	7	55	2141
+España	2018	7	28	1992
+Argentina	2018	7	41	1469
+Costa Rica	2018	7	41	1401
+Colombia	2018	8	454	20101
+Perú	2018	8	282	13255
+Panamá	2018	8	127	7523
+Estados Unidos de América	2018	8	252	6352
+México	2018	8	79	3328
+Chile	2018	8	66	2763
+Brasil	2018	8	60	2201
+España	2018	8	17	2009
+Argentina	2018	8	41	1510
+Costa Rica	2018	8	32	1433
+Colombia	2018	9	586	20687
+Perú	2018	9	362	13617
+Panamá	2018	9	137	7660
+Estados Unidos de América	2018	9	391	6743
+México	2018	9	135	3463
+Chile	2018	9	60	2823
+Brasil	2018	9	64	2265
+España	2018	9	76	2085
+Argentina	2018	9	75	1585
+Costa Rica	2018	9	31	1464
+Colombia	2018	10	583	21270
+Perú	2018	10	382	13999
+Panamá	2018	10	173	7833
+Estados Unidos de América	2018	10	435	7178
+México	2018	10	88	3551
+Chile	2018	10	77	2900
+Brasil	2018	10	69	2334
+España	2018	10	101	2186
+Argentina	2018	10	56	1641
+Costa Rica	2018	10	38	1502
+Colombia	2018	11	570	21840
+Perú	2018	11	416	14415
+Panamá	2018	11	153	7986
+Estados Unidos de América	2018	11	356	7534
+México	2018	11	133	3684
+Chile	2018	11	91	2991
+Brasil	2018	11	127	2461
+España	2018	11	69	2255
+Argentina	2018	11	73	1714
+Costa Rica	2018	11	32	1534
+Colombia	2018	12	382	22222
+Perú	2018	12	241	14656
+Panamá	2018	12	111	8097
+Estados Unidos de América	2018	12	203	7737
+México	2018	12	48	3732
+Chile	2018	12	33	3024
+Brasil	2018	12	48	2509
+España	2018	12	18	2273
+Argentina	2018	12	37	1751
+Costa Rica	2018	12	23	1557
+Colombia	2019	1	455	22677
+Perú	2019	1	325	14981
+Panamá	2019	1	165	8262
+Estados Unidos de América	2019	1	343	8080
+México	2019	1	115	3847
+Chile	2019	1	70	3094
+Brasil	2019	1	65	2574
+España	2019	1	56	2329
+Argentina	2019	1	43	1794
+Costa Rica	2019	1	36	1593
+Colombia	2019	2	535	23212
+Perú	2019	2	338	15319
+Estados Unidos de América	2019	2	387	8467
+Panamá	2019	2	200	8462
+México	2019	2	96	3943
+Chile	2019	2	49	3143
+Brasil	2019	2	61	2635
+España	2019	2	72	2401
+Argentina	2019	2	34	1828
+Costa Rica	2019	2	42	1635
+Colombia	2019	3	586	23798
+Perú	2019	3	443	15762
+Estados Unidos de América	2019	3	543	9010
+Panamá	2019	3	205	8667
+México	2019	3	161	4104
+Chile	2019	3	124	3267
+Brasil	2019	3	174	2809
+España	2019	3	115	2516
+Argentina	2019	3	93	1921
+Costa Rica	2019	3	40	1675
+Colombia	2019	4	657	24455
+Perú	2019	4	503	16265
+Estados Unidos de América	2019	4	692	9702
+Panamá	2019	4	246	8913
+México	2019	4	147	4251
+Chile	2019	4	147	3414
+Brasil	2019	4	148	2957
+España	2019	4	123	2639
+Argentina	2019	4	89	2010
+Costa Rica	2019	4	35	1710
+Colombia	2019	5	847	25302
+Perú	2019	5	607	16872
+Estados Unidos de América	2019	5	601	10303
+Panamá	2019	5	255	9168
+México	2019	5	214	4465
+Chile	2019	5	177	3591
+Brasil	2019	5	144	3101
+España	2019	5	163	2802
+Argentina	2019	5	83	2093
+Costa Rica	2019	5	43	1753
+Colombia	2019	6	587	25889
+Perú	2019	6	539	17411
+Estados Unidos de América	2019	6	535	10838
+Panamá	2019	6	235	9403
+México	2019	6	174	4639
+Chile	2019	6	155	3746
+Brasil	2019	6	114	3215
+España	2019	6	120	2922
+Argentina	2019	6	79	2172
+Costa Rica	2019	6	43	1796
+Colombia	2019	7	811	26700
+Perú	2019	7	466	17877
+Estados Unidos de América	2019	7	402	11240
+Panamá	2019	7	249	9652
+México	2019	7	150	4789
+Chile	2019	7	91	3837
+Brasil	2019	7	68	3283
+España	2019	7	80	3002
+Argentina	2019	7	69	2241
+Costa Rica	2019	7	37	1833
+Colombia	2019	8	527	27227
+Perú	2019	8	353	18230
+Estados Unidos de América	2019	8	362	11602
+Panamá	2019	8	163	9815
+México	2019	8	159	4948
+Chile	2019	8	105	3942
+Brasil	2019	8	120	3403
+España	2019	8	54	3056
+Argentina	2019	8	86	2327
+Costa Rica	2019	8	45	1878
+Colombia	2019	9	729	27956
+Perú	2019	9	494	18724
+Estados Unidos de América	2019	9	467	12069
+Panamá	2019	9	237	10052
+México	2019	9	189	5137
+Chile	2019	9	147	4089
+Brasil	2019	9	97	3500
+España	2019	9	142	3198
+Argentina	2019	9	94	2421
+Costa Rica	2019	9	40	1918
+Colombia	2019	10	793	28749
+Perú	2019	10	510	19234
+Estados Unidos de América	2019	10	551	12620
+Panamá	2019	10	261	10313
+México	2019	10	204	5341
+Chile	2019	10	123	4212
+Brasil	2019	10	104	3604
+España	2019	10	173	3371
+Argentina	2019	10	55	2476
+China	2019	10	140	2038
+Colombia	2019	11	696	29445
+Perú	2019	11	453	19687
+Estados Unidos de América	2019	11	432	13052
+Panamá	2019	11	237	10550
+México	2019	11	228	5569
+Chile	2019	11	99	4311
+Brasil	2019	11	120	3724
+España	2019	11	126	3497
+Argentina	2019	11	82	2558
+China	2019	11	63	2101
+Colombia	2019	12	522	29967
+Perú	2019	12	355	20042
+Estados Unidos de América	2019	12	238	13290
+Panamá	2019	12	197	10747
+México	2019	12	124	5693
+Chile	2019	12	66	4377
+Brasil	2019	12	49	3773
+España	2019	12	39	3536
+Argentina	2019	12	39	2597
+China	2019	12	29	2130
+Colombia	2020	1	644	30611
+Perú	2020	1	438	20480
+Estados Unidos de América	2020	1	410	13700
+Panamá	2020	1	230	10977
+México	2020	1	148	5841
+Chile	2020	1	115	4492
+Brasil	2020	1	103	3876
+España	2020	1	108	3644
+Argentina	2020	1	53	2650
+China	2020	1	21	2151
+Colombia	2020	2	644	31255
+Perú	2020	2	386	20866
+Estados Unidos de América	2020	2	427	14127
+Panamá	2020	2	209	11186
+México	2020	2	221	6062
+Chile	2020	2	77	4569
+Brasil	2020	2	75	3951
+España	2020	2	81	3725
+Argentina	2020	2	49	2699
+China	2020	2	2	2153
+Colombia	2020	3	320	31575
+Perú	2020	3	165	21031
+Estados Unidos de América	2020	3	162	14289
+Panamá	2020	3	85	11271
+México	2020	3	68	6130
+Chile	2020	3	50	4619
+Brasil	2020	3	46	3997
+España	2020	3	25	3750
+Argentina	2020	3	25	2724
+Costa Rica	2020	3	12	2117
+Perú	2020	4	1	21032
+Suiza	2020	4	3	357
+Surinam	2020	4	1	30
+Estonia	2020	4	1	11
+Ruanda	2020	4	1	9
+Costa de Marfil	2020	4	1	8
+Seychelles	2020	4	1	7
+Malta	2020	4	1	5
+Antigua y Barbuda	2020	4	2	4
+Bangladesh	2020	4	1	2
+Guayana Francesa	2020	4	1	2
+Estados Unidos de América	2020	5	5	14294
+México	2020	5	4	6134
+España	2020	5	1	3751
+Malta	2020	5	1	5
+Antigua y Barbuda	2020	5	2	4
+Bangladesh	2020	5	1	2
+Mónaco	2020	5	1	1
+Colombia	2020	6	2	31577
+Estados Unidos de América	2020	6	55	14349
+México	2020	6	5	6139
+Italia	2020	6	3	628
+Países Bajos	2020	6	8	448
+Malta	2020	6	1	5
+Bangladesh	2020	6	1	2
+Mónaco	2020	6	1	1
+Colombia	2020	7	4	31581
+Perú	2020	7	5	21037
+Estados Unidos de América	2020	7	91	14440
+Panamá	2020	7	3	11274
+México	2020	7	17	6156
+Chile	2020	7	4	4623
+Brasil	2020	7	1	3998
+España	2020	7	8	3759
+República Dominicana	2020	7	2	946
+Uruguay	2020	7	5	638
+Estados Unidos de América	2020	8	139	14579
+Panamá	2020	8	2	11276
+México	2020	8	22	6178
+Brasil	2020	8	3	4001
+España	2020	8	22	3781
+Alemania	2020	8	3	1169
+República Dominicana	2020	8	3	949
+Italia	2020	8	2	631
+Canadá	2020	8	1	540
+Países Bajos	2020	8	2	464
+Colombia	2020	9	1	31582
+Perú	2020	9	2	21039
+Estados Unidos de América	2020	9	97	14676
+Panamá	2020	9	35	11311
+México	2020	9	55	6233
+Chile	2020	9	1	4624
+Brasil	2020	9	1	4002
+España	2020	9	12	3793
+Argentina	2020	9	3	2727
+Guatemala	2020	9	1	1697
+Colombia	2020	10	71	31653
+Perú	2020	10	64	21103
+Estados Unidos de América	2020	10	153	14829
+Panamá	2020	10	37	11348
+México	2020	10	41	6274
+Chile	2020	10	3	4627
+Brasil	2020	10	8	4010
+España	2020	10	20	3813
+Argentina	2020	10	6	2733
+Bolivia	2020	10	4	1745
+Colombia	2020	11	129	31782
+Perú	2020	11	110	21213
+Estados Unidos de América	2020	11	215	15044
+Panamá	2020	11	52	11400
+México	2020	11	38	6312
+Chile	2020	11	8	4635
+Brasil	2020	11	20	4030
+España	2020	11	19	3832
+Argentina	2020	11	3	2736
+Costa Rica	2020	11	6	2123
+Colombia	2020	12	87	31869
+Perú	2020	12	214	21427
+Estados Unidos de América	2020	12	154	15198
+Panamá	2020	12	53	11453
+México	2020	12	33	6345
+Chile	2020	12	15	4650
+Brasil	2020	12	12	4042
+España	2020	12	26	3858
+Argentina	2020	12	2	2738
+Costa Rica	2020	12	5	2128
+Colombia	2021	1	112	31981
+Perú	2021	1	217	21644
+Estados Unidos de América	2021	1	182	15380
+Panamá	2021	1	67	11520
+México	2021	1	45	6390
+Chile	2021	1	5	4655
+Brasil	2021	1	9	4051
+España	2021	1	8	3866
+Argentina	2021	1	4	2742
+Costa Rica	2021	1	3	2131
+Colombia	2021	2	91	32072
+Perú	2021	2	194	21838
+Estados Unidos de América	2021	2	154	15534
+Panamá	2021	2	58	11578
+México	2021	2	41	6431
+Chile	2021	2	6	4661
+Brasil	2021	2	10	4061
+España	2021	2	10	3876
+Argentina	2021	2	1	2743
+Costa Rica	2021	2	9	2140
+Colombia	2021	3	112	32184
+Perú	2021	3	87	21925
+Estados Unidos de América	2021	3	238	15772
+Panamá	2021	3	63	11641
+México	2021	3	54	6485
+Chile	2021	3	7	4668
+Brasil	2021	3	10	4071
+España	2021	3	14	3890
+Argentina	2021	3	5	2748
+Costa Rica	2021	3	8	2148
+Colombia	2021	4	104	32288
+Perú	2021	4	125	22050
+Estados Unidos de América	2021	4	228	16000
+Panamá	2021	4	32	11673
+México	2021	4	56	6541
+Chile	2021	4	1	4669
+Brasil	2021	4	5	4076
+España	2021	4	7	3897
+Argentina	2021	4	6	2754
+Costa Rica	2021	4	5	2153
+Colombia	2021	5	39	32327
+Perú	2021	5	361	22411
+Estados Unidos de América	2021	5	208	16208
+Panamá	2021	5	21	11694
+México	2021	5	47	6588
+Brasil	2021	5	4	4080
+España	2021	5	12	3909
+Argentina	2021	5	1	2755
+Costa Rica	2021	5	5	2158
+Bolivia	2021	5	11	1815
+Colombia	2021	6	108	32435
+Perú	2021	6	320	22731
+Estados Unidos de América	2021	6	175	16383
+Panamá	2021	6	29	11723
+México	2021	6	37	6625
+Brasil	2021	6	8	4088
+España	2021	6	8	3917
+Argentina	2021	6	2	2757
+Costa Rica	2021	6	10	2168
+Bolivia	2021	6	3	1818
+Colombia	2021	7	121	32556
+Perú	2021	7	425	23156
+Estados Unidos de América	2021	7	135	16518
+Panamá	2021	7	17	11740
+México	2021	7	41	6666
+Chile	2021	7	1	4670
+Brasil	2021	7	11	4099
+España	2021	7	21	3938
+Costa Rica	2021	7	16	2184
+Bolivia	2021	7	11	1829
+Colombia	2021	8	135	32691
+Perú	2021	8	321	23477
+Estados Unidos de América	2021	8	159	16677
+Panamá	2021	8	50	11790
+México	2021	8	38	6704
+Chile	2021	8	2	4672
+Brasil	2021	8	7	4106
+España	2021	8	26	3964
+Argentina	2021	8	1	2758
+Costa Rica	2021	8	11	2195
+Colombia	2021	9	187	32878
+Perú	2021	9	415	23892
+Estados Unidos de América	2021	9	174	16851
+Panamá	2021	9	77	11867
+México	2021	9	44	6748
+Chile	2021	9	2	4674
+Brasil	2021	9	20	4126
+España	2021	9	40	4004
+Costa Rica	2021	9	11	2206
+China	2021	9	1	2154
+Colombia	2021	10	200	33078
+Perú	2021	10	552	24444
+Estados Unidos de América	2021	10	217	17068
+Panamá	2021	10	101	11968
+México	2021	10	39	6787
+Chile	2021	10	3	4677
+Brasil	2021	10	16	4142
+España	2021	10	57	4061
+Costa Rica	2021	10	3	2209
+China	2021	10	1	2155
+Colombia	2021	11	333	33411
+Perú	2021	11	508	24952
+Estados Unidos de América	2021	11	182	17250
+Panamá	2021	11	86	12054
+México	2021	11	52	6839
+Chile	2021	11	7	4684
+Brasil	2021	11	29	4171
+España	2021	11	24	4085
+Argentina	2021	11	9	2767
+Costa Rica	2021	11	28	2237
+Colombia	2021	12	148	33559
+Perú	2021	12	143	25095
+Estados Unidos de América	2021	12	105	17355
+Panamá	2021	12	39	12093
+México	2021	12	17	6856
+Chile	2021	12	9	4693
+Brasil	2021	12	5	4176
+España	2021	12	32	4117
+Argentina	2021	12	8	2775
+Costa Rica	2021	12	15	2252
+Colombia	2022	1	172	33731
+Perú	2022	1	262	25357
+Estados Unidos de América	2022	1	187	17542
+Panamá	2022	1	63	12156
+México	2022	1	39	6895
+Chile	2022	1	16	4709
+Brasil	2022	1	23	4199
+España	2022	1	30	4147
+Argentina	2022	1	6	2781
+Costa Rica	2022	1	12	2264
+Colombia	2022	2	232	33963
+Perú	2022	2	279	25636
+Estados Unidos de América	2022	2	200	17742
+Panamá	2022	2	73	12229
+México	2022	2	27	6922
+Chile	2022	2	18	4727
+España	2022	2	79	4226
+Brasil	2022	2	21	4220
+Argentina	2022	2	12	2793
+Costa Rica	2022	2	6	2270
+Colombia	2022	3	308	34271
+Perú	2022	3	253	25889
+Estados Unidos de América	2022	3	253	17995
+Panamá	2022	3	105	12334
+México	2022	3	66	6988
+Chile	2022	3	22	4749
+Brasil	2022	3	46	4266
+España	2022	3	39	4265
+Argentina	2022	3	13	2806
+Costa Rica	2022	3	18	2288
+Colombia	2022	4	268	34539
+Perú	2022	4	278	26167
+Estados Unidos de América	2022	4	206	18201
+Panamá	2022	4	100	12434
+México	2022	4	46	7034
+Chile	2022	4	24	4773
+Brasil	2022	4	31	4297
+España	2022	4	32	4297
+Argentina	2022	4	17	2823
+Costa Rica	2022	4	18	2306
+Colombia	2022	5	272	34811
+Perú	2022	5	314	26481
+Estados Unidos de América	2022	5	246	18447
+Panamá	2022	5	97	12531
+México	2022	5	73	7107
+Chile	2022	5	27	4800
+Brasil	2022	5	49	4346
+España	2022	5	47	4344
+Argentina	2022	5	19	2842
+Costa Rica	2022	5	18	2324
+Colombia	2022	6	257	35068
+Perú	2022	6	246	26727
+Estados Unidos de América	2022	6	181	18628
+Panamá	2022	6	85	12616
+México	2022	6	62	7169
+Chile	2022	6	25	4825
+Brasil	2022	6	37	4383
+España	2022	6	38	4382
+Argentina	2022	6	15	2857
+Costa Rica	2022	6	18	2342
+Colombia	2022	7	302	35370
+Perú	2022	7	221	26948
+Estados Unidos de América	2022	7	167	18795
+Panamá	2022	7	79	12695
+México	2022	7	60	7229
+Chile	2022	7	36	4861
+Brasil	2022	7	32	4415
+España	2022	7	21	4403
+Argentina	2022	7	5	2862
+Costa Rica	2022	7	24	2366
+Colombia	2022	8	271	35641
+Perú	2022	8	257	27205
+Estados Unidos de América	2022	8	143	18938
+Panamá	2022	8	88	12783
+México	2022	8	50	7279
+Chile	2022	8	32	4893
+Brasil	2022	8	55	4470
+España	2022	8	20	4423
+Argentina	2022	8	14	2876
+Costa Rica	2022	8	17	2383
+Colombia	2022	9	318	35959
+Perú	2022	9	225	27430
+Estados Unidos de América	2022	9	236	19174
+Panamá	2022	9	123	12906
+México	2022	9	74	7353
+Chile	2022	9	38	4931
+Brasil	2022	9	70	4540
+España	2022	9	56	4479
+Argentina	2022	9	31	2907
+Costa Rica	2022	9	17	2400
+Colombia	2022	10	318	36277
+Perú	2022	10	204	27634
+Estados Unidos de América	2022	10	290	19464
+Panamá	2022	10	147	13053
+México	2022	10	103	7456
+Chile	2022	10	60	4991
+Brasil	2022	10	67	4607
+España	2022	10	79	4558
+Argentina	2022	10	51	2958
+Costa Rica	2022	10	33	2433
+Colombia	2022	11	394	36671
+Perú	2022	11	278	27912
+Estados Unidos de América	2022	11	287	19751
+Panamá	2022	11	134	13187
+México	2022	11	101	7557
+Chile	2022	11	67	5058
+Brasil	2022	11	87	4694
+España	2022	11	79	4637
+Argentina	2022	11	62	3020
+Costa Rica	2022	11	30	2463
+Colombia	2022	12	232	36903
+Perú	2022	12	116	28028
+Estados Unidos de América	2022	12	168	19919
+Panamá	2022	12	57	13244
+México	2022	12	45	7602
+Chile	2022	12	45	5103
+Brasil	2022	12	21	4715
+España	2022	12	45	4682
+Argentina	2022	12	11	3031
+Costa Rica	2022	12	15	2478

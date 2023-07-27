@@ -54,18 +54,28 @@ Y se realizaron las siguientes acciones:
 ### Lectura
 
 ```{r,eval=TRUE,echo=FALSE}
-base_datos <- read_tsv("top_10_mensual.txt")
+base_datos <- read_tsv("top_10_mensual_estudios.txt")
 
 ```
 
 # Modificamos las bases de datos:
 
-Agregamos una nueva variable que nos indica la posición del país en el top 10:
+Filtro para más allá de 2014:
 
 ```{r}
 base_datos <- base_datos %>%
-  mutate(rank=rep(seq(1,10,by=1),12))
+  filter(anio_movi >= 2014) 
   
+```
+
+Crear variable de fecha:
+
+```{r}
+base_datos <- base_datos %>%
+  mutate(fecha = make_date(year = anio_movi,
+                           month = mes_movi,
+                           day = 1)) 
+
 ```
 
 # Gráfico:
@@ -75,13 +85,13 @@ base_datos <- base_datos %>%
 ```{r}
 graficos_estaticos <- ggplot(data = base_datos,
                              aes(x = rank,
-                                 group = pais_prod,
-                                 fill = as.factor(pais_prod),
-                                 color = as.factor(pais_prod)))+
+                                 group = homologada,
+                                 fill = as.factor(homologada),
+                                 color = as.factor(homologada)))+
   geom_tile(aes(y = acum/2,
                 height = acum,
                 width = 0.9),alpha=0.8,color=NA)+
-  geom_text(aes(y=0,label=paste(pais_prod," ")),vjust = 0.2, hjust = 1)+
+  geom_text(aes(y=0,label=paste(homologada," ")),vjust = 0.2, hjust = 1)+
   geom_text(aes(y=trunc(acum),label= trunc(acum),hjust=0))+
   coord_flip(clip = "off", expand = FALSE)+
   scale_y_continuous(labels = scales::comma)+
@@ -118,10 +128,10 @@ graficos_estaticos <- graficos_estaticos +
 ### Añadimos los títulos
 
 ```{r}
-anim = graficos_estaticos + transition_states(mes_movi, transition_length = 4, state_length = 1) +
+anim = graficos_estaticos + transition_states(fecha, transition_length = 4, state_length = 1) +
   view_follow(fixed_x = TRUE)  +
   labs(title = 'Migracion por motivo de residencia : ',  
-       subtitle  =  "Top 10 Paises del año 2021",
+       subtitle  =  "Fecha: {current_frame}",
        caption  = "Salidas de ecuatorianos | Data Source: ESI(INEC)")
 ```
 
@@ -132,20 +142,25 @@ animate(anim, 300, fps = 20,  width = 1200, height = 1000,
         renderer = gifski_renderer("gganim.gif"))
 ```
 
-# Ultima cifra
+# Cifras de interes
+
+1\. En promedio ¿En que año se dio el menor numero de salidas del país por este motivo?
+
+2\. Durante el 2020 cual fue:
+
+-   El mes de menor salidas y cuantas fueron
+
+-   Cuales fueron los meses de mayor restricción a las salidas en 2020
+
+3.  Noticias relevantes sobre la migración por los motivos:
+    -   Negocios
+    -   Turismo
+    -   Estudios
+    -   Residencia
 
 ```{r}
 
-conteo_pais_2 <- base_datos %>%
-    filter(tip_movi == 2,            # Salidas
-           tip_naci == 1,            # De ecuatorianos
-           edad > 18) %>%            # Mayores de 18 años
-    count(pais_prod,name = "total_salidas") %>% 
-    mutate(iso_n3 = str_pad(pais_prod,3,pad = "0"))
 
-n1 <- conteo_pais_2 %>% pull(total_salidas) %>% sum()
-
-n2 <- conteo_pais %>% pull(n) %>% sum()
 ```
 
 # Guión
